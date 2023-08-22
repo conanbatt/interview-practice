@@ -3,6 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/challenges/market": "pages/challenges/market.js",
-  "/challenges/file-tree-viewer": "pages/challenges/file-tree-viewer.js",
-  "/challenges/tetris": "pages/challenges/tetris.js"
+  "/challenges/hooks": "pages/challenges/hooks.js",
+  "/challenges/sudoku": "pages/challenges/sudoku.js"
 }

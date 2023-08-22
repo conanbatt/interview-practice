@@ -22,15 +22,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/challenges/file-tree-viewer": [
+    "/challenges/hooks": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/challenges/file-tree-viewer.js"
+      "static/chunks/pages/challenges/hooks.js"
     ],
     "/challenges/market": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/challenges/market.js"
+    ],
+    "/challenges/sudoku": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/challenges/sudoku.js"
     ]
   },
   "ampFirstPages": []
