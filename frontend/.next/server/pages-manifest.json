@@ -1,0 +1,8 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/challenges/market": "pages/challenges/market.js",
+  "/challenges/file-tree-viewer": "pages/challenges/file-tree-viewer.js",
+  "/challenges/tetris": "pages/challenges/tetris.js"
+}

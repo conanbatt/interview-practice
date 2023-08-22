@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/client/app-turbopack.ts"],"names":["process","env","__NEXT_NEW_LINK_BEHAVIOR","self","__next_require__","__turbopack_require__","__next_chunk_load__","__turbopack_load__"],"mappings":";;;;AAEA,mBAAmB;AACnBA,QAAQC,GAAG,CAACC,wBAAwB,GAAG,IAAI;AAGzCC,KAAaC,gBAAgB,GAAGC;AAIhCF,KAAaG,mBAAmB,GAAGC"}

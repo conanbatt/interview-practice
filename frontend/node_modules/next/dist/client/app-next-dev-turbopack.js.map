@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/client/app-next-dev-turbopack.ts"],"names":["window","next","version","appBootstrap","require","hydrate"],"mappings":"AAAA,8BAA8B;;;;;8BAED;AAE7BA,OAAOC,IAAI,CAACC,OAAO,IAAI;AAEvBC,IAAAA,0BAAY,EAAC,IAAM;IACjBC,QAAQ;IACR,MAAM,EAAEC,QAAO,EAAE,GAAGD,QAAQ;IAC5BC;AACF,GAEA,4BAA4B"}

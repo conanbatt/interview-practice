@@ -1,0 +1,90 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _findup = /*#__PURE__*/ _interop_require_default(require("next/dist/compiled/find-up"));
+const _promises = /*#__PURE__*/ _interop_require_default(require("fs/promises"));
+const _child_process = /*#__PURE__*/ _interop_require_default(require("child_process"));
+const _assert = /*#__PURE__*/ _interop_require_default(require("assert"));
+const _nodefetch = /*#__PURE__*/ _interop_require_default(require("next/dist/compiled/node-fetch"));
+const _os = /*#__PURE__*/ _interop_require_default(require("os"));
+const _readline = require("readline");
+const _fs = require("fs");
+const _path = /*#__PURE__*/ _interop_require_default(require("path"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+const EVENT_FILTER = new Set([
+    "client-hmr-latency",
+    "hot-reloader",
+    "webpack-invalid-client",
+    "webpack-invalidated-server"
+]);
+const { NEXT_TRACE_UPLOAD_DEBUG  } = process.env;
+const [, , traceUploadUrl, mode, _isTurboSession, projectDir, distDir] = process.argv;
+const isTurboSession = _isTurboSession === "true";
+(async function upload() {
+    const projectPkgJsonPath = await (0, _findup.default)("package.json");
+    (0, _assert.default)(projectPkgJsonPath);
+    const projectPkgJson = JSON.parse(await _promises.default.readFile(projectPkgJsonPath, "utf-8"));
+    const pkgName = projectPkgJson.name;
+    const commit = _child_process.default.spawnSync(_os.default.platform() === "win32" ? "git.cmd" : "git", [
+        "rev-parse",
+        "HEAD"
+    ], {
+        shell: true
+    }).stdout.toString().trimEnd();
+    const readLineInterface = (0, _readline.createInterface)({
+        input: (0, _fs.createReadStream)(_path.default.join(projectDir, distDir, "trace")),
+        crlfDelay: Infinity
+    });
+    const traces = new Map();
+    for await (const line of readLineInterface){
+        const lineEvents = JSON.parse(line);
+        for (const event of lineEvents){
+            if (// Always include root spans
+            event.parentId === undefined || EVENT_FILTER.has(event.name)) {
+                if (typeof event.tags.trigger === "string" && _path.default.isAbsolute(event.tags.trigger)) {
+                    event.tags.trigger = "[project]/" + _path.default.relative(projectDir, event.tags.trigger).replaceAll(_path.default.sep, "/");
+                }
+                let trace = traces.get(event.traceId);
+                if (trace === undefined) {
+                    trace = [];
+                    traces.set(event.traceId, trace);
+                }
+                trace.push(event);
+            }
+        }
+    }
+    const body = {
+        metadata: {
+            commit,
+            mode,
+            pkgName,
+            isTurboSession,
+            arch: _os.default.arch(),
+            cpus: _os.default.cpus().length,
+            platform: _os.default.platform()
+        },
+        traces: [
+            ...traces.values()
+        ]
+    };
+    if (NEXT_TRACE_UPLOAD_DEBUG) {
+        console.log("Sending request with body", JSON.stringify(body, null, 2));
+    }
+    let res = await (0, _nodefetch.default)(traceUploadUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+    if (NEXT_TRACE_UPLOAD_DEBUG) {
+        console.log("Received response", res.status, await res.json());
+    }
+})();
+
+//# sourceMappingURL=trace-uploader.js.map
