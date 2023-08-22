@@ -11,9 +11,9 @@ export default function FileTreeViewer() {
         <br />
         <br />
         <ol>
-          <li>1. It should allow arbitrary levels of depth</li>
-          <li>2. You should be able to expand/collapse any part of the tree</li>
-          <li>3. Basic aesthetics with pure CSS</li>
+          <li>It should allow arbitrary levels of depth</li>
+          <li>You should be able to expand/collapse any part of the tree</li>
+          <li>Basic aesthetics with pure CSS</li>
         </ol>
       </p>
     </>

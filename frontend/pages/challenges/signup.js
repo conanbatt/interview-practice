@@ -7,15 +7,23 @@ export default function SignupForm() {
       <p>
       Build a user Signup form in React with the following features. 
 
-      1. An email and a password input
-      2. Email must have an “@” and the domain side must include a “.”
-      3. Password must include
-          1.  at least one special character
-          2. one number and be at least 8 characters
-      4. Validation and error handling
-          1. Client-side validations
-          2. Server side errors
-      5. Basic aesthetics with pure CSS
+      <ol>
+        <li>An email and a password input</li>
+        <li>Email must have an “@” and the domain side must include a “.”</li>
+        <li>Password must include
+          <ol>
+            <li>At least one special character</li>
+            <li>one number and be at least 8 characters</li>
+          </ol>
+        </li>
+        <li>Validation and error handling
+          <ol>
+            <li>Client-side validations</li>
+            <li>Server side errors</li>
+          </ol>
+        </li>
+        <li>Basic aesthetics with pure CSS</li>
+      </ol>
       </p>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/M8fqHaJU_cc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </>
