@@ -1,8 +1,0 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/challenges/market": "pages/challenges/market.js",
-  "/challenges/hooks": "pages/challenges/hooks.js",
-  "/challenges/sudoku": "pages/challenges/sudoku.js"
-}
