@@ -6,7 +6,8 @@ const paths = [
   'market',
   'signup',
   'sudoku',
-  'tetris'
+  'tetris',
+  'questionnaire'
 ]
 
 export default function Home() {
