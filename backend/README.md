@@ -1,4 +1,4 @@
-# Challenges #
+# Challenges
 
 1. Build an LRU Cache. Get detailed requirements at https://leetcode.com/problems/lru-cache/
 
