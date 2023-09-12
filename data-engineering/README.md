@@ -20,11 +20,16 @@ https://leetcode.com/problems/second-highest-salary/
 
 ## Data Engineering System Design
 
-1. **Realtime** Build a real-time leaderboard for League of Legends.
+1. **Realtime** Build a real-time analytics pipeline for League of Legends.
 
-```
-League of Legends handles 1 million concurrent players, with over 100k concurrent 10-player games. We want to build a real time ranking system that tells you in which exact position each player rating is. 
-```
+League of Legends handles 1 million concurrent players, with over 100k concurrent 10-player games.
+
+During games, players have different metrics like gold, equipment, score (kills, deaths, assists, known as KDA). 
+There's an API that allows you to fetch this information in discrete requests, but we want to turn this into a real-time API to service analytics services.
+
+An example product with real time data - https://probuildstats.com/champion/blitzcrank.
+
+Build a high level design on how to turn an API into a real-time, scalable and reliable service.
 
 2. **Crypto** Build Dune Analytics
 
