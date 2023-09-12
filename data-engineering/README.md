@@ -20,8 +20,11 @@ https://leetcode.com/problems/second-highest-salary/
 
 ## Data Engineering System Design
 
-1. **Realtime** Build a real-time leaderboard for League of Legends. League of Legends handles 1 million concurrent players, with over 100k concurrent 10-player games. We want to build a real time ranking system that tells you in which exact position each player rating is. 
+1. **Realtime** Build a real-time leaderboard for League of Legends.
 
+```
+League of Legends handles 1 million concurrent players, with over 100k concurrent 10-player games. We want to build a real time ranking system that tells you in which exact position each player rating is. 
+```
 
 2. **Crypto** Build Dune Analytics
 
