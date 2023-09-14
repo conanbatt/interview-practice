@@ -20,7 +20,7 @@ https://leetcode.com/problems/second-highest-salary/
 
 ## Data Engineering System Design
 
-1. **Realtime** Build a real-time analytics pipeline for League of Legends.
+### Realtime - League of Legends ###
 
 League of Legends handles 1 million concurrent players, with over 100k concurrent 10-player games.
 
@@ -31,6 +31,10 @@ An example product with real time data - https://probuildstats.com/champion/blit
 
 Build a high level design on how to turn an API into a real-time, scalable and reliable service.
 
-2. **Crypto** Build Dune Analytics
+### Crypto - Build Dune Analytics ###
 
-3. **Media** Build a video tagging pipeline that uses an already existing ML model engine.
+Build a data aggregator for various blockchains and EVM smart contracts.
+
+### Media - Netflix ###
+
+Build an architecture to service video over streaming services.
