@@ -33,7 +33,9 @@ Build a high level design on how to turn an API into a real-time, scalable and r
 
 ### Crypto - Build Dune Analytics ###
 
-Build a data aggregator for various blockchains and EVM smart contracts.
+Build a data aggregator for various blockchains and smart contracts - this can include different cuts and views of the same data, as well as different ways to read, transform and store information.
+
+
 
 ### Media - Netflix ###
 
