@@ -4,7 +4,7 @@ This repo is managed by [Silver.dev](https://silver.dev) and collects various ch
 
 We talk extensively about interview processes in the Podcast - [Tecnologia Informal](https://open.spotify.com/episode/4rqSIwMOGlYJEanZ0sGWIN?si=c2d7a32d3f854bb8)
 
-## Silver.dev - Candidates Candidates ##
+## Silver.dev - Candidates ##
 
 Silver.dev expects coaching candidates to work the entire stack of problems in the Cracking the Coding interview section.
 Depending on your role, additional problems will be added to the platform based on real interviews, and for practice.
