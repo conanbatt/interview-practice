@@ -4,7 +4,7 @@ Make a fork of this repository, and solve the problems in the language of your c
 
 If you are stuck, please refer to the source material in the book that has explanations, hints and full solutions to each of these problems.
 
-## Strings ##
+## Strings and Arrays ##
 
 1. *Is Unique*: Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
 
