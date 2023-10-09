@@ -3,31 +3,29 @@
 // NOTE: This is not necessarily a binary search tree.
 
 (function () {
-  class NodeWithMark {
+  class Node {
     value;
-    marked;
     left;
     right;
 
     constructor(value) {
       this.value = value;
-      this.marked = false;
     }
   }
 
-  const nodeA = new NodeWithMark('a');
-  const nodeB = new NodeWithMark('b');
-  const nodeC = new NodeWithMark('c');
-  const nodeD = new NodeWithMark('d');
-  const nodeE = new NodeWithMark('e');
-  const nodeF = new NodeWithMark('f');
-  const nodeG = new NodeWithMark('g');
-  const nodeH = new NodeWithMark('h');
-  const nodeI = new NodeWithMark('i');
-  const nodeJ = new NodeWithMark('j');
-  const nodeK = new NodeWithMark('k');
-  const nodeL = new NodeWithMark('l');
-  const nodeM = new NodeWithMark('m');
+  const nodeA = new Node('a');
+  const nodeB = new Node('b');
+  const nodeC = new Node('c');
+  const nodeD = new Node('d');
+  const nodeE = new Node('e');
+  const nodeF = new Node('f');
+  const nodeG = new Node('g');
+  const nodeH = new Node('h');
+  const nodeI = new Node('i');
+  const nodeJ = new Node('j');
+  const nodeK = new Node('k');
+  const nodeL = new Node('l');
+  const nodeM = new Node('m');
   nodeA.left = nodeB
   nodeA.right = nodeC
   nodeB.left = nodeD
