@@ -17,6 +17,12 @@ The challenges in this section are supposed to be recorded on video, reading the
 4. Work Experience stories
   1. Sometimes you don’t agree with leadership. Can you tell me about a time you had disagreements with your managers or the company's direction? And what did you do about it?
   2. Sometimes a coworker or a direct report is not performing as expected, and it’s starting to be detrimental to the company roadmap or teamwork. How would you deal with this situation?
-  3.  
+  3. What was the hardest technical challenge you ever faced?
+  4. Can you tell me about a time a project you lead failed?
+5. Do you have any questions for us? 
+  1. Ask questions for Deel
+  2. Ask questions for Ramp
+  3. Ask questions for AirBnb
+  4. Ask questions for 1Password
 
 
