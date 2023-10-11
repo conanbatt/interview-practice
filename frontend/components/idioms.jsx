@@ -1,6 +1,8 @@
 /*
-  To solve, fork this repository and rewrite the snippet of code to a better version and a description of why the code is improved.
-  To get the solutions, request them at gabriel@silver.dev or ask question in the community Slack.
+  The exercise is meant to test code fluency, understanding of react idioms, and communication.
+  To solve, rewrite the snippet of code to a better version and a description of why the code is improved.
+  
+  Submit a fork or a PR to gabriel@silver.dev for feedback and corrections.
 */
 
 export function FunctionsAsComponents({ buttonText = 'Start Now' }) {
@@ -50,6 +52,53 @@ export function useEffectDerivedCalculation(object) {
       <span>
         {sum}
       </span>
+    </div>
+  )
+}
+
+export function useEffectLifeCycle(object) {
+  const [loaded, setLoaded] = useState()
+
+  useEffect(() => {
+    setTimeout(() => setLoaded(true))
+  }, [])
+
+  const handleClick = () => setClickedTimes(clickedTimes + 1)
+
+  return (
+    <div>
+      <button onClick={handleClick}>Add Click Count</button>
+      <span>
+        {sum}
+      </span>
+    </div>
+  )
+}
+
+export function avoidingUseState(object) {
+  const ref = useRef('Unmounted');
+
+  useEffect(() => {
+    ref.current = "Mounted"
+  }, [])
+
+  return (
+    <div>
+      {ref.current}
+    </div>
+  )
+}
+
+export function avoidingUseState(object) {
+  const ref = useRef('Unmounted');
+
+  useEffect(() => {
+    ref.current = "Mounted"
+  }, [])
+
+  return (
+    <div>
+      {ref.current}
     </div>
   )
 }
