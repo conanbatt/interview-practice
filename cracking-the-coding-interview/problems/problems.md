@@ -164,6 +164,7 @@ Only one disk can be moved at a time.
 A disk is slid off the top of one tower onto another tower.
 A disk cannot be placed on top of a smaller disk.
 Write a program to move the disks from the first tower to the last using stacks.
-Permutations without Dups: Write a method to compute all permutations of a string of unique characters.
 
-7. *Permutations with Dups*: Write a method to compute all permutations of a string whose characters are not necessarily unique. The list of permutations should not have duplicates.
+7. *Permutations without Dups*: Write a method to compute all permutations of a string of unique characters.
+
+8. *Permutations with Dups*: Write a method to compute all permutations of a string whose characters are not necessarily unique. The list of permutations should not have duplicates.
