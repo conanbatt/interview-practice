@@ -13,21 +13,24 @@ class NodeElement<T> {
 
 class LinkedList<T> {
   head?: NodeElement<T>;
-  constructor() {}
+  private count: number = 0;
+
+  constructor() { }
 
   append(data: T) {
-    const newNode = new NodeElement(data)
-    if(!this.head){
-      this.head = newNode
+    const newNode = new NodeElement(data);
+    if (!this.head) {
+      this.head = newNode;
     } else {
       let current: NodeElement<T> | undefined = this.head;
-      while(current?.hasNext()){
-        current = current.next
+      while (current?.hasNext()) {
+        current = current.next;
       }
-      if(current) {
-        current.next = newNode
+      if (current) {
+        current.next = newNode;
       }
     }
+    this.count++;
   }
 
   search(data: T): NodeElement<T> | undefined {
@@ -42,30 +45,27 @@ class LinkedList<T> {
   }
 
   delete(data: T): NodeElement<T> | undefined {
-    if(!this.head) return
-    if(this.head.data === data) {
-      const found = this.head
-      this.head = this.head.next
-      return found
+    if (!this.head) return;
+    if (this.head.data === data) {
+      const found = this.head;
+      this.head = this.head.next;
+      this.count--; 
+      return found;
     }
-    const current: NodeElement<T> | undefined = this.head
+    let current = this.head;
     while (current.next) {
-      const next = current.next
+      const next = current.next;
       if (next.data === data) {
-        current.next = current.next.next
-        return next
+        current.next = next.next;
+        this.count--; 
+        return next;
       }
+      current = next;
     }
-    return
+    return;
   }
 
   length() {
-    let count = 0;
-    let current: NodeElement<T> | undefined = this.head;
-    while (current) {
-      count++;
-      current = current.next;
-    }
-    return count;
+    return this.count; 
   }
 }
