@@ -19,15 +19,12 @@ const isUnique = (value) => {
 const isUniqueString = (value) => {
   if (!value) return false;
 
-  let chars = ''
-
-  for (let i = 0; i < value.length; i++) {
-    const charAtI = value.charAt(i)
-    if (chars.indexOf(charAtI) !== -1) {
-      return false
-    } else {
-      chars += charAtI
+  for (let i = 0; i < value.length - 1; i++) {
+    for (let j = i + 1; j < value.length; j++) {
+      if (value[i] === value[j]) {
+        return false;
+      }
     }
   }
-  return true
+  return true;
 }
