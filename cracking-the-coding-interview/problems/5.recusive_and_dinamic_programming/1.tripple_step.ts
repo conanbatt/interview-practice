@@ -3,16 +3,13 @@
 // 3 => 3  -  2 1  - 1 2 - 1 1 1
 // 4 => 1111 - 112 - 121 - 211 - 22 - 13 - 31 - 
 
-const countSteps = (numero, memo = {}) => {
-  if(numero === 0) return 1;
-  if (memo[numero]) return memo[numero]
-  const hayTres = numero >= 3
-  const hayDos = numero >= 2
-  const hayUno = numero >= 1
-  const enTres = hayTres ? countSteps(numero - 3, memo) : 0 
-  const enDos = hayDos ? countSteps(numero - 2, memo) : 0  
-  const enUno = hayUno ? countSteps(numero - 1, memo) : 0  
-  const total = enTres + enDos + enUno;
-  memo[numero] = total
-  return memo[numero]
+const countSteps = (num, memo = {}) => {
+  if(num === 0) return 1;
+  if (memo[num]) return memo[num]
+  const onThree = num >= 3 ? countSteps(num - 3, memo) : 0 
+  const onTwo = num >= 2 ? countSteps(num - 2, memo) : 0  
+  const onOne = num >= 1 ? countSteps(num - 1, memo) : 0  
+  const total = onThree + onTwo + onOne;
+  memo[num] = total
+  return memo[num]
 }
