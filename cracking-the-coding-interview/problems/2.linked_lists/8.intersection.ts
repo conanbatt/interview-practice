@@ -30,8 +30,26 @@ e.next = f;
 const g = new LinkedNode('g');
 g.next = d;
 
+const hasCycle = (head) => {
+  const visitedNodes = new Set();
+
+  let currentNode = head;
+  while (currentNode) {
+    if (visitedNodes.has(currentNode)) {
+      return true;
+    }
+    visitedNodes.add(currentNode);
+    currentNode = currentNode.next;
+  }
+
+  return false;
+};
 
 const getIntersection = (nodeA, nodeB) => {
+  if (hasCycle(nodeA) || hasCycle(nodeB)) {
+    console.error('Cycle detected in one of the lists');
+    return null;
+  }
   const nodeSet = new Set()
 
   let actualNodeA = nodeA
