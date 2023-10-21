@@ -25,12 +25,21 @@ d.next = e
 const getKthToLast = (node, k) => {
   let i = 0;
   let actualNode = node
+  let pointer = node
   while (i < k){
     actualNode = actualNode.next
     i++;
   }
 
-  return actualNode
+  while (actualNode.next) {
+    pointer = pointer.next;
+    actualNode = actualNode.next;
+  }
+
+  return pointer; 
 }
+
+
+console.log(getKthToLast(a, 1).value);
 
 getKthToLast(a,1)
