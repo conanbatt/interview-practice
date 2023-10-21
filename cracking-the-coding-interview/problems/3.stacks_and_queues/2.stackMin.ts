@@ -2,14 +2,16 @@
 // has a function min which returns the minimum element ? Push, pop, and min should all operate in O(1) time.
 function StackMin () {
   const array = [];
-  const minStack = {};
+  const minStack = [];
 
   this.array = array
   this.minStack = minStack
 
   this.push = (value) => {
     array.push(value);
-    minStack[value] = value;
+    if (this.minStack.length === 0 || value <= this.minStack[this.minStack.length - 1]) {
+      this.minStack.push(value);
+    }
   }
 
   this.pop = () => {
@@ -19,7 +21,9 @@ function StackMin () {
 
     const popped = array.pop();
 
-    delete minStack[popped]
+    if (popped === this.minStack[this.minStack.length - 1]) {
+      this.minStack.pop();
+    }
 
     return popped;
   }
@@ -28,10 +32,8 @@ function StackMin () {
     if (array.length === 0) {
       return undefined; // Stack is empty.
     }
-    const minValues = Object.values(minStack)
 
-    return minValues[0]
-
+    return this.minStack[this.minStack.length - 1];
   }
 }
 
