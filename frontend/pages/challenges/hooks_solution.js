@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useBoolean } from './hooks/useBoolean';
-import { useInterval } from './hooks/useInterval';
-import { useDebounce } from './hooks/useDebounce';
+import useBoolean from './hooks/useBoolean';
+import useInterval from './hooks/useInterval';
+import useDebounce from './hooks/useDebounce';
 
 export function UseIntervalExample() {
   const [count, setCount] = React.useState(0);
