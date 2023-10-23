@@ -10,6 +10,8 @@ const paths = [
   'questionnaire'
 ]
 
+
+
 export default function Home() {
   return (
     <div style={{ padding: '20px', margin: '20px' }}>
@@ -18,6 +20,7 @@ export default function Home() {
       { paths.map((path,i)=> (
         <li key={i} style={{ margin: '10px' }}>
           <Link href={`/challenges/${path}`}>{path}</Link>
+          <h4>Solution: <Link href={`/challenges/${path}_solution`}>{path} solution</Link></h4>
         </li>
       ))}
       </ol>
