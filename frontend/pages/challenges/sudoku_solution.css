@@ -1,0 +1,21 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.box {
+  border: 1px solid grey;
+  display: inline-block;
+  padding: 8px;
+  width: 20px;
+}
+
+.box:hover {
+  cursor: pointer;
+  background-color: beige;
+}
+
+.row {
+  display: flex
+}
