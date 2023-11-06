@@ -325,15 +325,17 @@ export default function () {
 
   return (
     <div className="main">
-      {gameState === 'initial' && <h1>Start playing</h1>}
-      {gameState === 'lost' && <h1>You lost</h1>}
-      {gameState === 'win' && <h1>You won</h1>}
-      {gameState === 'play' && <h1>Score: {points}</h1>}
-      {gameState !== 'play' && <button onClick={startGame}>Start game</button>}
-      {gameState === 'play' && <Tetris onEnd={() => {
-        toggleAudio()
-        setGameState('lost')
-      }} onClearRow={handleClearRow}/>}
+      <div className="game">
+        {gameState === 'initial' && <h1>Start playing</h1>}
+        {gameState === 'lost' && <h1>You lost</h1>}
+        {gameState === 'win' && <h1>You won</h1>}
+        {gameState === 'play' && <h1>Score: {points}</h1>}
+        {gameState !== 'play' && <button onClick={startGame}>Start game</button>}
+        {gameState === 'play' && <Tetris onEnd={() => {
+          toggleAudio()
+          setGameState('lost')
+        }} onClearRow={handleClearRow}/>}
+      </div>
     </div>
   )
 }

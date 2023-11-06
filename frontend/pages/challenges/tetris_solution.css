@@ -1,6 +1,10 @@
 body {
+  margin: 0;
+}
+
+.main {
   background-color: black;
-  height: 98vh;
+  height: 100vh;
 }
 
 .cell {
@@ -12,7 +16,7 @@ body {
   color: transparent;
 }
 
-.main {
+.game {
   top: 0;
   bottom: 0;
   margin: auto;
