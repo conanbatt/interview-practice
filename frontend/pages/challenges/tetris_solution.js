@@ -304,8 +304,13 @@ export default function () {
   };
 
   const handleClearRow = (rows) => {
-    setPoints(points + (rows * 10))
-    toggleClearRowAudio()
+    if ((points + (rows * 10)) >= 100) {
+      setGameState('win')
+      toggleAudio()
+    } else {
+      setPoints(points + (rows * 10))
+      toggleClearRowAudio()
+    }
   }
 
   const toggleClearRowAudio = () => {
