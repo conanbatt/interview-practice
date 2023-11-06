@@ -1,0 +1,25 @@
+body {
+  background-color: black;
+  height: 98vh;
+}
+
+.cell {
+  border: 1px solid grey;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  content: '';
+  color: transparent;
+}
+
+.main {
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 440px;
+  height: 680px;
+  background-color: #ccc;
+  font-family: sans-serif;
+  padding: 16px;
+  text-align: center;
+}

@@ -65,7 +65,6 @@ export default function Market() {
       type,
       ...rest
     } = order
-    console.log("🚀 ~ file: market_solution.js:53 ~ handleSubmit ~ order:", order)
 
     if (type === OrderType.SELL) {
       const newBuyOrders = [...buyOrders]
