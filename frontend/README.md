@@ -2,7 +2,8 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-The project includes a series of challenges that can be resolved in this environment.
+Once you run it, you can see the challenge list on the home page and you may resolve it with this stack.
+
 You may use a PR or fork to solve them and give access to @conanbatt for review.
 
 
