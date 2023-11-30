@@ -2,18 +2,16 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-The project includes a series of challenges that can be resolved in this environment. Fork the repository and build solutions for all the problems.
+The project includes a series of challenges that can be resolved in this environment. You may use a PR or fork to solve them and give access to @conanbatt for review.
 
-Once solved, feel free to send them to Silver.dev for review.
 
 ## Getting Started
 
 ```bash
 npm i
 npm run dev
+open http://localhost:3000
 ```
-
-Visit [http://localhost:3000](http://localhost:3000)
 
 ## React Learning Materials
 
