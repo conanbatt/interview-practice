@@ -2,7 +2,8 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-The project includes a series of challenges that can be resolved in this environment. You may use a PR or fork to solve them and give access to @conanbatt for review.
+The project includes a series of challenges that can be resolved in this environment.
+You may use a PR or fork to solve them and give access to @conanbatt for review.
 
 
 ## Getting Started
@@ -18,11 +19,11 @@ open http://localhost:3000
 The most comprehensive course of React is [Epic React](https://epicreact.dev/) by Kent Dodds.
 
 The video course has a 200U$S cost for Argentina. 
-The exercises and some level of explanation is freely available on the repositories listed below. The content is encouraged for all levels of Frontend Engineering. 
+The exercises and some level of explanation are freely available on the repositories listed below. The content is encouraged for all levels of Frontend Engineering. 
 
 ```
-Excercises are trivial if you know them, and knowledge gap closing when they are not.
-Strongly recommend to do all of them for all levels of Engineering.
+Exercises are trivial if you know them, and the knowledge gap closes when they are not.
+Strongly recommend doing all of them for all levels of Engineering.
 ```
 
 [Fundamentals](https://github.com/kentcdodds/react-fundamentals)
