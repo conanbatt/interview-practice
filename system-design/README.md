@@ -19,3 +19,8 @@ It includes the basic theory, and a large amount of designs to go through and un
 4. Design a Web Scraper
 5. Design Google Docs
 6. [Hard] Design an airline ticketing system
+
+
+## Architecture Design
+
+1. Explain OAuth
