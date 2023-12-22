@@ -6,6 +6,8 @@ The educative.io course [Grokking the System Design Interview](https://www.educa
 
 It includes the basic theory, and a large amount of designs to go through and understand them. The content is *paid* but tremendously useful.
 
+A good source for prepping is https://bytebytego.com/ as well.
+
 
 ## Example Interview
 
