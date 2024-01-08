@@ -1,13 +1,11 @@
 export default function FileTreeViewer() {
-  return(
+  return (
     <>
-      <h1>
-        File Tree Viewer
-      </h1>
-      <p>
+      <h1>File Tree Viewer</h1>
+      <div>
         Build a file tree viewer.
         <br />
-        <img src="https://ibb.co/bLJ9w5W" />
+        <img src="https://i.ibb.co/ftvw6d1/Whats-App-Image-2023-10-12-at-18-30-38.jpg" />
         <br />
         <br />
         <ol>
@@ -15,7 +13,7 @@ export default function FileTreeViewer() {
           <li>You should be able to expand/collapse any part of the tree</li>
           <li>Basic aesthetics with pure CSS</li>
         </ol>
-      </p>
+      </div>
     </>
-  )
+  );
 }
