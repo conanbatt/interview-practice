@@ -5,13 +5,13 @@
 
 1. Build an LRU Cache. Get detailed requirements at https://leetcode.com/problems/lru-cache/
 
+2. Lowest Common Ancestor at https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
-2. Design and implement a Rate Limiter
+3. Write an algorithm to flatten an Array, and one to flatten an object. (turn all keys into top level keys)
 
+## Coding Design
 
-3. Lowest Common Ancestor at https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
-
-4. Write an algorithm to flatten an Array, and one to flatten an object. (turn all keys into top level keys)
+1. Design and Implement a command line's argument parser. The parser should allowed named and unnamed parameters and parameter validation. 
 
 
 ## Modeling and API Design
