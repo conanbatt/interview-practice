@@ -1,7 +1,7 @@
 # Challenges
 
 
-## Data Structures & Code Fluency
+## Computer Science & Competitive Programming
 
 1. Build an LRU Cache. Get detailed requirements at https://leetcode.com/problems/lru-cache/
 
@@ -9,9 +9,13 @@
 
 3. Write an algorithm to flatten an Array, and one to flatten an object. (turn all keys into top level keys)
 
-## Coding Design
+## Code Design
 
-1. Design and Implement a command line's argument parser. The parser should allowed named and unnamed parameters and parameter validation. 
+Coding design challenges prompt the candidate to navigate ambiguity and general implementational knowledge. Solutions can be evaluated in usefulness, coding fluency and communication. 
+
+1. Design and Implement a command line's argument parser. The parser should allow named and unnamed parameters and parameter validation.
+   
+3. Design and Implement a Rate Limiter Middleware. The rate limiter receives a Req object, and can return if the response should be rate limited or not. Consider concepts like client retries, tolerance, and caching when designing this component.
 
 
 ## Modeling and API Design
