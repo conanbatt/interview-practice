@@ -28,10 +28,12 @@ This resource is designed to help you enhance your typing speed and accuracy thr
       - From lesson 419 to 600 you will be bulding up speed and learning some tricky words. (You can start here if you already type without seeying the keyboard)
       - If you want to go further, from lesson 600 to the end you will build up speed to reach 75 to 80 WPM.
   - Practice While Working: An extra point I will recommend is to apply your typing skills to everyday tasks, such as coding, emailing or document writing, to reinforce muscle memory.
+  - While EdClub primarily focuses on regular typewriting practice, [SpeedTyper.dev](https://www.speedtyper.dev/) focuses on improving your coding speed and provides practice in multiple languages.
+
 
   ## Resources on the importance of typing for a developer
   - [Stop Typing Fast | Prime Reacts](https://www.youtube.com/watch?v=PR9DgjZO1Q4)
-
+  - [Programming keyboard shortcuts](https://www.youtube.com/shorts/2Zg0pzOSVr0)
 
   ### Findings on typing speed
 
