@@ -195,3 +195,50 @@ export default function shoppingCart() {
       //   The UX should include being able to select multiple quantities of an item, and the store also has availability items. That is, you cannot add to your shopping cart more items that are available.<br />
       //   Tip: Consider the data structure correctly for computational and memory performance as well as a usuable API.
       // </p>
+
+
+//       .list {
+//   display: grid;
+//   grid - template - columns: 1fr 1fr 1fr;
+//   gap: 8px;
+// }
+
+// .card {
+//   border: 1px solid gray;
+//   border - radius: 5px;
+//   padding: 16px;
+// }
+
+// .card:hover {
+//   border: 1px solid blue;
+// }
+
+// .overlay {
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   background - color: #33333366;
+// }
+
+// .modal {
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   margin: auto;
+//   height: 600px;
+//   width: 600px;
+//   background - color: #fafafa;
+//   padding: 32px;
+//   border - radius: 25px;
+//   overflow: auto;
+// }
+
+// .header {
+//   display: flex;
+//   justify - content: space - between;
+//   align - items: center;
+// }
