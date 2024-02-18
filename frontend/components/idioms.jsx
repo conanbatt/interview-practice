@@ -228,10 +228,11 @@ export function UnnecessaryEffectTriggering() {
   const [leader, setLeader] = useState({})
 
   useEffect(() => {
-    setInterval(async () => {
+    const interval = setInterval(async () => {
       const leader = await fetchLeader()
       setLeader(leader)
     }, 1000)
+    clearInterval(interval)
   }, [])
 
   useEffect(async function enhanceRecord() {
@@ -273,6 +274,57 @@ export function UnnecessaryFunctionRedefinitions(emails) {
           {email} is {validateEmail(email) ? 'Valid' : 'Invalid'}
         </div>
       ))}
+    </div>
+  )
+}
+
+
+async function fetchRecords() { return [{id: 1, type: 'record'}]}
+async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
+
+export function SerialLoading() {
+
+  const [records, setRecords] = useState([])
+  const [altRecords, setAltRecords] = useState([])
+  
+  useEffect(async function loadRecords() {
+    const recs = await fetchRecords()
+    const altRecs = await fetchAlternateRecords()
+    setRecords(recs)
+    setAltRecords(altRecs)
+  }, [])
+
+  return(
+    <div>
+      {records.map(rec => <div key={rec.id}></div>)}
+      {altRecords.map(rec => <div key={rec.id}></div>)}
+    </div>
+  )
+}
+
+async function fetchRecords() { return [{id: 1, type: 'record'}]}
+async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
+
+// Hint: part of the rendering structure is re-rendered frequently unnecessarily
+export function UnoptimizableRenderingStructure(altRecords) {
+  const [records, setRecords] = useState([])
+  
+  useEffect(async function loadRecords() {
+    const interval = setInterval(async () => {
+      const recs = await fetchRecords()
+      setRecords(recs)
+    }, 5000)
+    clearInterval(interval)
+  }, [])
+
+  return(
+    <div>
+      <ul>
+        {records.map(rec => <li key={rec.id}>{rec.id}</li>)}
+      </ul>
+      <ul>
+        {altRecords.map(rec => <li key={rec.id}>{rec.id}</li>)}
+      </ul>
     </div>
   )
 }
