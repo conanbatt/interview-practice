@@ -4,6 +4,7 @@
   
   Submit a fork or a PR to gabriel@silver.dev for feedback and corrections.
 */
+import { useEffect } from 'react'
 
 export function FunctionsAsComponents({ buttonText = 'Start Now' }) {
   const showButton = () => {
@@ -95,28 +96,14 @@ export function AvoidingUseState(object) {
   )
 }
 
-export function AvoidingUseState(object) {
-  const ref = useRef('Unmounted');
-
-  useEffect(() => {
-    ref.current = "Mounted"
-  }, [])
-
-  return (
-    <div>
-      {ref.current}
-    </div>
-  )
-}
-
-
 async function API() { return true }
 
 export function UntraceableState(object) {
   const [result, setResult] = useState()  
+  let loading = false
 
   useEffect(async () => {
-    let loading = true;
+    loading = true
     const result = await API();
     loading = false;
     setResult(result)
@@ -124,6 +111,7 @@ export function UntraceableState(object) {
 
   return (
     <div>
+      <span>Loading: {loading}</span>
       Result:{result}
     </div>
   )
@@ -191,3 +179,68 @@ export function UnidiomaticHTMLHierarchy() {
     {asks.map((ask, j) => <span key={j+'asks'}>{ask}</span>)}
   </li>)
 }
+
+export function SubstandardDataStructure() {
+  const [error, setError] = useState("")
+
+  return(
+    <div>
+      <button onClick={() => setError('Error A')}>Throw Error A</button>
+      <button onClick={() => setError('Error B')}>Throw Error B</button>
+      <button onClick={() => setError('')}>Clear Errors</button>
+      <div>
+        {error}
+      </div>
+    </div>
+  )
+}
+
+export function DangerousIdentifier() {
+  const [people, setPeople] = useState([])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const person = new FormData(e.target);
+    setPeople(ppl => [...ppl, ...person])
+  }
+
+  return(
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input type="text" />
+        <button>Add Person</button>
+      </form>
+      <ul>
+        {people.map(person => <span key={person.name}>{person.name}</span>)}
+      </ul>
+    </div>
+  )
+}
+
+async function fetchLeader() { return { name: 'Messi' }}
+async function fetchDetails(leader) { return { country: 'Argentina' }}
+
+// Hint: this only requires a single line change!
+export function UnnecessaryEffects() {
+  const [leader, setLeader] = useState({})
+
+  useEffect(() => {
+    setInterval(async () => {
+      const leader = await fetchLeader()
+      setLeader(leader)
+    }, 1000)
+  }, [])
+
+  useEffect(async function enhanceRecord() {
+    const extra = await fetchDetails(leader)
+    setLeader({...leader, extra })
+  }, [leader])
+
+  return(
+    <div>
+      <div>Leader:{leader.name}</div>
+      {leader.country && <div>{`From: ${leader.country}`}</div>}
+    </div>
+  )
+}
+
