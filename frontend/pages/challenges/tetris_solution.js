@@ -190,15 +190,13 @@ export default function Tetris() {
     return () => clearInterval(t)
   }, [shape, position, board])
 
-  const drawedBoard = drawBoard({board, shape, position})
-
   const cellStyle = (cell) => ({
     backgroundColor: cell === 1? 'green' : cell === 2 ? 'brown' : '',
   })
 
   return(
     <>
-      {drawedBoard.map((row, ri) => <div className="row" key={ri}>
+      {drawBoard({ board, shape, position }).map((row, ri) => <div className="row" key={ri}>
         {row.map((cell, ci) => <div className="cell" style={cellStyle(cell)} key={ci}>
         </div>)}
       </div>)}
