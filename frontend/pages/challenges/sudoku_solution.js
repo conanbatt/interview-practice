@@ -1,48 +1,38 @@
 import { useState } from "react"
 
+const INITIAL_BOARD = Array(9).fill('').map(() => Array(9).fill(''))
+
 export default function Sudoku() {
-  const [board, setBoard] = useState(() => {
-    const initialBoard = Array(9).fill([]);
-    return initialBoard.map(() => Array(9).fill(null));
-  });
-  const clearBoard = () => setBoard(Array(9).fill(Array(9).fill()));
+  const [board, setBoard] = useState(INITIAL_BOARD)
 
-  const updateBoard = (i, j, value) => {
-    const newBoard = board.map(row => [...row]);
-    newBoard[i][j] = value;
-    setBoard(newBoard);
-  };
-
-  const validateSubgrid = (i1,j1, value) => {
-    if(!(value > 0 && value < 10)) return false;
-    const subgridColumn = Math.floor(i1 / 3)
-    const subgridRow = Math.floor(j1 / 3)
-
-    for (let i = subgridColumn * 3; i < subgridColumn * 3 + 3; i++) {
-      for (let j = subgridRow * 3; j < subgridRow * 3 + 3; j++) {
-        if(board[i][j] === value){
-          console.error(`value ${value} is in subgrid ${subgridColumn} - ${subgridRow}`);
-          return false;
-        }
-      }
-    }
-    return true
+  function isValid(value, x, y) {
+    const valid = value > 0 && value <= 9 &&
+      !Array(9).fill('').some
+        ((_, index) => board[x][index] === value ||
+          board[index][y] === value ||
+          board[(x - (x % 3)) + Math.floor(index / 3)][(y - (y % 3)) + index % 3] === value
+        )
+    return valid
   }
 
-  return(
+  function handleChange(x, y) {
+    return (e) => {
+      const value = e.target.value
+      if (!isValid(value, x, y)) return
+      const newBoard = board.map(row => [...row])
+      newBoard[x][y] = value
+      setBoard(newBoard)
+    }
+  }
+
+  return (
     <>
-    <div style={{position: 'absolute', margin:'auto', width: 235, height: 330, left:0, right:0, top:0, bottom: 0}}>
-        {board.map((column, index_i) => <div key={`c_${index_i}`} className="row">
-          {column.map((row, index_j) => <input key={`r_${index_j}${row}`} className="box" type="number" value={row}
-          onChange={(e) => updateBoard(index_i, index_j, +e.target.value)}
-          onKeyDown={(e) => {
-            if (!validateSubgrid(index_i, index_j, +e.key)) {
-              e.preventDefault();
-            }
-          }}/>)}
+      <h1>
+        Sudoku
+      </h1>
+      {board.map((row, ri) => <div className="row" key={ri}>
+        {row.map((cell, ci) => <input className="cell" key={ci} value={cell} type="number" onChange={handleChange(ri, ci)} />)}
       </div>)}
-    </div>
-    <button onClick={clearBoard}>Clear board</button>
     </>
   )
 }
