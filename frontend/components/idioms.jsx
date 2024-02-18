@@ -3,6 +3,9 @@
   To solve, rewrite the snippet of code to a better version and a description of why the code is improved.
   
   Submit a fork or a PR to gabriel@silver.dev for feedback and corrections.
+
+  Some references used:
+  https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
 import { useEffect } from 'react'
 
@@ -218,10 +221,10 @@ export function DangerousIdentifier() {
 }
 
 async function fetchLeader() { return { name: 'Messi' }}
-async function fetchDetails(leader) { return { country: 'Argentina' }}
+async function fetchDetails(leader) { return { ...leader, country: 'Argentina' }}
 
 // Hint: this only requires a single line change!
-export function UnnecessaryEffects() {
+export function UnnecessaryEffectTriggering() {
   const [leader, setLeader] = useState({})
 
   useEffect(() => {
@@ -232,14 +235,44 @@ export function UnnecessaryEffects() {
   }, [])
 
   useEffect(async function enhanceRecord() {
-    const extra = await fetchDetails(leader)
-    setLeader({...leader, extra })
+    const enriched = await fetchDetails(leader)
+    setLeader(enriched)
   }, [leader])
 
   return(
     <div>
       <div>Leader:{leader.name}</div>
       {leader.country && <div>{`From: ${leader.country}`}</div>}
+    </div>
+  )
+}
+
+async function trackClick(ids) { return ids }
+
+// Hint: same error pattern as above
+export function IncorrectDependencies(records) {
+  const handleClick = useCallback(() => {
+    trackClick(records);
+  }, [records]);
+
+  return(
+    <div>
+      {records.map(record => <div id={record.id}>{record.name}</div>)}
+      <button onClick={handleClick}>Click me!</button>
+    </div>
+  )
+}
+
+export function UnnecessaryFunctionRedefinitions(emails) {
+  const validateEmail = (email) => email.includes("@")
+
+  return(
+    <div>
+      {emails.map(email => (
+        <div key={email}>
+          {email} is {validateEmail(email) ? 'Valid' : 'Invalid'}
+        </div>
+      ))}
     </div>
   )
 }
