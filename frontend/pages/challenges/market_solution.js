@@ -1,293 +1,169 @@
 import { useState } from "react";
 
-const OrderType = {
-  SELL: 'SELL',
+// orders with status
+
+// price: number
+// quantity: Integer
+// symbol: string
+// type: SELL / BUY
+// status: OPEN, CANCELLED, FULFILLED,
+
+const TYPE = {
   BUY: 'BUY',
+  SELL: 'SELL',
 }
 
-const OrderStatus = {
+const STOCK = {
+  AMZ: 'AMZ',
+  TSL: 'TSL',
+  MSF: 'MSF',
+  MELI: 'MELI',
+}
+
+const stockOptions = Object.keys(STOCK).map(k => STOCK[k])
+const typeOptions = Object.keys(TYPE).map(k => TYPE[k])
+
+const STATUS = {
   OPEN: 'OPEN',
   CANCELLED: 'CANCELLED',
   FULFILLED: 'FULFILLED',
 }
 
-const initialBuyOrders = [
+const INITIAL_ORDERS = [
   {
-    price: 48,
+    price: 80,
+    quantity: 10,
+    symbol: STOCK.AMZ,
+    type: TYPE.BUY,
+    status: STATUS.OPEN,
+  },
+  {
+    price: 111,
     quantity: 7,
-    symbol: 'TSLA',
-    type: 'BUY',
-    status: 'OPEN'
+    symbol: STOCK.TSL,
+    type: TYPE.SELL,
+    status: STATUS.OPEN,
   },
-  {
-    price: 47,
-    quantity: 6,
-    symbol: 'TSLA',
-    type: 'BUY',
-    status: 'OPEN'
-  }
-  ,
-  {
-    price: 46,
-    quantity: 12,
-    symbol: 'TSLA',
-    type: 'BUY',
-    status: 'OPEN'
-  }
-];
-
-const initialSellOrders = [
-  {
-    price: 52,
-    quantity: 150,
-    symbol: 'AAPL',
-    type: 'SELL',
-    status: 'OPEN'
-  },
-  {
-    price: 49,
-    quantity: 80,
-    symbol: 'GOOGL',
-    type: 'SELL',
-    status: 'OPEN'
-  },
-];
+]
 
 export default function Market() {
-  const [buyOrders, setBuyOrders] = useState(initialBuyOrders)
-  const [sellOrders, setSellOrders] = useState(initialSellOrders)
+  const [orders, setOrders] = useState(INITIAL_ORDERS)
+  const [orderForm, setOrderForm] = useState({
+      price: 0,
+      quantity: 0,
+      symbol: STOCK.TSL,
+      type: TYPE.SELL,
+      status: STATUS.OPEN,
+  })
 
-  const handleSubmit = (order) => {
-    let {
+  const clearOrderForm = () => setOrderForm({
+    price: 0,
+    quantity: 0,
+    symbol: STOCK.TSL,
+    type: TYPE.SELL,
+    status: STATUS.OPEN,
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const {
       price,
       quantity,
       symbol,
       type,
-      ...rest
-    } = order
+    } = orderForm
 
-    if (type === OrderType.SELL) {
-      const newBuyOrders = [...buyOrders]
-      for(let i = 0; i < newBuyOrders.length; i++) {
-        if (quantity <=0){
-          break;
-        }
-        const buyOrder = newBuyOrders[i]
-        if (buyOrder.status === OrderStatus.OPEN && buyOrder.symbol === symbol && price <= buyOrder.price) {
-          const remaining = quantity - buyOrder.quantity
-          if(remaining > 0) {
-            newBuyOrders[i].quantity = 0
-            newBuyOrders[i].status = OrderStatus.FULFILLED
-            quantity = remaining
-          } else {
-            newBuyOrders[i].quantity = buyOrder.quantity - quantity
-            quantity = 0
-          }
-        }
+    let quantityLeft = quantity
 
+    const altertype = type === TYPE.SELL ? TYPE.BUY : TYPE.SELL
+
+    const finalOrders = orders.map(order => {
+      if (order.symbol === symbol && order.type === altertype && order.status === STATUS.OPEN && (type === TYPE.SELL ? order.price > price : order.price < price && quantityLeft > 0)) {
+        if(order.quantity > quantityLeft) {
+          const quantity = order.quantity - quantityLeft
+          quantityLeft = 0
+          return {...order, quantity}
+        } else {
+          quantityLeft-=order.quantity
+          return { ...order, quantity:0, status: STATUS.FULFILLED }
+        }
+      } else {
+        return order
       }
-      setBuyOrders(newBuyOrders)
-      setSellOrders(orders => [...orders, {
-        price,
-        quantity,
-        symbol,
-        type,
-        status: quantity > 0 ? OrderStatus.OPEN :OrderStatus.FULFILLED,
-       }])
-    } else {
-      const newSellOrders = [...sellOrders]
+    })
 
-      for(let i = 0; i < newSellOrders.length; i++) {
-        if (quantity <=0){
-          break;
-        }
-        const buyOrder = newSellOrders[i]
-        if (buyOrder.status === OrderStatus.OPEN && buyOrder.symbol === symbol && price >= buyOrder.price) {
-          const remaining = quantity - buyOrder.quantity
-          if(remaining > 0) {
-            newSellOrders[i].quantity = 0
-            newSellOrders[i].status = OrderStatus.FULFILLED
-            quantity = remaining
-          } else {
-            newSellOrders[i].quantity = buyOrder.quantity - quantity
-            quantity = 0
-          }
-        }
+    setOrders(finalOrders.concat({
+      price,
+      quantity: quantityLeft,
+      symbol,
+      type,
+      status: quantityLeft > 0 ? STATUS.OPEN : STATUS.FULFILLED,
+    }))
+    clearOrderForm();
+  } 
 
-      }
+  const handleInputChange = (e) => {
+    const {name, value} = e.target
+    setOrderForm({
+      ...orderForm,
+      [name]: value,
+    })
+  } 
+  const minSell = orders.filter(order => order.type === TYPE.SELL && order.status !== STATUS.FULFILLED).reduce((prev, current) => {
+    return (prev && prev.price < current.price) ? prev : current
+  }, 0)
 
-      setSellOrders(newSellOrders)
-      setBuyOrders(orders => [...orders, {
-        price,
-        quantity,
-        symbol,
-        type,
-        status: quantity > 0 ? OrderStatus.OPEN : OrderStatus.FULFILLED,
-      }])
-    }
-  }
-
-  return (
-    <>
-      <h1>
-        Market
-      </h1>
-      <OrderForm onSubmit={handleSubmit} />
-      <HighestAndLowestOrders buyOrders={buyOrders} sellOrders={sellOrders} />
-      <Orders buyOrders={buyOrders} sellOrders={sellOrders} />
-    </>
-  )
-}
-
-function OrderForm(props) {
-  const { onSubmit } = props
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const form = event.target;
-    const formData = new FormData(form);
-
-    const formDataObject = {};
-
-    for (const entry of formData.entries()) {
-      const [name, value] = entry;
-      formDataObject[name] = (name === 'price' || name === 'quantity') ? +value: value;
-    }
-    onSubmit?.(formDataObject)
-  }
-
-  return <form onSubmit={handleSubmit}>
-    <h2>Create an order</h2>
-    <label htmlFor="price">Price:</label>
-    <input type="number" name="price" />
-    <label htmlFor="quantity">Quantity:</label>
-    <input type="number" name="quantity" />
-    <label htmlFor="symbol">Select Order Type:</label>
-    <select id="symbol" name="symbol">
-      <option value="AAPL">APPLE</option>
-      <option value="TSLA">TESLA</option>
-      <option value="GOOGL">GOOGLE</option>
-    </select>
-    <label htmlFor="orderType">Select Order Type:</label>
-    <select id="orderType" name="type">
-      <option value="BUY">Buy</option>
-      <option value="SELL">Sell</option>
-    </select>
-    <input type="submit"/>
-  </form>;
-}
-
-
-function Orders(props) {
-  const { buyOrders, sellOrders } = props
-  return <section className="orders">
-    <section>
-      <h2>Buy</h2>
-      <table width={300}>
-        <tr>
-          <th>Symbols</th>
-          <th>Qty</th>
-          <th>Price</th>
-          <th>Status</th>
-        </tr>
-        {buyOrders.map((buyOrder, index) => <tr key={index}>
-          <td>
-            {buyOrder.symbol}
-          </td>
-          <td>
-            {buyOrder.quantity}
-          </td>
-          <td>
-            ${buyOrder.price}
-          </td>
-          <td>
-            {buyOrder.status}
-          </td>
-        </tr>)}
-      </table>
-    </section>
-    <section>
-      <h2>Sell</h2>
-      <table width={300}>
-        <tr>
-          <th>Symbols</th>
-          <th>Qty</th>
-          <th>Price</th>
-          <th>Status</th>
-        </tr>
-        {sellOrders.map((sellOrder, index) => <tr key={index}>
-          <td>
-            {sellOrder.symbol}
-          </td>
-          <td>
-            {sellOrder.quantity}
-          </td>
-          <td>
-            ${sellOrder.price}
-          </td>
-          <td>
-            {sellOrder.status}
-          </td>
-        </tr>)}
-      </table>
-    </section>
-  </section>;
-}
-
-function HighestAndLowestOrders(props) {
-  const { buyOrders, sellOrders } = props;
-
-  const symbolData = {};
-
-  buyOrders.forEach((buyOrder) => {
-    if (buyOrder.quantity !== 0 && (!symbolData[buyOrder.symbol] || buyOrder.price > symbolData[buyOrder.symbol].highestBuyPrice)) {
-      symbolData[buyOrder.symbol] = {
-        highestBuyPrice: buyOrder.price,
-      };
-    }
-  });
-
-  sellOrders.forEach((sellOrder) => {
-    if (sellOrder.quantity !== 0 && (!symbolData[sellOrder.symbol] || sellOrder.price < symbolData[sellOrder.symbol].lowestSellPrice)) {
-      symbolData[sellOrder.symbol] = {
-        ...symbolData[sellOrder.symbol],
-        lowestSellPrice: sellOrder.price,
-      };
-    }
-  });
-
-  return (
-    <section className="orders">
-      <section>
-        <h2>Buy</h2>
-        <table width={300}>
-          <tr>
-            <th>Symbols</th>
-            <th>Highest Buy Price</th>
-          </tr>
-          {Object.keys(symbolData).map((symbol, index) => (
-            <tr key={index}>
-              <td>{symbol}</td>
-              <td>${symbolData[symbol].highestBuyPrice ?? ' - '}</td>
-            </tr>
-          ))}
-        </table>
-      </section>
-      <section>
-        <h2>Sell</h2>
-        <table width={300}>
-          <tr>
-            <th>Symbols</th>
-            <th>Lowest Sell Price</th>
-          </tr>
-          {Object.keys(symbolData).map((symbol, index) => (
-            <tr key={index}>
-              <td>{symbol}</td>
-              <td>${symbolData[symbol].lowestSellPrice ?? ' - '}</td>
-            </tr>
-          ))}
-        </table>
-      </section>
-    </section>
-  );
+  const maxBuy = orders.filter(order => order.type === TYPE.BUY && order.status !== STATUS.FULFILLED).reduce((prev, current) => {
+    return (prev && prev.price > current.price) ? prev : current
+  }, 0)
+  
+  return <div className="market">
+    <h1>Stock market</h1>
+    <h3>Create order</h3>
+    <div className="layout">
+    <form onSubmit={handleSubmit} className="order-form">
+      <label htmlFor="price">Price</label>
+      <input type='number' onChange={handleInputChange} id="price" name="price" value={orderForm.price}/>
+      <label htmlFor="quantity">quantity</label>
+      <input type='number' onChange={handleInputChange} id="quantity" name="quantity" value={orderForm.quantity} />
+      <label htmlFor="symbol">symbol</label>
+      <select name="symbol" id="symbol" onChange={handleInputChange} value={orderForm.symbol}>
+        {stockOptions.map(opt =>
+        <option value={opt}>{opt}</option>
+        )}
+      </select>
+      <label htmlFor="symbol">type</label>
+      <select name="type" id="type" onChange={handleInputChange} value={orderForm.type}>
+        {typeOptions.map(opt =>
+          <option value={opt}>{opt}</option>
+        )}
+      </select>
+      <input type="submit" />
+    </form>
+    <div>
+      <h3>Offers</h3>
+      <h4>Min Sell</h4>
+      {minSell ? <p>{minSell.symbol} - ${minSell.price}</p> :"-"}
+      <h4>Max Buy</h4>
+      {maxBuy ?<p>{maxBuy.symbol} - ${maxBuy.price}</p> : ''}
+    </div>
+    </div>
+    <h3>Order book</h3>
+    <div className="orders">
+      <div className="order">
+        <div>Symbol</div>
+        <div>Price</div>
+        <div>Quantity</div>
+        <div>Type</div>
+        <div>Status</div>
+      </div>
+      {orders.map((order => <div className="order">
+        <div>{order.symbol}</div>
+        <div style={{ color: order.type === TYPE.BUY ? 'green': 'red'}}>$ {order.price}</div>
+        <div>{order.quantity}</div>
+        <div>{order.type}</div>
+        <div style={{ color: order.status === STATUS.OPEN ? 'green' : order.status === STATUS.CANCELLED ? 'red' : 'black' }}>{order.status}</div>
+      </div>))}
+    </div>
+  </div>
 }

@@ -47,3 +47,37 @@ body {
     }
   }
 }
+
+.market {
+  padding: 16px;
+  .orders {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 8px 4px;
+    &:hover {
+      background-color: #cccccccc;
+    }
+  }
+
+  .order-form {
+    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+
+    [type=submit] {
+      grid-column: span 2;
+    }
+
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
