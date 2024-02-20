@@ -328,4 +328,3 @@ export function UnoptimizableRenderingStructure(altRecords) {
     </div>
   )
 }
-
