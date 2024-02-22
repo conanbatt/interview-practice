@@ -391,4 +391,3 @@ export default function UnoptimizableRenderingStructure({ altRecords }) {
     </div>
   );
 }
-
