@@ -1,4 +1,4 @@
-# CackingProblem List #
+# CTCI Problem List #
 
 Make a fork of this repository, and solve the problems in the language of your choice. 
 
