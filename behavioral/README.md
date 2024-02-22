@@ -38,43 +38,43 @@ This is a standard template of behavioral questions.
 
 1. Presenting yourself
 
-DOs
+:heavy_check_mark: DOs
 - Show your relevant technical experience with the company.
 - Mention side-projects, open source contributions, and any skillset
 
-DON'TS
+:x: DON'TS
 - Talk about irrelevant side-projects or work experience that is too far back.
 - Talk about hobbies or irrelevant personal stories
 
 2. Why are you interested in this position?
 
-DOs
+:heavy_check_mark: DOs
 - Mention specific features and characteristics of the company or the product
 - Mention specific skillsets or motivations where you fit this company in particular
 
-DON'TS
+:x: DON'TS
 - Talk generalities about the industry
 - Talk about what you want to get out of the position. i.e. learning, money, more fun work
 - Expect the company to tell you what the company is about or what they do
 
 3. Company Values
 
-DOs
+:heavy_check_mark: DOs
 - Research the company values on their website and hiring pages
 - Prepare stories about your personal experience that express capacity and alignment with the company values
 
-DON'Ts
+:x: DON'TS
 - Expect the company to explain or sell the company values to you
 - Disregard the meaning of the company values as a way to evaluate fit
 
 4. Work Experience stories
 
-DOs
+:heavy_check_mark: DOs
 - Make your story concise, with a clear message.
 - Present yourself with agency and identity - talk about what you did personally above the environment
 - Teach the interviewer something
 
-DON'Ts
+:x: DON'TS
 - Delve into unnecessary details or technical contexts.
 - Talk about what your team, company or leadership did
 - Present yourself as a victim of a process or a result
@@ -82,10 +82,10 @@ DON'Ts
 
 5. Do you have any questions for us?
 
-DOs
+:heavy_check_mark: DOs
 - Prepare questions that are not answered by public materials or resources
 - Ask questions that change your willingness to continue the interview process, like runway, employee attrition, product market fit
 
-DON'TS
+:x: DON'TS
 - Ask bland, general questions like "what is the team composition" or "what's a day for a developer here"
 - Ask questions answered on the website or PR materials
