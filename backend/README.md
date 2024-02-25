@@ -34,12 +34,14 @@ The rest API is available at https://docs.github.com/en/rest?apiVersion=2022-11-
 
 Create a scripting that evaluates a developer's GH profile and outputs a rating from 1-5 based on his public information. The rating calculation is up to you, but you are encouraged to use the users activity like commits, prs, comments as well as the size and quality of his contributions.
 
-Input: a username or github url
-Output: a 1-5 rating
+**Input:** a username or github url
+
+**Output:** a 1-5 rating
 
 1. Github Package Rater
 
 Create a scripting that evaluates a repository and outputs a rating from 1-5 based on his public information. The rating calculation is up to you, but you are encouraged to use the repository activity, issue count, merged prs and any other information available in the API.
 
-Input: a username or github url
-Output: a 1-5 rating
+**Input:** a username or github url
+
+**Output:** a 1-5 rating
