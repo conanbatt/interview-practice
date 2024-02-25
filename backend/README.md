@@ -26,3 +26,20 @@ Coding design challenges prompt the candidate to navigate ambiguity and general 
 
 2. Design an API version of Whatsapp. Write pseudocode to explain what each endpoint would execute.
 
+## API implementation challenges 
+
+The rest API is available at https://docs.github.com/en/rest?apiVersion=2022-11-28 - you will need to have and authenticate your github account.
+
+1. Github Developer Rater
+
+Create a scripting that evaluates a developer's GH profile and outputs a rating from 1-5 based on his public information. The rating calculation is up to you, but you are encouraged to use the users activity like commits, prs, comments as well as the size and quality of his contributions.
+
+Input: a username or github url
+Output: a 1-5 rating
+
+1. Github Package Rater
+
+Create a scripting that evaluates a repository and outputs a rating from 1-5 based on his public information. The rating calculation is up to you, but you are encouraged to use the repository activity, issue count, merged prs and any other information available in the API.
+
+Input: a username or github url
+Output: a 1-5 rating
