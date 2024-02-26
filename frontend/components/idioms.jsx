@@ -85,6 +85,22 @@ export function UseEffectLifeCycle(object) {
   )
 }
 
+export function DirtyUnmount() {
+  const [time, setTime] = useState(0);
+  
+  useEffect(() =>{
+    setInterval(() => {
+      setTime(t => t + 1)
+    }, 1000)
+  }, [])
+
+  return (
+    <div>
+      Clock in seconds: {time}
+    </div>
+  )
+}
+
 export function AvoidingUseState(object) {
   const ref = useRef('Unmounted');
 
