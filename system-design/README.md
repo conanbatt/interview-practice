@@ -6,8 +6,7 @@ Check the podcast episode [Entrevistas Técnicas](https://open.spotify.com/episo
 
 You can see an example interview at [Design ZonaProp](https://www.youtube.com/watch?v=Rxn52ROtdTs)
 
-
-# Study materials
+## Study materials
 
 The educative.io course [Grokking the System Design Interview](https://www.educative.io/courses/grokking-modern-system-design-interview-for-engineers-managers) is one of the best materials for prepping for system design interviews.
 
@@ -16,6 +15,14 @@ It includes the basic theory and a large amount of designs to go through and und
 A good source for prepping is https://bytebytego.com/ as well.
 
 ## Challenges
+
+### 15m Challenges
+
+1. Design a Meme Generator website
+2. Design an email Queue Service
+3. Design a url shortener
+
+### 45m Challenges
 
 1. Design Twitter
 2. Design Uber
