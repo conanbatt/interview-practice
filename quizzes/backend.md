@@ -5,7 +5,19 @@
 **TBD**
 
 ## Javascript
-**TBD**
+
+- [ ] What are closures?
+- [ ] What is the difference between let and var?
+- [ ] What does it mean that Node.js is non-blocking?
+- [ ] What is the Event loop?
+- [ ] How does Node.js handle asynchronous operations?
+
+### NestJS ###
+  - [ ] What is NestJS and why would you choose it over other frameworks?
+  - [ ] What is a pipe?
+  - [ ] What is a controller?
+  - [ ] What is an interceptor?
+  - [ ] What are decorators?
 
 ## Ruby
 
