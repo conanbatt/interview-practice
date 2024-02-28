@@ -1,20 +1,27 @@
 # Challenges
 
+## Modeling and API Design
 
-## Chess Check
+1. Design & Implement a Banking Service. The service should allow to make accounts, deposits, withdrawals, and account transfers
 
-Model a chess board and a function that can check if a King is on Check. In chess, a King is in check if any rival piece, according to its rules, can attack the king.
+2. Design an API version of Whatsapp. Write pseudocode to explain what each endpoint would execute.
 
-You may see the rules of each piece in chess [here](https://www.chess.com/terms/chess-pieces)
+## API implementation challenges 
 
-**Bonus**: detect if there is a CheckMate
+The rest API is available at https://docs.github.com/en/rest?apiVersion=2022-11-28 - you must authenticate your GitHub account.
 
-Tips: they key to solving this challenge elegantly is picking the right model and implementation strategy.
+### GitHub Developer Rater
 
-## Sudoku Generator
+Create a script that evaluates a developer's GH profile and outputs a rating from 1-5 based on his public information. The rating calculation is up to you, but you are encouraged to use the user activity like commits, PRs, comments as well as the size and quality of his contributions.
 
-Create a function that creates a valid and playable Sudoku board. 
+**Input:** a username or GitHub URL
 
-You may see the rules of Sudoku [here](https://sudoku.com/how-to-play/sudoku-rules-for-complete-beginners/)
+**Output:** A 1-5 rating
 
-**Bonus**: add a difficulty parameter to the generator. The difficulty criteria is ambiguous, so you can choose your own definition for this task.
+### Github Package Rater
+
+Create a script that evaluates a repository and outputs a rating from 1-5 based on public information. The rating calculation is up to you, but you are encouraged to use the repository activity, issue count, merged press, and any other information available in the API.
+
+**Input:** a repository name or GitHub URL
+
+**Output:** A 1-5 rating
