@@ -19,17 +19,17 @@ A good source for prepping is https://bytebytego.com/ as well.
 ### 15m Challenges
 
 1. Design a Meme Generator website
-2. Design an email Queue Service
-3. Design a url shortener
+2. Design an email Queueing Service
+3. Design a Web Scraper
+4. Design a url shortener
 
 ### 45m Challenges
 
 1. Design Twitter
 2. Design Uber
 3. Design WhatsApp
-4. Design a Web Scraper
-5. Design Google Docs
-6. [Hard] Design an airline ticketing system
+4. Design Google Docs
+5. [Hard] Design an airline ticketing system
 
 
 ## Architecture Design
