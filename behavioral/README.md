@@ -71,7 +71,7 @@ This is a standard template of behavioral questions.
 
 :heavy_check_mark: DOs
 - Make your story concise, with a clear message.
-- Present yourself with agency and identity - talk about what you did personally above the environment
+- Present yourself with agency and identity - talk about what you did personally beyond the environment or existing team
 - Teach the interviewer something
 
 :x: DON'TS
