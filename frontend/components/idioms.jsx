@@ -34,6 +34,7 @@ export function arrayCopying() {
   return copy;
 }
 
+// user abort
 export function UseEffect({ fetchURL, label }) {
   useEffect(async () => {
     await fetch(fetchURL)
@@ -47,11 +48,11 @@ export function UseEffect({ fetchURL, label }) {
 }
 
 export function UseEffectDerivedCalculation(object) {
-  const [sum, setSum] = useState()
+  const [isEven, setIs] = useState()
   const [clickedTimes, setClickedTimes] = useState()
 
   useEffect(() => {
-    setSum(sum + clickedTimes)
+    setReminder(clickedTimes % 5)
   }, [clickedTimes])
 
   const handleClick = () => setClickedTimes(clickedTimes + 1)
@@ -66,11 +67,11 @@ export function UseEffectDerivedCalculation(object) {
   )
 }
 
-export function UseEffectLifeCycle(object) {
-  const [loaded, setLoaded] = useState()
+export function UseEffectLifeCycle() {
+  const [_loaded, setLoaded] = useState()
 
   useEffect(() => {
-    setTimeout(() => setLoaded(true))
+    setTimeout(() => setLoaded(true), 1000)
   }, [])
 
   const handleClick = () => setClickedTimes(clickedTimes + 1)
@@ -79,7 +80,7 @@ export function UseEffectLifeCycle(object) {
     <div>
       <button onClick={handleClick}>Add Click Count</button>
       <span>
-        {sum}
+        {clickedTimes}
       </span>
     </div>
   )
@@ -87,7 +88,7 @@ export function UseEffectLifeCycle(object) {
 
 export function DirtyUnmount() {
   const [time, setTime] = useState(0);
-  
+
   useEffect(() =>{
     setInterval(() => {
       setTime(t => t + 1)
