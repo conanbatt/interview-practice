@@ -19,18 +19,17 @@ This is a standard template of behavioral questions.
 2. Why are you interested in this position?
 
 3. One of our core values at the company is X. Can you tell me about a time you went out of your way to show X?
-   X can be Ownership, Customer Obsession, Empathy, Technical Excellence, Resilience, Focus on Impact, and Be Bold.
+   Replace X with any common values like [Ownership, Customer Obsession, Empathy, Technical Excellence, Resilience, Focus on Impact, and Be Bold]
 
-4. Work Experience stories
+4. Sometimes you don’t agree with leadership. Can you tell me about a time you had disagreements with your managers or the company's direction? And what did you do about it?
 
-  1. Sometimes you don’t agree with leadership. Can you tell me about a time you had disagreements with your managers or the company's direction? And what did you do about it?
+5. Sometimes a coworker or a direct report is not performing as expected, and it’s starting to be detrimental to the company roadmap or teamwork. How would you deal with this situation?
+ 
+6. What was the hardest technical challenge you ever faced?
 
-  2. Sometimes a coworker or a direct report is not performing as expected, and it’s starting to be detrimental to the company roadmap or teamwork. How would you deal with this situation?
-  3. What was the hardest technical challenge you ever faced?
+7. Can you tell me about a time a project you led failed?
 
-  4. Can you tell me about a time a project you led failed?
-
-5. Do you have any questions for us?
+8. Do you have any questions for us?
 
 
 
