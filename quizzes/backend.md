@@ -7,6 +7,9 @@
 ## Javascript
 
 - [ ] What are closures?
+- [ ] What is 'hoisting' in Javascript?
+- [ ] What are Promises and how do they differ from callbacks?
+- [ ] What are the arrow functions in javascript and how do they differ from traditional function expressions?
 - [ ] What is the difference between let and var?
 - [ ] What does it mean that Node.js is non-blocking?
 - [ ] What is the Event loop?
