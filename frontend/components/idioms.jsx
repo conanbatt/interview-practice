@@ -36,19 +36,23 @@ export function arrayCopying() {
 
 // user abort
 export function UseEffect({ fetchURL, label }) {
-  useEffect(async () => {
-    await fetch(fetchURL)
-  })
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch(fetchURL);
+    };
+    
+    fetchData();
+  }, [fetchURL]);
 
-  return(
+  return (
     <div>
       <button>{label}</button>
     </div>
-  )
+  );
 }
 
-export function UseEffectDerivedCalculation(object) {
-  const [isEven, setIs] = useState()
+export function UseEffectDerivedCalculation() {
+  const [remainder, setReminder] = useState()
   const [clickedTimes, setClickedTimes] = useState()
 
   useEffect(() => {
@@ -62,6 +66,9 @@ export function UseEffectDerivedCalculation(object) {
       <button onClick={handleClick}>Add Click Count</button>
       <span>
         {sum}
+      </span>
+      <span>
+        {remainder}
       </span>
     </div>
   )
@@ -89,7 +96,7 @@ export function UseEffectLifeCycle() {
 export function DirtyUnmount() {
   const [time, setTime] = useState(0);
 
-  useEffect(() =>{
+  useEffect(() => {
     setInterval(() => {
       setTime(t => t + 1)
     }, 1000)
@@ -102,7 +109,7 @@ export function DirtyUnmount() {
   )
 }
 
-export function AvoidingUseState(object) {
+export function AvoidingUseState() {
   const ref = useRef('Unmounted');
 
   useEffect(() => {
@@ -118,16 +125,20 @@ export function AvoidingUseState(object) {
 
 async function API() { return true }
 
-export function UntraceableState(object) {
+export function UntraceableState() {
   const [result, setResult] = useState()  
   let loading = false
 
-  useEffect(async () => {
-    loading = true
-    const result = await API();
-    loading = false;
-    setResult(result)
-  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      loading = true
+      const result = await API();
+      loading = false;
+      setResult(result);
+    };
+      
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -150,7 +161,7 @@ export function MagicNumbers(age) {
   </ol>)
 }
 
-export function unidiomaticHTMLStructure() {
+export function UnidiomaticHTMLStructure() {
   const [name, setName] = useState("")
   const handleSubmit = (e) => {}
 
@@ -178,16 +189,6 @@ export function CrudeStateManagement() {
     <input value={password} name="password" type="password" onChange={setPassword} />
     <button type="submit">Submit</button>
   </form>)
-}
-
-export function UnidiomaticHTMLHierarchy() {
-  const bids = [1,2,3]
-  const asks = [1,2,3]
-
-  return (<li>
-    {bids.map((bid, i) => <span key={i}>{bid}</span>)}
-    {asks.map((ask, j) => <span key={j+'asks'}>{ask}</span>)}
-  </li>)
 }
 
 export function UnidiomaticHTMLHierarchy() {
@@ -252,10 +253,13 @@ export function UnnecessaryEffectTriggering() {
     clearInterval(interval)
   }, [])
 
-  useEffect(async function enhanceRecord() {
-    const enriched = await fetchDetails(leader)
-    setLeader(enriched)
-  }, [leader])
+  useEffect(() => {
+    async function enhanceRecord() {
+      const enriched = await fetchDetails(leader);
+      setLeader(enriched);
+    }
+    enhanceRecord();
+  }, [leader]); 
 
   return(
     <div>
@@ -304,12 +308,15 @@ export function SerialLoading() {
   const [records, setRecords] = useState([])
   const [altRecords, setAltRecords] = useState([])
   
-  useEffect(async function loadRecords() {
-    const recs = await fetchRecords()
-    const altRecs = await fetchAlternateRecords()
-    setRecords(recs)
-    setAltRecords(altRecs)
-  }, [])
+  useEffect(() => {
+    async function loadRecords() {
+      const recs = await fetchRecords();
+      const altRecs = await fetchAlternateRecords();
+      setRecords(recs);
+      setAltRecords(altRecs);
+    }
+    loadRecords();
+  }, []);
 
   return(
     <div>
@@ -326,13 +333,17 @@ async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
 export function UnoptimizableRenderingStructure(altRecords) {
   const [records, setRecords] = useState([])
   
-  useEffect(async function loadRecords() {
-    const interval = setInterval(async () => {
-      const recs = await fetchRecords()
-      setRecords(recs)
-    }, 5000)
-    clearInterval(interval)
-  }, [])
+  useEffect(() => {
+    async function loadRecords() {
+      const interval = setInterval(async () => {
+        const recs = await fetchRecords();
+        setRecords(recs);
+      }, 5000);
+  
+      return () => clearInterval(interval);
+    }
+    loadRecords();
+  }, []); 
 
   return(
     <div>
