@@ -250,7 +250,7 @@ export function UnnecessaryEffectTriggering() {
       const leader = await fetchLeader()
       setLeader(leader)
     }, 1000)
-    clearInterval(interval)
+    return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
@@ -260,6 +260,7 @@ export function UnnecessaryEffectTriggering() {
     }
     enhanceRecord();
   }, [leader]); 
+
 
   return(
     <div>
@@ -344,6 +345,7 @@ export function UnoptimizableRenderingStructure(altRecords) {
     }
     loadRecords();
   }, []); 
+
 
   return(
     <div>
