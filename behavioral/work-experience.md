@@ -5,7 +5,6 @@ Work experience interviews aim to evaluate the depth of a candidate's career. Th
 Work experience is about story telling, and about being thorough to explain what you have done in the past.
 
 
-
 ## Presentations
 
 Sometimes you have the opportunity to present, and it would be great to build a slide deck or diagrams about what you did.
@@ -23,3 +22,23 @@ A check list for a good topic & presentation:
 - [ ] Does it show technical depth or breath?
 - [ ] Do you have hard numbers on usage, revenue, complexity?
 
+
+## Product Thinking
+
+Product interviews are mostly cultural interviews about what interests the candidate and what they understand of a business as a whole, as well as having taste and sensibility to what is new and innovative.
+
+A candidate that **only writes code** is unnappealing to small startups that want profiles that have passion for what they are building and can bring ideas to innovate and help the business.
+
+It is very unlikely to pass a product thinking interview without experience building and marketing systems on your own, or working at a startup. However, there are things you can do to prep to understand the basics.
+
+We discuss this topic on the podcast on these episodes:
+
+[Evaluando empresas](https://open.spotify.com/episode/587A5xGVLBOBGnEzreZtLy?si=RYtrMvdVRbuJ9TN1K_IZjg)
+[Narrativa Personal](https://open.spotify.com/episode/71C5tVCE3xdMTC8aJroWpS?si=aNdKCumDQB-PklOBuLbpMg)
+
+A checklist to cover your bases:
+
+- [ ] Install, purchase and use the product. What works and what doesn't - what are opportunities for growth?
+- [ ] Check investors, company investment round and PR releases about funding
+- [ ] Check the industry. Is the sector doing well? Is the product a sub-set of another sector? What makes the product unique because of the industry that it operates in?
+- [ ] Check direct and indirect competitors. Evaluate market share, quality of product, growth, strategy. 
