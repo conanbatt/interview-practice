@@ -249,12 +249,13 @@ export function UnnecessaryEffectTriggering() {
       const leader = await fetchLeader()
       setLeader(leader)
     }, 1000)
-    clearInterval(interval)
+    return () => clearInterval(interval)
   }, [])
 
-  useEffect(async function enhanceRecord() {
-    const enriched = await fetchDetails(leader)
-    setLeader(enriched)
+  useEffect(function enhanceRecord() {
+    fetchDetails(leader)
+      .then(res => res.json())
+      .then((leader) => setLeader(leader))
   }, [leader])
 
   return(
@@ -331,7 +332,7 @@ export function UnoptimizableRenderingStructure(altRecords) {
       const recs = await fetchRecords()
       setRecords(recs)
     }, 5000)
-    clearInterval(interval)
+    return () => clearInterval(interval)
   }, [])
 
   return(
