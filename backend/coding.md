@@ -18,7 +18,7 @@ Coding design challenges prompt the candidate to navigate ambiguity and general 
    
 3. Design and Implement a Rate Limiter Middleware. The rate limiter receives a Req object and can return if the response should be rate-limited or not. Consider concepts like client retries, tolerance, and caching when designing this component.
 
-4. Primer number Generator. Create a function that outputs a random prime number between 1 and n.
+4. Primer number Generator. Create a function that outputs a random prime number between 1 and n. Can you make it run in O(squareRoot(n))?
 
 ## Chess Check
 
