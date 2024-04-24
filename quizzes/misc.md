@@ -23,6 +23,16 @@
 - [ ]  What is a content security policy?
 - [ ]  Why is saving passwords in plain text wrong? How to avoid it?
 
+## Networking
+
+- [ ]  What is a VPC?
+- [ ]  How would you design a VPC to be secure?
+- [ ]  What is the difference between a stateless and a statefull firewall? When would you use which?
+- [ ]  How would you create a hybrid cloud (different providers or cloud <-> on-prem)?
+- [ ]  How does DNS work?
+- [ ]  How does HTTP work?
+- [ ]  What is the difference between TCP and UDP? When would you use which?
+
 ## Systems
 
 - [ ]  What is a load balancer?
@@ -43,8 +53,22 @@
     - [ ]  What are good use cases?
     - [ ]  What are the limitations?
 - [ ]  How do you scale up databases?
+- [ ]  How would you back up a database?
+- [ ]  What is the difference between CI and CD?
+- [ ]  What does "gitops" means?
+- [ ]  What is "immutable infrastructure"?
+- [ ]  What are to most common deployment patterns?
+- [ ]  How would you design a scalable solution?
+- [ ]  What are the different kinds of storage you usually find in a cloud provider?
+- [ ]  What is PaaS?
+
+## Monitoring / Obsevability
+- [ ]  How does a log aggregation system work?
+- [ ]  What metrics would you monitor in a distributed environment? (USE vs RED)
 
 ### Harder
 
+- [ ]  Explain with as much detail as possible what happens when you type google.com in your browser and press Enter
+- [ ]  What is the CAPS theorem
 - [ ]  What is the thundering herd problem?
 - [ ]  What are possible strategies to defend against a DDOS attack?
