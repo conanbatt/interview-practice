@@ -6,7 +6,9 @@
 
 2. Lowest Common Ancestor at https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
-3. Write an algorithm to flatten an Array and one to flatten an object. (turn all keys into top-level keys)
+3. https://leetcode.com/problems/maximize-happiness-of-selected-children/description/
+
+4. Write an algorithm to flatten an Array and one to flatten an object. (turn all keys into top-level keys)
 
 ## Code Design
 
