@@ -22,6 +22,8 @@ Coding design challenges prompt the candidate to navigate ambiguity and general 
 
 4. Primer Number Generator. Create a function that outputs a random prime number between 1 and n. Can you make it run in O(squareRoot(n))?
 
+5. Implement Promises. Start with then/catch/finally. Then implement Promise.all(). 
+
 ## Chess Check
 
 Model a chess board and a function that can check if a King is on Check. In chess, a King is in check if any rival piece, according to its own movement mechanics, may capture the king in the next move.
