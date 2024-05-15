@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "outDir": "dist",
+    "allowJs": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "baseUrl": "problems"
+  },
+  "include": ["problems/**/*.ts"],
+  "exclude": ["node_modules"]
+}
