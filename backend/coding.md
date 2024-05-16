@@ -6,7 +6,9 @@
 
 2. Lowest Common Ancestor at https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
-3. Write an algorithm to flatten an Array and one to flatten an object. (turn all keys into top-level keys)
+3. https://leetcode.com/problems/maximize-happiness-of-selected-children/description/
+
+4. Write an algorithm to flatten an Array and one to flatten an object. (turn all keys into top-level keys)
 
 ## Code Design
 
@@ -20,6 +22,8 @@ Coding design challenges prompt the candidate to navigate ambiguity and general 
 
 4. Primer number checker. Create a function that detects if a number is a primer number. It should be better than O(n). How would you optimize this function if you called this sequentially from 1..n?
 
+5. Implement Promises. Start with then/catch/finally. Then implement Promise.all(). 
+
 ## Chess Check
 
 Model a chess board and a function that can check if a King is on Check. In chess, a King is in check if any rival piece, according to its own movement mechanics, may capture the king in the next move.
@@ -28,7 +32,7 @@ You may see the rules of each piece in chess [here](https://www.chess.com/terms/
 
 **Bonus**: detect if there is a CheckMate
 
-Tips: They key to solving this challenge elegantly is picking the right model and implementation strategy. 
+Tips: The key to solving this challenge elegantly is picking the right model and implementation strategy. 
 
 ## Sudoku Generator
 
@@ -36,12 +40,14 @@ Create a function that creates a valid and playable Sudoku board.
 
 You may see the rules of Sudoku [here](https://sudoku.com/how-to-play/sudoku-rules-for-complete-beginners/)
 
-**Bonus**: add a difficulty parameter to the generator. The difficulty criteria is ambiguous, so you can choose your own definition for this task.
+**Bonus**: add a difficulty parameter to the generator. The difficulty criteria are ambiguous, so you can choose your definition for this task.
 
 
 ## 4 in a line
 
-Four in a line is a game where two players take turns place token on columns that drop to the bottom. When a player forms 4 of his own tokens in a line - horizontally, vertically or diagonally - the player wins.
+Four in a line is a game where two players take turns to place a token on columns that drop to the bottom. When a player forms 4 of his tokens in a line - horizontally, vertically ,or diagonally - the player wins.
+
+[Visualization](https://i.ebayimg.com/images/g/DzMAAOSwSjxj6m0e/s-l1600.jpg)
 
 1. Model a board where players take turns to play tokens.
 
