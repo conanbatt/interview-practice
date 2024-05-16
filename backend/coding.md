@@ -47,6 +47,8 @@ You may see the rules of Sudoku [here](https://sudoku.com/how-to-play/sudoku-rul
 
 Four in a line is a game where two players take turns to place a token on columns that drop to the bottom. When a player forms 4 of his tokens in a line - horizontally, vertically ,or diagonally - the player wins.
 
+[Visualization](https://i.ebayimg.com/images/g/DzMAAOSwSjxj6m0e/s-l1600.jpg)
+
 1. Model a board where players take turns to play tokens.
 
 2. Detect when a player wins after playing.
