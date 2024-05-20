@@ -136,7 +136,7 @@ Output: F, e, a, b, d, c
 
 8. *First Common Ancestor*: Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure. NOTE: This is not necessarily a binary search tree.
 
-8. *BST Sequences*: A binary search tree was created by traversing through an array from left to right and inserting each element. Given a binary search tree with distinct elements, print all possible arrays that could have led to this tree.
+9. *BST Sequences*: A binary search tree was created by traversing through an array from left to right and inserting each element. Given a binary search tree with distinct elements, print all possible arrays that could have led to this tree.
 
 ```
 EXAMPLE Input:
@@ -164,6 +164,7 @@ Only one disk can be moved at a time.
 A disk is slid off the top of one tower onto another tower.
 A disk cannot be placed on top of a smaller disk.
 Write a program to move the disks from the first tower to the last using stacks.
-Permutations without Dups: Write a method to compute all permutations of a string of unique characters.
 
-7. *Permutations with Dups*: Write a method to compute all permutations of a string whose characters are not necessarily unique. The list of permutations should not have duplicates.
+7.Permutations without Dups: Write a method to compute all permutations of a string of unique characters.
+
+*Permutations with Dups*: Write a method to compute all permutations of a string whose characters are not necessarily unique. The list of permutations should not have duplicates.
