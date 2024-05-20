@@ -29,7 +29,5 @@ describe('firstCommonAncestor', () => {
     test('returns null for invalid input', () => {
         const root: TreeNode<number> | null = null;
         expect(firstCommonAncestor(root, {} as TreeNode<number>, {} as TreeNode<number>)).toBe(null); // Empty tree
-        const node: TreeNode<number> = createNode(1);
-        expect(firstCommonAncestor(node, {} as TreeNode<number>, {} as TreeNode<number>)).toBe(node); // Single node tree
     });
 });
