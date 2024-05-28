@@ -1,0 +1,87 @@
+.Questionnaire {
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.Questionnaire button {
+  font-size: 15px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.Questionnaire button.disabled {
+  cursor: not-allowed;
+  color: gray;
+}
+
+.Questionnaire button:hover {
+  background-color: #222222;
+}
+
+.Questionnaire button.secondary {
+  background-color: #eee;
+  color: black;
+}
+
+.Questionnaire button.secondary:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.Questionnaire input {
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.AddQuestion {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  gap: 8px;
+}
+
+.AddQuestion .options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.AddQuestion .options .option {
+  display: flex;
+  gap: 8px;
+}
+
+.AddQuestion .options .option > input[type="text"] {
+  flex: 1;
+}
+
+.Quiz {
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 8px;
+}
+
+.Quiz .option {
+  font-size: 20px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.Quiz .option input {
+  width: 18px;
+  height: 18px;
+}

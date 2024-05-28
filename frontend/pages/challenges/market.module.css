@@ -1,0 +1,63 @@
+.Market {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: black;
+  color: white;
+  padding: 16px;
+}
+
+.Market .form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid black;
+  width: 300px;
+  border: 1px solid darkgray;
+}
+
+.Market .form h4 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.Market .submit {
+  display: flex;
+  gap: 8px;
+}
+.Market .submit > button {
+  flex: 1;
+  color: white;
+  border: none;
+}
+
+.Market .submit > button.buy {
+  background-color: #006600;
+}
+
+.Market .submit > button.sell {
+  background-color: #660000;
+}
+
+.Market .field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.Market .field label {
+  font-size: 12px;
+}
+
+.Market .table .BUY {
+  background-color: #006600;
+}
+
+.Market .table .SELL {
+  background-color: #660000;
+}
+
+.Market .table td,
+.Market .table th {
+  padding: 4px;
+  font-size: 12px;
+}

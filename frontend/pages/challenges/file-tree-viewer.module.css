@@ -1,0 +1,14 @@
+.Folder .content {
+  margin-left: 16px;
+}
+
+.Folder .info,
+.FileInfo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 32px;
+  cursor: pointer;
+}

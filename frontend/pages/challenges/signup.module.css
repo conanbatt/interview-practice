@@ -1,0 +1,56 @@
+.SignupForm {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid black;
+  gap: 16px;
+  max-width: 300px;
+}
+
+.SignupForm .field {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  font-size: 12px;
+  color: darkslategray;
+  gap: 4px;
+}
+
+.SignupForm .button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  height: 32px;
+}
+
+.SignupForm .button:hover {
+  background-color: gray;
+}
+
+.SignupForm .input {
+  height: 24px;
+  border-width: 0;
+  background-color: #eeeeee;
+  border-style: solid;
+  border-radius: 4px;
+  padding-left: 8px;
+  height: 30px;
+}
+
+.SignupForm .errors {
+  background-color: #ffcccc;
+  border: 1px solid #800;
+  color: #800;
+  padding: 8px 8px 10px 20px;
+  margin: 0;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.SignupForm .combo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
