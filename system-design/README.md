@@ -8,8 +8,7 @@ You can see an example interview at [Design ZonaProp](https://www.youtube.com/wa
 
 ## Study materials
 
-The educative.io course [Grokking the System Design Interview](https://www.educative.io/courses/grokking-modern-system-design-interview-for-engineers-managers) is one of the best materials for prepping for system design interviews.
-
+The educative.io course [Grokking the System Design Interview](https://www.educative.io/courses/grokking-modern-system-design-interview-for-engineers-managers?aff=VERz) is one of the best materials for prepping for system design interviews.
 It includes the basic theory and a large amount of designs to go through and understand them. The content is *paid* but tremendously useful.
 
 A good source for prepping is https://bytebytego.com/ as well.
