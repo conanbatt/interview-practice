@@ -1,0 +1,19 @@
+.cell {
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  background-color: transparent;
+}
+
+.cell:hover {
+  background-color: #eee9;
+}
+
+.cell:focus {
+  border-color: #eee9;
+  background-color: #eee9;
+}
