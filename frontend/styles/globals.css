@@ -17,3 +17,24 @@
   border-color: #eee9;
   background-color: #eee9;
 }
+
+.filetree {
+  list-style: none;
+  padding-left: 1em;
+}
+
+button.unstyled {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+button svg.closed {
+  transform: rotate(180deg);
+}
+
+.filetree svg {
+  width: 1em;
+  height: 1em;
+}
