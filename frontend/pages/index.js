@@ -7,6 +7,7 @@ const paths = [
   'signup',
   'sudoku',
   'tetris',
+  'shoppingCart',
   'questionnaire'
 ]
 
