@@ -74,25 +74,28 @@ export default function Hooks() {
 }
 
 function useDebounce(fn, delay, deps) {
-  const callback = useRef();
-  const timeout = useRef();
+  const timer = useRef();
   const [status, setStatus] = useState(false);
 
-  useEffect(() => {
-    callback.current = fn;
-  }, []);
+  function debounce(fn, delay) {
+    return (...args) => {
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        fn.apply(this, args);
+        setStatus(true);
+      }, delay);
+    };
+  }
+  const debounced = debounce(fn, delay);
 
   useEffect(() => {
-    clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => {
-      setStatus(true);
-      callback.current();
-    }, delay);
-  }, [delay, [...deps]]);
+    debounced(...deps);
+  }, deps);
 
   function cancel() {
     setStatus(null);
-    clearTimeout(timeout);
+    clearTimeout(timer.current);
+    fn();
   }
 
   return [status, cancel];
