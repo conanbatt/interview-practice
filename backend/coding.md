@@ -43,9 +43,9 @@ You may see the rules of Sudoku [here](https://sudoku.com/how-to-play/sudoku-rul
 **Bonus**: add a difficulty parameter to the generator. The difficulty criteria are ambiguous, so you can choose your definition for this task.
 
 
-## 4 in a line
+## Connect4
 
-Four in a line is a game where two players take turns to place a token on columns that drop to the bottom. When a player forms 4 of his tokens in a line - horizontally, vertically ,or diagonally - the player wins.
+Connect4 is a game where two players take turns placing a token on columns that drop to the bottom. When a player forms 4 of his tokens in a line - horizontally, vertically,or diagonally - the player wins.
 
 [Visualization](https://i.ebayimg.com/images/g/DzMAAOSwSjxj6m0e/s-l1600.jpg)
 
