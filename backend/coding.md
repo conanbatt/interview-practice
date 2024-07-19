@@ -18,7 +18,16 @@ Coding design challenges prompt the candidate to navigate ambiguity and general 
 
 2. Resolve [FindParent](https://silverdev.notion.site/Challenge-FindParent-59672103482c4675be9ba6b532241785?pvs=4)
    
-3. Design and Implement a Rate Limiter Middleware. The rate limiter receives a Req object and can return if the response should be rate-limited or not. Consider concepts like client retries, tolerance, and caching when designing this component.
+3. Design and Implement a Rate Limiter Middleware. The rate limiter receives a Req object and can return if the response should be rate-limited or not. Consider concepts like client retries, tolerance, and caching when designing this component. 
+
+Hint:
+```
+function rateLimiterMiddleware(req, res) {
+  // if condition
+  //   res.status('XXX')
+  res.status('200')
+}
+```
 
 4. Primer number checker. Create a function that detects if a number is a primer number. It should be better than O(n). How would you optimize this function if you called this sequentially from 1..n?
 
