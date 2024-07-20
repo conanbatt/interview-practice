@@ -6,7 +6,7 @@ Consult the [Interview Readiness Guide for an overview](https://www.notion.so/si
 
 ## Basic Prepping
 
-All application developers should complete the [coding challenges]() section in the language of your choice.
+The following materials apply for almost any engineering role. 
 
 - [Coding Challenges](https://github.com/conanbatt/interview-practice/tree/main/coding-challenges)
 - [Behavioral Prepping](https://github.com/conanbatt/interview-practice/tree/main/behavioral)
@@ -14,13 +14,19 @@ All application developers should complete the [coding challenges]() section in 
 
 ## Profile-specific Prepping
 
-- [Backend](https://github.com/conanbatt/interview-practice/tree/main/backend)
-- [Frontend](https://github.com/conanbatt/interview-practice/tree/main/frontend)
-- [Data Engineering](https://github.com/conanbatt/interview-practice/tree/main/data-engineering)
+- [Backend](https://github.com/conanbatt/interview-practice/tree/main/profile-specific/backend)
+- [Frontend](https://github.com/conanbatt/interview-practice/tree/main/profile-specific/frontend)
+- [Data Engineering](https://github.com/conanbatt/interview-practice/tree/main/profile-specific/data-engineering)
 
-## Advanced Prepping
+## Advanced & Skill based Prepping
 
-- [Quizzes] Quizzes for seniority, deep understanding and language mastery
+- [Quizzes](https://github.com/conanbatt/interview-practice/tree/main/misc/quizzes)
+- [Typing](https://github.com/conanbatt/interview-practice/tree/main/misc/typing)
+
+## SilverEd - Recoup up to 1000$ on your education spending
+
+SilverEd is a program where Silver covers your education costs on selected courses if you are placed through Silver.dev.
+Check qualifying courses and benefits at [SilverEd](https://silver.dev/ed)
 
 ## Contributions
 
