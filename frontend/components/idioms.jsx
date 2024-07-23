@@ -10,40 +10,51 @@
 import { useEffect } from 'react'
 
 export function FunctionsAsComponents({ buttonText = 'Start Now' }) {
-  const showButton = () => {
+
+  return (<div>
     <button>
       {buttonText}
     </button>
-  }
-
-  return (<div>
-    {showButton()}
   </div>)
 }
 
+// shallow copy
 export function objectCopying() {
   const object = { a: { c: 1 }, b: 2 }
+  // What is this supposed to do? Not returning the changed object
   const copy = { ...object }
   copy.a.c = 2
-  return { ...object }
+  return { ...object, a: {
+    ...object.a,
+    c: 2
+  } }
 }
 
 export function arrayCopying() {
   const array = [{ a: 1}, {a: 2}, {a: 3}]
-  const copy = [...array]
-  return copy;
+  return [...array];
+}
+
+function useFetch(url) {
+  const [response, setResponse] = useState({})
+  useEffect(() => {
+    setResponse({ isLoading: true })
+    const fetchData = async () => {
+      const data = await fetch(url).then(blob => blob.json()).catch(e => setResponse({ error: e, isLoading: false }));
+      setResponse({ isLoading: false, data })
+    };
+    
+    fetchData();
+  }, [url]);
+
+  return response;
 }
 
 // user abort
 export function UseEffect({ fetchURL, label }) {
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetch(fetchURL);
-    };
-    
-    fetchData();
-  }, [fetchURL]);
+  const { isLoading, data, error } = useFetch(fetchURL);
 
+  // do something with this.
   return (
     <div>
       <button>{label}</button>
@@ -52,42 +63,39 @@ export function UseEffect({ fetchURL, label }) {
 }
 
 export function UseEffectDerivedCalculation() {
-  const [remainder, setReminder] = useState()
   const [clickedTimes, setClickedTimes] = useState()
-
-  useEffect(() => {
-    setReminder(clickedTimes % 5)
-  }, [clickedTimes])
 
   const handleClick = () => setClickedTimes(clickedTimes + 1)
 
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
+      {/* <span>
+         {sum} variable does not exist, remove
+       </span>*/}
       <span>
-        {sum}
-      </span>
-      <span>
-        {remainder}
+        {clickedTimes % 5}
       </span>
     </div>
   )
 }
 
 export function UseEffectLifeCycle() {
-  const [_loaded, setLoaded] = useState()
+  const [, setLoaded] = useState()
 
   useEffect(() => {
-    setTimeout(() => setLoaded(true), 1000)
+    const timeout = setTimeout(() => setLoaded(true), 1000)
+
+    return () => {
+      clearTimeout(timeout);
+    }
   }, [])
 
-  const handleClick = () => setClickedTimes(clickedTimes + 1)
 
   return (
     <div>
-      <button onClick={handleClick}>Add Click Count</button>
       <span>
-        {clickedTimes}
+        Something.
       </span>
     </div>
   )
@@ -97,9 +105,13 @@ export function DirtyUnmount() {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setTime(t => t + 1)
     }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   return (
@@ -109,6 +121,7 @@ export function DirtyUnmount() {
   )
 }
 
+// wont return to "Unmounted" state unless done manually in the use effect
 export function AvoidingUseState() {
   const ref = useRef('Unmounted');
 
@@ -125,6 +138,7 @@ export function AvoidingUseState() {
 
 async function API() { return true }
 
+// Similar to the useFetch hook, the loading var needs to be in react state to trigger re-render
 export function UntraceableState() {
   const [result, setResult] = useState()  
   let loading = false
@@ -148,16 +162,17 @@ export function UntraceableState() {
   )
 }
 
+const calendarDays = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
 export function CrudeDeclarations() {
-  const calendarDays = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
   return (<ol>
     {calendarDays.map((val) => <span key={val}>{val}</span>)}
   </ol>)
 }
 
+const MIN_AGE = 18;
 export function MagicNumbers(age) {
   return (<ol>
-    { age < 18 ? <div>Spicy</div> : <div>You are not old enough</div>}
+    { age < MIN_AGE ? <div>Spicy</div> : <div>You are not old enough</div>}
   </ol>)
 }
 
@@ -166,27 +181,35 @@ export function UnidiomaticHTMLStructure() {
   const handleSubmit = (e) => {}
 
   return (<div>
-    <input value={name} name="name" type="text" onChange={setName} />
+    <input value={name} name="name" type="text" onChange={(e) => setName(e.target.value)} />
     <button type="submit" onClick={handleSubmit}>Submit</button>
   </div>)
 }
 
 export function CrudeStateManagement() {
-  const [name, setName] = useState("")
-  const [age, setAge] = useState("")
-  const [location, setLocation] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  
+  const [name, setName] = useState({
+    name: "",
+    age: "",
+    location: "",
+    email: "",
+    password; ""
+  })
+
+  function handleFormValueChange(e) {
+    setName({
+      ...name,
+      [this.name]: this.value
+    })
+  }
 
   const handleSubmit = (e) => {}
 
   return (<form onSubmit={handleSubmit}>
-    <input value={name} name="name" type="text" onChange={setName} />
-    <input value={age} name="age" type="number" onChange={setAge} />
-    <input value={location} name="location" type="text" onChange={setLocation} />
-    <input value={email} name="email" type="email" onChange={setEmail} />
-    <input value={password} name="password" type="password" onChange={setPassword} />
+    <input value={name} name="name" type="text" onChange={handleFormValueChange} />
+    <input value={age} name="age" type="number" onChange={handleFormValueChange} />
+    <input value={location} name="location" type="text" onChange={handleFormValueChange} />
+    <input value={email} name="email" type="email" onChange={handleFormValueChange} />
+    <input value={password} name="password" type="password" onChange={handleFormValueChange} />
     <button type="submit">Submit</button>
   </form>)
 }
@@ -221,14 +244,15 @@ export function DangerousIdentifier() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const person = new FormData(e.target);
+    const data = new FormData(e.currentTarget);
+    const person = data.get("person");
     setPeople(ppl => [...ppl, ...person])
   }
 
   return(
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" />
+        <input type="text" name="person" />
         <button>Add Person</button>
       </form>
       <ul>
@@ -246,20 +270,12 @@ export function UnnecessaryEffectTriggering() {
   const [leader, setLeader] = useState({})
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const leader = await fetchLeader()
+    const getLeader = async () => {
+      const leader = await fetchLeader().then((l) => fetchDetails(l));
       setLeader(leader)
-    }, 1000)
-    return () => clearInterval(interval)
+    }
   }, [])
 
-  useEffect(() => {
-    async function enhanceRecord() {
-      const enriched = await fetchDetails(leader);
-      setLeader(enriched);
-    }
-    enhanceRecord();
-  }, [leader]); 
 
 
   return(
@@ -274,9 +290,9 @@ async function trackClick(ids) { return ids }
 
 // Hint: same error pattern as above
 export function IncorrectDependencies(records) {
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     trackClick(records);
-  }, [records]);
+  };
 
   return(
     <div>
@@ -287,13 +303,12 @@ export function IncorrectDependencies(records) {
 }
 
 export function UnnecessaryFunctionRedefinitions(emails) {
-  const validateEmail = (email) => email.includes("@")
 
   return(
     <div>
       {emails.map(email => (
         <div key={email}>
-          {email} is {validateEmail(email) ? 'Valid' : 'Invalid'}
+          {email} is {email.includes("@") ? 'Valid' : 'Invalid'}
         </div>
       ))}
     </div>
@@ -307,14 +322,11 @@ async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
 export function SerialLoading() {
 
   const [records, setRecords] = useState([])
-  const [altRecords, setAltRecords] = useState([])
   
   useEffect(() => {
     async function loadRecords() {
-      const recs = await fetchRecords();
-      const altRecs = await fetchAlternateRecords();
-      setRecords(recs);
-      setAltRecords(altRecs);
+      const [recs, altRecs] = await Promise.all([fetchRecords(), fetchAlternateRecords()]);
+      setRecords([...recs, ...altRecs]);
     }
     loadRecords();
   }, []);
@@ -322,7 +334,6 @@ export function SerialLoading() {
   return(
     <div>
       {records.map(rec => <div key={rec.id}></div>)}
-      {altRecords.map(rec => <div key={rec.id}></div>)}
     </div>
   )
 }
@@ -336,13 +347,10 @@ export function UnoptimizableRenderingStructure(altRecords) {
   
   useEffect(() => {
     async function loadRecords() {
-      const interval = setInterval(async () => {
         const recs = await fetchRecords();
         setRecords(recs);
-      }, 5000);
-  
-      return () => clearInterval(interval);
     }
+  
     loadRecords();
   }, []); 
 
