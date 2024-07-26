@@ -7,41 +7,41 @@
   Some references used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
-import { useEffect } from 'react'
+import { useEffect } from 'react';
+
+export const ShowButton = ({ buttonText }) => {
+  <button>{buttonText}</button>;
+};
 
 export function FunctionsAsComponents({ buttonText = 'Start Now' }) {
-  const showButton = () => {
-    <button>
-      {buttonText}
-    </button>
-  }
-
-  return (<div>
-    {showButton()}
-  </div>)
+  return (
+    <div>
+      <ShowButton buttonText={buttonText} />
+    </div>
+  );
 }
 
 export function objectCopying() {
-  const object = { a: { c: 1 }, b: 2 }
-  const copy = { ...object }
-  copy.a.c = 2
-  return { ...object }
+  const object = { a: { c: 1 }, b: 2 };
+  const copy = object; // doesn't make sense to deconstruct for nothing
+  copy['a']['c'] = 2; // not sure if this is better though feels the same
+  return object;
 }
 
 export function arrayCopying() {
-  const array = [{ a: 1}, {a: 2}, {a: 3}]
-  const copy = [...array]
+  const array = [{ a: 1 }, { a: 2 }, { a: 3 }];
+  const copy = array; // doesn't make sense to deconstruct for nothing
   return copy;
 }
 
 // user abort
+const fetchData = async (fetchURL) => {
+  // no need to create the function every time on the useEffect
+  await fetch(fetchURL);
+};
 export function UseEffect({ fetchURL, label }) {
   useEffect(() => {
-    const fetchData = async () => {
-      await fetch(fetchURL);
-    };
-    
-    fetchData();
+    fetchData(fetchURL); //not doing much with the data not sure if meaningful
   }, [fetchURL]);
 
   return (
@@ -52,91 +52,72 @@ export function UseEffect({ fetchURL, label }) {
 }
 
 export function UseEffectDerivedCalculation() {
-  const [remainder, setReminder] = useState()
-  const [clickedTimes, setClickedTimes] = useState()
+  const [clickedTimes, setClickedTimes] = useState(0); // default state
 
-  useEffect(() => {
-    setReminder(clickedTimes % 5)
-  }, [clickedTimes])
-
-  const handleClick = () => setClickedTimes(clickedTimes + 1)
-
+  const handleClick = () => setClickedTimes(clickedTimes + 1);
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>
-        {sum}
-      </span>
-      <span>
-        {remainder}
-      </span>
+      <span>{clickedTimes}</span>
+      <span>{clickedTimes % 5}</span>
+      {/* no need for a new state for something that can be set in the line */}
     </div>
-  )
+  );
 }
 
 export function UseEffectLifeCycle() {
-  const [_loaded, setLoaded] = useState()
-
-  useEffect(() => {
-    setTimeout(() => setLoaded(true), 1000)
-  }, [])
-
-  const handleClick = () => setClickedTimes(clickedTimes + 1)
+  const [clickedTimes, setClickedTimes] = useState(0);
+  // no need of use effect here
+  const handleClick = () => setClickedTimes(clickedTimes + 1);
 
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>
-        {clickedTimes}
-      </span>
+      <span>{clickedTimes}</span>
     </div>
-  )
+  );
 }
 
 export function DirtyUnmount() {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
-      setTime(t => t + 1)
-    }, 1000)
-  }, [])
+    const id = setInterval(() => {
+      setTime((t) => t + 1);
+    }, 1000);
+    return () => clearInterval(id); //clean it up
+  }, []);
 
-  return (
-    <div>
-      Clock in seconds: {time}
-    </div>
-  )
+  return <div>Clock in seconds: {time}</div>;
 }
 
 export function AvoidingUseState() {
+  // ref doesn't update the screen, so it if you wanna see Mounted you should use State here.
   const ref = useRef('Unmounted');
 
   useEffect(() => {
-    ref.current = "Mounted"
-  }, [])
+    ref.current = 'Mounted';
+  }, []);
 
-  return (
-    <div>
-      {ref.current}
-    </div>
-  )
+  return <div>{ref.current}</div>;
 }
 
-async function API() { return true }
+async function API() {
+  return true;
+}
 
 export function UntraceableState() {
-  const [result, setResult] = useState()  
-  let loading = false
+  const [result, setResult] = useState(''); // default
+  let loading = false;
 
   useEffect(() => {
     const fetchData = async () => {
-      loading = true
-      const result = await API();
+      loading = true;
+      const response = await API(); // let's not name it the same
       loading = false;
-      setResult(result);
+      setResult(response);
     };
-      
+
     fetchData();
   }, []);
 
@@ -145,216 +126,309 @@ export function UntraceableState() {
       <span>Loading: {loading}</span>
       Result:{result}
     </div>
-  )
+  );
 }
 
 export function CrudeDeclarations() {
-  const calendarDays = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
-  return (<ol>
-    {calendarDays.map((val) => <span key={val}>{val}</span>)}
-  </ol>)
+  const calendarDays = [...Array(30).keys()]; // Less prone to error, cleaner
+  return (
+    <ol>
+      {calendarDays.map((val) => (
+        <span key={val}>{val}</span>
+      ))}
+    </ol>
+  );
 }
 
 export function MagicNumbers(age) {
-  return (<ol>
-    { age < 18 ? <div>Spicy</div> : <div>You are not old enough</div>}
-  </ol>)
+  // Set a varible instead of hardcoded number;
+  const minor = age < 18;
+  return (
+    <ol>{minor ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
+  );
 }
 
 export function UnidiomaticHTMLStructure() {
-  const [name, setName] = useState("")
-  const handleSubmit = (e) => {}
-
-  return (<div>
-    <input value={name} name="name" type="text" onChange={setName} />
-    <button type="submit" onClick={handleSubmit}>Submit</button>
-  </div>)
+  const [name, setName] = useState('');
+  const handleSubmit = (e) => {};
+  //Fix to a form with a proper onchange
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        value={name}
+        name='name'
+        type='text'
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button type='submit'>Submit</button>
+    </form>
+  );
 }
 
 export function CrudeStateManagement() {
-  const [name, setName] = useState("")
-  const [age, setAge] = useState("")
-  const [location, setLocation] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  
+  const [data, setData] = useState({
+    name: '',
+    age: '',
+    location: '',
+    email: '',
+    password: '',
+  }); // Have data in an object
 
-  const handleSubmit = (e) => {}
-
-  return (<form onSubmit={handleSubmit}>
-    <input value={name} name="name" type="text" onChange={setName} />
-    <input value={age} name="age" type="number" onChange={setAge} />
-    <input value={location} name="location" type="text" onChange={setLocation} />
-    <input value={email} name="email" type="email" onChange={setEmail} />
-    <input value={password} name="password" type="password" onChange={setPassword} />
-    <button type="submit">Submit</button>
-  </form>)
+  const handleSubmit = (e) => {};
+  const handleChange = (e) =>
+    setData({ ...data, [e.target.name]: e.target.value }); //use a shared function
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        value={data.name}
+        name='name'
+        type='text'
+        onChange={handleChange}
+      />
+      <input
+        value={data.age}
+        name='age'
+        type='number'
+        onChange={handleChange}
+      />
+      <input
+        value={location}
+        name='location'
+        type='text'
+        onChange={handleChange}
+      />
+      <input
+        value={data.email}
+        name='email'
+        type='email'
+        onChange={handleChange}
+      />
+      <input
+        value={data.password}
+        name='password'
+        type='password'
+        onChange={handleChange}
+      />
+      <button type='submit'>Submit</button>
+    </form>
+  );
 }
 
 export function UnidiomaticHTMLHierarchy() {
-  const bids = [1,2,3]
-  const asks = [1,2,3]
+  const bids = [1, 2, 3];
+  const asks = [1, 2, 3];
 
-  return (<li>
-    {bids.map((bid, i) => <span key={i}>{bid}</span>)}
-    {asks.map((ask, j) => <span key={j+'asks'}>{ask}</span>)}
-  </li>)
+  return (
+    <ul>
+      {bids.map((bid, i) => (
+        <li key={i}>{bid}</li> //use ul/li
+      ))}
+      {asks.map((ask, j) => (
+        <li key={j + 'asks'}>{ask}</li>
+      ))}
+    </ul>
+  );
 }
 
 export function SubstandardDataStructure() {
-  const [error, setError] = useState("")
+  const Errors = {
+    ERROR_A: 'Error A',
+    ERROR_B: 'Error B',
+    NO_ERROR: '',
+  };
+  const [error, setError] = useState(Errors.NO_ERROR); // set data structure to Enums
 
-  return(
+  return (
     <div>
-      <button onClick={() => setError('Error A')}>Throw Error A</button>
-      <button onClick={() => setError('Error B')}>Throw Error B</button>
-      <button onClick={() => setError('')}>Clear Errors</button>
-      <div>
-        {error}
-      </div>
+      <button onClick={() => setError(Errors.ERROR_A)}>Throw Error A</button>
+      <button onClick={() => setError(Errors.ERROR_B)}>Throw Error B</button>
+      <button onClick={() => setError(Errors.NO_ERROR)}>Clear Errors</button>
+      <div>{error}</div>
     </div>
-  )
+  );
 }
 
 export function DangerousIdentifier() {
-  const [people, setPeople] = useState([])
+  const [people, setPeople] = useState([]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const person = new FormData(e.target);
-    setPeople(ppl => [...ppl, ...person])
-  }
+    setPeople((ppl) => [...ppl, ...person]);
+  };
 
-  return(
+  return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" />
+        <input type='text' />
         <button>Add Person</button>
       </form>
       <ul>
-        {people.map(person => <span key={person.name}>{person.name}</span>)}
+        {people.map((person, index) => (
+          <span key={person.name + index}>{person.name}</span> // people could have the same name
+        ))}
       </ul>
     </div>
-  )
+  );
 }
 
-async function fetchLeader() { return { name: 'Messi' }}
-async function fetchDetails(leader) { return { ...leader, country: 'Argentina' }}
+async function fetchLeader() {
+  return { name: 'Messi' };
+}
+async function fetchDetails(leader) {
+  return { ...leader, country: 'Argentina' };
+}
 
 // Hint: this only requires a single line change!
 export function UnnecessaryEffectTriggering() {
-  const [leader, setLeader] = useState({})
+  const [leader, setLeader] = useState({});
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const leader = await fetchLeader()
-      setLeader(leader)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+      const leader = await fetchLeader();
+      setLeader(leader);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
+    if (!leader) return; //leader will be empty at the begging
     async function enhanceRecord() {
       const enriched = await fetchDetails(leader);
       setLeader(enriched);
     }
     enhanceRecord();
-  }, [leader]); 
+  }, [leader]);
 
-
-  return(
+  return (
     <div>
       <div>Leader:{leader.name}</div>
       {leader.country && <div>{`From: ${leader.country}`}</div>}
     </div>
-  )
+  );
 }
 
-async function trackClick(ids) { return ids }
+async function trackClick(ids) {
+  return ids;
+}
 
 // Hint: same error pattern as above
 export function IncorrectDependencies(records) {
-  const handleClick = useCallback(() => {
-    trackClick(records);
-  }, [records]);
+  //stable records
+  const stableRecords = useMemo(() => records, [JSON.stringify(records)]);
 
-  return(
+  const handleClick = useCallback(() => {
+    trackClick(stableRecords);
+  }, [stableRecords]);
+
+  return (
     <div>
-      {records.map(record => <div id={record.id}>{record.name}</div>)}
+      {records.map((record) => (
+        <div id={record.id}>{record.name}</div>
+      ))}
       <button onClick={handleClick}>Click me!</button>
     </div>
-  )
+  );
 }
 
 export function UnnecessaryFunctionRedefinitions(emails) {
-  const validateEmail = (email) => email.includes("@")
+  // remove unnnecesary abstraction, added complexity
 
-  return(
+  return (
     <div>
-      {emails.map(email => (
+      {emails.map((email) => (
         <div key={email}>
-          {email} is {validateEmail(email) ? 'Valid' : 'Invalid'}
+          {email} is {email.includes('@') ? 'Valid' : 'Invalid'}
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-
-async function fetchRecords() { return [{id: 1, type: 'record'}]}
-async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
+async function fetchRecords() {
+  return [{ id: 1, type: 'record' }];
+}
+async function fetchAlternateRecords() {
+  return [{ id: 1, type: 'alt-record' }];
+}
 
 export function SerialLoading() {
+  const [records, setRecords] = useState([]);
+  const [altRecords, setAltRecords] = useState([]);
 
-  const [records, setRecords] = useState([])
-  const [altRecords, setAltRecords] = useState([])
-  
   useEffect(() => {
     async function loadRecords() {
-      const recs = await fetchRecords();
-      const altRecs = await fetchAlternateRecords();
+      const [recs, altRecs] = await Promise.all([
+        fetchRecords(),
+        fetchAlternateRecords(),
+      ]); //fetch in parallel
       setRecords(recs);
       setAltRecords(altRecs);
     }
     loadRecords();
   }, []);
 
-  return(
+  return (
     <div>
-      {records.map(rec => <div key={rec.id}></div>)}
-      {altRecords.map(rec => <div key={rec.id}></div>)}
+      {records.map((rec) => (
+        <div key={rec.id}></div>
+      ))}
+      {altRecords.map((rec) => (
+        <div key={rec.id}></div>
+      ))}
     </div>
-  )
+  );
 }
 
-async function fetchRecords() { return [{id: 1, type: 'record'}]}
-async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
+async function fetchRecords() {
+  return [{ id: 1, type: 'record' }];
+}
+async function fetchAlternateRecords() {
+  return [{ id: 1, type: 'alt-record' }];
+}
 
 // Hint: part of the rendering structure is re-rendered frequently unnecessarily
 export function UnoptimizableRenderingStructure(altRecords) {
-  const [records, setRecords] = useState([])
-  
+  const [records, setRecords] = useState([]);
+
   useEffect(() => {
     async function loadRecords() {
       const interval = setInterval(async () => {
         const recs = await fetchRecords();
         setRecords(recs);
       }, 5000);
-  
+
       return () => clearInterval(interval);
     }
     loadRecords();
-  }, []); 
+  }, []);
+  // Cache records to be only re-render when each dependency updates
+  const Records = useMemo(
+    () => (
+      <ul>
+        {records.map((rec) => (
+          <li key={rec.id}>{rec.id}</li>
+        ))}
+      </ul>
+    ),
+    [records],
+  );
 
+  const AltRecords = useMemo(
+    () => (
+      <ul>
+        {altRecords.map((rec) => (
+          <li key={rec.id}>{rec.id}</li>
+        ))}
+      </ul>
+    ),
+    [altRecords],
+  );
 
-  return(
+  return (
     <div>
-      <ul>
-        {records.map(rec => <li key={rec.id}>{rec.id}</li>)}
-      </ul>
-      <ul>
-        {altRecords.map(rec => <li key={rec.id}>{rec.id}</li>)}
-      </ul>
+      <Records />
+      <AltRecords />
     </div>
-  )
+  );
 }
