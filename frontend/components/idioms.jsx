@@ -161,7 +161,7 @@ export function MagicNumbers(age) {
 export function UnidiomaticHTMLStructure() {
   const [name, setName] = useState('');
   const handleSubmit = (e) => {};
-  //Fix to a form with a proper onchange
+  // Fixed the handle submit to be part of a form instead of a div, in which the button has a type of submit and the form uses onSubmit fixing the HTML structure
   return (
     <form onSubmit={handleSubmit}>
       <input
