@@ -23,27 +23,37 @@ export function FunctionsAsComponents({ buttonText = 'Start Now' }) {
 
 export function objectCopying() {
   const object = { a: { c: 1 }, b: 2 };
-  const copy = object; // doesn't make sense to deconstruct for nothing
-  copy['a']['c'] = 2; // not sure if this is better though feels the same
-  return object;
+  const copy = {
+    ...object,
+    a: { ...object.a },
+  };
+  copy['a']['c'] = 2;
+  return copy;
 }
 
 export function arrayCopying() {
   const array = [{ a: 1 }, { a: 2 }, { a: 3 }];
-  const copy = array; // doesn't make sense to deconstruct for nothing
+  const copy = array.map((item) => ({ ...item }));
   return copy;
 }
 
 // user abort
-const fetchData = async (fetchURL) => {
-  // no need to create the function every time on the useEffect
-  await fetch(fetchURL);
-};
 export function UseEffect({ fetchURL, label }) {
   useEffect(() => {
-    fetchData(fetchURL); //not doing much with the data not sure if meaningful
-  }, [fetchURL]);
+    const controller = new AbortController();
+    const signal = controller.signal;
 
+    const fetchData = async () => {
+      await fetch(fetchURL, { signal });
+    };
+
+    fetchData();
+
+    // Cleanup function to abort fetch on component unmount or fetchURL change
+    return () => {
+      controller.abort();
+    };
+  }, [fetchURL]);
   return (
     <div>
       <button>{label}</button>
@@ -55,12 +65,12 @@ export function UseEffectDerivedCalculation() {
   const [clickedTimes, setClickedTimes] = useState(0); // default state
 
   const handleClick = () => setClickedTimes(clickedTimes + 1);
+  const reminder = clickedTimes % 5;
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
       <span>{clickedTimes}</span>
-      <span>{clickedTimes % 5}</span>
-      {/* no need for a new state for something that can be set in the line */}
+      <span>{reminder}</span>
     </div>
   );
 }
@@ -108,13 +118,13 @@ async function API() {
 
 export function UntraceableState() {
   const [result, setResult] = useState(''); // default
-  let loading = false;
+  const [loading, setLoading] = useState(false); // useState for loading
 
   useEffect(() => {
     const fetchData = async () => {
-      loading = true;
+      setLoading(true);
       const response = await API(); // let's not name it the same
-      loading = false;
+      setLoading(false);
       setResult(response);
     };
 
@@ -139,10 +149,10 @@ export function CrudeDeclarations() {
     </ol>
   );
 }
-
+const AGE_LIMIT = 18;
 export function MagicNumbers(age) {
   // Set a varible instead of hardcoded number;
-  const minor = age < 18;
+  const minor = age < AGE_LIMIT;
   return (
     <ol>{minor ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
   );
@@ -231,19 +241,32 @@ export function UnidiomaticHTMLHierarchy() {
 }
 
 export function SubstandardDataStructure() {
-  const Errors = {
-    ERROR_A: 'Error A',
-    ERROR_B: 'Error B',
-    NO_ERROR: '',
+  const [errors, setErrors] = useState([]);
+
+  const throwError = (id, message) => {
+    setErrors((prevErrors) => [...prevErrors, { id, message }]);
   };
-  const [error, setError] = useState(Errors.NO_ERROR); // set data structure to Enums
+
+  const clearAllErrors = () => {
+    setErrors([]);
+  };
 
   return (
     <div>
-      <button onClick={() => setError(Errors.ERROR_A)}>Throw Error A</button>
-      <button onClick={() => setError(Errors.ERROR_B)}>Throw Error B</button>
-      <button onClick={() => setError(Errors.NO_ERROR)}>Clear Errors</button>
-      <div>{error}</div>
+      <button onClick={() => throwError('errorA', 'Error A occurred')}>
+        Throw Error A
+      </button>
+      <button onClick={() => throwError('errorB', 'Error B occurred')}>
+        Throw Error B
+      </button>
+      <button onClick={() => clearAllErrors()}>Clear Errors</button>
+      <div>
+        {errors.map((error) => (
+          <div key={error.id}>
+            {error.id}: {error.message}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -292,13 +315,12 @@ export function UnnecessaryEffectTriggering() {
   }, []);
 
   useEffect(() => {
-    if (!leader) return; //leader will be empty at the begging
     async function enhanceRecord() {
       const enriched = await fetchDetails(leader);
       setLeader(enriched);
     }
     enhanceRecord();
-  }, [leader]);
+  }, [leader.name]); // only trigger on the leader name change and not country
 
   return (
     <div>
@@ -314,12 +336,11 @@ async function trackClick(ids) {
 
 // Hint: same error pattern as above
 export function IncorrectDependencies(records) {
-  //stable records
-  const stableRecords = useMemo(() => records, [JSON.stringify(records)]);
+  const memoizedRecords = useMemo(() => records, [records]); // Memoize records to make sure not to re-run callback more than needed
 
   const handleClick = useCallback(() => {
-    trackClick(stableRecords);
-  }, [stableRecords]);
+    trackClick(records);
+  }, [memoizedRecords]);
 
   return (
     <div>
@@ -331,14 +352,13 @@ export function IncorrectDependencies(records) {
   );
 }
 
+const validateEmail = (email) => email.includes('@'); // Function outside of the component to not be redefined on render
 export function UnnecessaryFunctionRedefinitions(emails) {
-  // remove unnnecesary abstraction, added complexity
-
   return (
     <div>
       {emails.map((email) => (
         <div key={email}>
-          {email} is {email.includes('@') ? 'Valid' : 'Invalid'}
+          {email} is {validateEmail(email) ? 'Valid' : 'Invalid'}
         </div>
       ))}
     </div>
