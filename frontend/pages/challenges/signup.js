@@ -29,7 +29,6 @@ export default function SignupForm() {
            1. Utilze the mock API function to handle submissions
         5. Basic aesthetics with pure CSS
       </p>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/M8fqHaJU_cc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </>
   )
 }
