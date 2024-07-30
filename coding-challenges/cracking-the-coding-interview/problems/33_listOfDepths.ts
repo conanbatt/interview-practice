@@ -1,6 +1,6 @@
 // 3. *List of Depths*:
 
-// Given a binary tree, design an algorithm which creates a linked list
+// Given a binary tree, design an algorithm which creates a list of linked lists
 // of all the nodes at each depth (e.g., if you have a tree with depth D,
 // you'll have D linked lists).
 
@@ -15,6 +15,6 @@ export type ListNode<T> = {
     next?: ListNode<T>;
 };
 
-export default function listOfDepths<T>(root: TreeNode<T> | null): ListNode<ListNode<number>>[] {
+export default function listOfDepths<T>(root: TreeNode<T> | null): ListNode<T>[] {
  
 }

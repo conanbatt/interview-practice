@@ -39,7 +39,7 @@ describe('listOfDepths', () => {
 
     test('creates linked lists for single node tree', () => {
         const root: TreeNode<number> = { value: 1 };
-        const expectedList: ListNode<ListNode<number>>[] = [{ value: { value: 1, next: undefined } }];
+        const expectedList: ListNode<number>[] = [{ value: 1, next: undefined }];
         expect(listOfDepths(root)).toEqual(expectedList);
     });
 });
