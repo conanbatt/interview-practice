@@ -5,8 +5,9 @@
 // push()
 // head / tail accessors
 
-function isSubstring(s1: string, s2: string): boolean {
-  return s1.includes(s2);
-}
+export type Node<T> = {
+  next: Node<T> | undefined;
+  value: T;
+};
 
-export default function stringRotation(s1: string, s2: string): boolean {}
+export class LinkedList {}
