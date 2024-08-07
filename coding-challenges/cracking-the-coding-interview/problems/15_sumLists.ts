@@ -16,7 +16,7 @@ export type Node<T> = {
   next?: Node<T>;
 };
 
-
-export default function sumLists(list1: Node<number> | undefined, list2: Node<number> | undefined): Node<number> | undefined {
-    
-}
+export default function sumLists(
+  list1: Node<number> | undefined,
+  list2: Node<number> | undefined,
+): Node<number> | undefined {}

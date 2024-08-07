@@ -9,6 +9,7 @@ export type Node<T> = {
   next?: Node<T>;
 };
 
-export default function kthToLast<T>(head: Node<T>, k: number): Node<T> | undefined {
-    
-}
+export default function kthToLast<T>(
+  head: Node<T>,
+  k: number,
+): Node<T> | undefined {}

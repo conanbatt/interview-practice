@@ -17,7 +17,7 @@ export type Node<T> = {
   next?: Node<T>;
 };
 
-
-export default function deleteMiddleNode<T>(head: Node<T>, position: number): Node<T> | null {
-
-}
+export default function deleteMiddleNode<T>(
+  head: Node<T>,
+  position: number,
+): Node<T> | undefined {}

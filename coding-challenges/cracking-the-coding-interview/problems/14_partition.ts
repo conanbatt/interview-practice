@@ -19,6 +19,7 @@ export type Node<T> = {
   next?: Node<T>;
 };
 
-export default function partition<T>(head: Node<T> | undefined, x: T): Node<T> | undefined {
-  
-}
+export default function partition<T>(
+  head: Node<T> | undefined,
+  x: T,
+): Node<T> | undefined {}

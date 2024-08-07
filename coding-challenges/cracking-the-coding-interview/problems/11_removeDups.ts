@@ -12,6 +12,4 @@ export type Node<T> = {
   next?: Node<T>;
 };
 
-export default function removeDups<T>(head?: Node<T>): Node<T> | undefined {
-    if (head === undefined) return undefined;
-}
+export default function removeDups<T>(head?: Node<T>): Node<T> | undefined {}

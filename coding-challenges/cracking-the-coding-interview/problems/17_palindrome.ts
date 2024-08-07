@@ -9,7 +9,4 @@ export type Node<T> = {
   next?: Node<T>;
 };
 
-
-export default function isPalindrome<T>(head: Node<T> | undefined): boolean {
-
-}
+export default function isPalindrome<T>(head: Node<T> | undefined): boolean {}
