@@ -13,9 +13,11 @@
 // Output:9 -> 1 -> 2,Thatis,912.
 // ```
 
+import { LinkedList } from "./10_LinkedList";
+
 export type Node<T> = {
-    value: T;
-    next?: Node<T>;
+  value: T;
+  next?: Node<T>;
 };
 
 

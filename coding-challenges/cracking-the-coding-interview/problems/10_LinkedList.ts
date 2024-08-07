@@ -1,13 +1,13 @@
 // 10. *Implement a Linked List*;
 
 // Create the data structure with the corresponding initial functions:
-// constructor
 // push()
 // head / tail accessors
 
 export type Node<T> = {
-  next: Node<T> | undefined;
+  next?: Node<T> | undefined;
   value: T;
 };
 
-export class LinkedList {}
+export class LinkedList<T> {
+}
