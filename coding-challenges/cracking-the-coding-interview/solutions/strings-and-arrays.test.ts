@@ -6,6 +6,8 @@ import isPalindromePermutation from "./palindrome-permutation";
 import zeroMatrix from "./zero-matrix";
 import stringRotation from "./string-rotation";
 import rotateMatrix from "./rotate-matrix";
+import stringCompression from "./string-compression";
+import oneAway from "./one-away";
 
 describe("isUnique", () => {
   it("should return true for an empty string", () => {
@@ -108,6 +110,7 @@ describe("oneAway", () => {
 
   it("should return false for strings with different lengths more than one", () => {
     expect(oneAway("pale", "paleeee")).toBe(false);
+    expect(oneAway("paleeeee", "pale")).toBe(false);
   });
 
   it("should return true for one insert away", () => {

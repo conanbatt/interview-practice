@@ -10,12 +10,12 @@
 
 export default function isPalindromePermutation(s: string) {
   const str = s.toLowerCase().replace(" ", "");
+  const m = new Map();
   for (let i = 0; i < str.length; i++) {
-    if (
-      str.charAt(i).toLowerCase() !==
-      str.charAt(str.length - (i + 1)).toLowerCase()
-    )
-      return false;
+    if (!m.get(str[i])) m.set(str[i], 0);
+
+    m.set(str[i], m.get(str[i]) + 1);
   }
-  return true;
+
+  return [...m.values()].filter((v) => v % 2 === 1).length < 2;
 }
