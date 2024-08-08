@@ -1,0 +1,15 @@
+{
+  "name": "coding-challenges",
+  "version": "1.0.0",
+  "description": "The bible of coding challenges is Cracking the Coding Interview. The book contains a good source of explanations, problems and even hints on how to solve many of them, as well as solutions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vitest": "^2.0.5"
+  }
+}
