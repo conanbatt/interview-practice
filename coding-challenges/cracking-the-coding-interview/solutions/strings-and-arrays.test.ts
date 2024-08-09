@@ -183,7 +183,7 @@ describe("rotateMatrix", () => {
 });
 
 describe("zeroMatrix", () => {
-  it("should set entire row and column to zero if an element is zero", () => {
+  it.only("should set entire row and column to zero if an element is zero", () => {
     const matrix = [
       [1, 2, 3],
       [4, 0, 6],
