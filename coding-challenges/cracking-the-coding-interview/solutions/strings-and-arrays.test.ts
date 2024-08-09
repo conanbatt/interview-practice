@@ -183,7 +183,7 @@ describe("rotateMatrix", () => {
 });
 
 describe("zeroMatrix", () => {
-  it.only("should set entire row and column to zero if an element is zero", () => {
+  it("should set entire row and column to zero if an element is zero", () => {
     const matrix = [
       [1, 2, 3],
       [4, 0, 6],
@@ -242,7 +242,7 @@ describe("stringRotation", () => {
   });
 
   it("should return false if s2 is not a rotation of s1", () => {
-    expect(stringRotation("waterbottle", "bottlewater")).toBe(false);
+    expect(stringRotation("waterbottle", "bottlweater")).toBe(false);
   });
 
   it("should handle empty strings", () => {
