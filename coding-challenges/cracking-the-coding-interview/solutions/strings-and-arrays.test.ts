@@ -239,10 +239,12 @@ describe("zeroMatrix", () => {
 describe("stringRotation", () => {
   it("should return true if s2 is a rotation of s1", () => {
     expect(stringRotation("waterbottle", "erbottlewat")).toBe(true);
+    expect(stringRotation("waterbwttle", "erbwttlewat")).toBe(true);
   });
 
   it("should return false if s2 is not a rotation of s1", () => {
     expect(stringRotation("waterbottle", "bottlweater")).toBe(false);
+    expect(stringRotation("waterbottlewat", "watbottlewater")).toBe(false);
   });
 
   it("should handle empty strings", () => {
