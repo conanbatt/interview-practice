@@ -102,10 +102,13 @@ describe("oneAway", () => {
     expect(oneAway("pale", "ple")).toBe(true);
     expect(oneAway("pales", "pale")).toBe(true);
     expect(oneAway("pale", "bale")).toBe(true);
+    expect(oneAway("aaa", "abaa")).toBe(true);
   });
 
   it("should return false for more than one edit away", () => {
     expect(oneAway("pale", "bake")).toBe(false);
+    expect(oneAway("pale", "lape")).toBe(false);
+    expect(oneAway("accaa", "abaa")).toBe(false);
   });
 
   it("should return false for strings with different lengths more than one", () => {
