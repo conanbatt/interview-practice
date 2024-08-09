@@ -121,6 +121,7 @@ describe("oneAway", () => {
 describe("stringCompression", () => {
   it("should compress the string correctly", () => {
     expect(stringCompression("aabcccccaaa")).toBe("a2b1c5a3");
+    expect(stringCompression("aabcccccaaaf")).toBe("a2b1c5a3f1");
   });
 
   it("should return original string if compressed version is not smaller", () => {
