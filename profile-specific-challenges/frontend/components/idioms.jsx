@@ -9,7 +9,7 @@
 */
 import { useEffect } from 'react'
 
-// I remove the function and set the button directly in the return to avoid re render.
+// I remove the function and set the button directly in the return to avoid redefining on render.
 export function FunctionsAsComponents({ buttonText = 'Start Now' }) {
   return (<div>
     <button>
@@ -204,7 +204,6 @@ export function UnidiomaticHTMLHierarchy() {
   </ul>)
 }
 
-//
 export function SubstandardDataStructure() {
   const [errors, setErrors] = useState([])
 
@@ -342,7 +341,7 @@ export function SerialLoading() {
 async function fetchRecords() { return [{id: 1, type: 'record'}]}
 async function fetchAlternateRecords() { return [{ id: 1, type: 'alt-record' }]}
 
-// I movethe async call and effects to other component to not re render the entire component and only re render what will be updated.
+// I set the requests in parallel to not wait for loading in a serial way and has the response more fast, also, I concatenate the records to use the same list and not modify the state two times.
 export function UnoptimizableRenderingStructure(altRecords) {
 
   return(
