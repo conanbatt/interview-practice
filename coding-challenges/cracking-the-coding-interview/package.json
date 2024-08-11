@@ -4,7 +4,7 @@
   "description": "Crackin the coding interview problems",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "vitest"
   },
   "keywords": [
     "cracking",
@@ -15,12 +15,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@jest/globals": "^29.7.0",
     "@tsconfig/node20": "^20.1.4",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.5"
   }
 }
