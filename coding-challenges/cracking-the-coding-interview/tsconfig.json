@@ -7,7 +7,9 @@
     "strictNullChecks": true,
     "noImplicitReturns": true,
     "esModuleInterop": true,
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
+    "types": ["vitest/globals"],
     "baseUrl": "problems"
   },
   "include": ["problems/**/*.ts"],
