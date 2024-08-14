@@ -2,7 +2,7 @@ import ThreeStacks from "../21_threeStacks";
 
 describe("ThreeStacks", () => {
   test("push and pop elements from stack 1", () => {
-    const threeStacks = new ThreeStacks<number>(); // Array length: 9
+    const threeStacks = new ThreeStacks<number>(9); // Array length: 9
 
     threeStacks.push(0, 1);
     threeStacks.push(0, 2);
@@ -14,7 +14,7 @@ describe("ThreeStacks", () => {
   });
 
   test("push and pop elements from stack 2", () => {
-    const threeStacks = new ThreeStacks<number>(); // Array length: 9
+    const threeStacks = new ThreeStacks<number>(9); // Array length: 9
 
     threeStacks.push(1, 4);
     threeStacks.push(1, 5);
@@ -26,7 +26,7 @@ describe("ThreeStacks", () => {
   });
 
   test("push and pop elements from stack 3", () => {
-    const threeStacks = new ThreeStacks<number>(); // Array length: 9
+    const threeStacks = new ThreeStacks<number>(9); // Array length: 9
 
     threeStacks.push(2, 7);
     threeStacks.push(2, 8);
@@ -38,7 +38,7 @@ describe("ThreeStacks", () => {
   });
 
   test("pop elements from empty stack", () => {
-    const threeStacks = new ThreeStacks<number>(); // Array length: 3
+    const threeStacks = new ThreeStacks<number>(3); // Array length: 3
 
     // Attempt to pop from empty stacks should return undefined
     expect(threeStacks.pop(0)).toBeUndefined();
@@ -47,7 +47,7 @@ describe("ThreeStacks", () => {
   });
 
   test("peek elements from stacks", () => {
-    const threeStacks = new ThreeStacks<number>(); // Array length: 9
+    const threeStacks = new ThreeStacks<number>(3); // Array length: 9
 
     threeStacks.push(0, 1);
     threeStacks.push(1, 2);
@@ -59,7 +59,7 @@ describe("ThreeStacks", () => {
   });
 
   test("peek elements from empty stack", () => {
-    const threeStacks = new ThreeStacks<number>(); // Array length: 3
+    const threeStacks = new ThreeStacks<number>(3); // Array length: 3
 
     // Attempt to peek from empty stacks should return undefined
     expect(threeStacks.peek(0)).toBeUndefined();
