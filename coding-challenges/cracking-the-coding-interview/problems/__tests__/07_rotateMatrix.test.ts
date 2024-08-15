@@ -10,8 +10,8 @@ describe('07 - rotateMatrix', () => {
             [3, 1],
             [4, 2]
         ];
-        rotateMatrix(matrix);
-        expect(matrix).toEqual(expected);
+        const res = rotateMatrix(matrix);
+        expect(res).toEqual(expected);
     });
 
     test('rotates 3x3 matrix clockwise', () => {
@@ -25,8 +25,8 @@ describe('07 - rotateMatrix', () => {
             [8, 5, 2],
             [9, 6, 3]
         ];
-        rotateMatrix(matrix);
-        expect(matrix).toEqual(expected);
+        const res = rotateMatrix(matrix);
+        expect(res).toEqual(expected);
     });
 
     test('rotates 4x4 matrix clockwise', () => {
@@ -42,8 +42,8 @@ describe('07 - rotateMatrix', () => {
             [15, 11, 7, 3],
             [16, 12, 8, 4]
         ];
-        rotateMatrix(matrix);
-        expect(matrix).toEqual(expected);
+        const res = rotateMatrix(matrix);
+        expect(res).toEqual(expected);
     });
 
     test('rotates 5x5 matrix clockwise', () => {
@@ -61,7 +61,7 @@ describe('07 - rotateMatrix', () => {
             [24, 19, 14, 9, 4],
             [25, 20, 15, 10, 5]
         ];
-        rotateMatrix(matrix);
-        expect(matrix).toEqual(expected);
+        const res = rotateMatrix(matrix);
+        expect(res).toEqual(expected);
     });
 });
