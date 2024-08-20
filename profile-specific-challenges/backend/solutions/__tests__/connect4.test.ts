@@ -10,6 +10,16 @@ describe("Connect4 Game", () => {
     expect(() => drop(7, 1)).toThrow("Invalid column");
   });
 
+  test("drop should throw an error if the column is full", () => {
+    expect(drop(0, 1)).toBe(false);
+    expect(drop(0, 2)).toBe(false);
+    expect(drop(0, 1)).toBe(false);
+    expect(drop(0, 2)).toBe(false);
+    expect(drop(0, 1)).toBe(false);
+    expect(drop(0, 2)).toBe(false);
+    expect(() => drop(0, 1)).toThrow("Column is full");
+  });
+
   test("drop should throw an error if the player is invalid", () => {
     expect(() => drop(10, 3)).toThrow("Invalid player");
     expect(drop(0, 1)).toBe(false);

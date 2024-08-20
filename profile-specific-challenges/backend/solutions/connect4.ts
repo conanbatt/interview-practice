@@ -17,7 +17,12 @@ const assertPosition = (
   column: number,
   player: number
 ): boolean => {
-  if (row >= board.length || column >= board[0].length) {
+  if (
+    row >= board.length ||
+    column >= board[0].length ||
+    row < 0 ||
+    column < 0
+  ) {
     return false;
   }
   return board[row][column] === player;
