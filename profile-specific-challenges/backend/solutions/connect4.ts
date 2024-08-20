@@ -1,4 +1,5 @@
 let board: number[][];
+let bottoms: number[];
 let lastPlayer: number;
 
 const assertPlayer = (player: number): void => {
@@ -78,6 +79,7 @@ const assertWin = (row: number, column: number, player: number): boolean => {
 
 export const initializeGame = (columns: number, rows: number): void => {
   board = Array.from({ length: rows }, () => Array(columns).fill(0));
+  bottoms = Array(columns).fill(board.length);
   lastPlayer = 2;
 };
 
@@ -88,15 +90,13 @@ export const drop = (column: number, player: number): boolean => {
     throw new Error("Invalid column");
   }
 
-  let row = 0;
-
-  for (let i = 0; i < board.length; i++) {
-    if (i + 1 === board.length || board[i + 1][column] !== 0) {
-      board[i][column] = player;
-      row = i;
-      break;
-    }
+  if (bottoms[column] === 0) {
+    throw new Error("Column is full");
   }
+
+  let row = --bottoms[column];
+
+  board[row][column] = player;
 
   return assertWin(row, column, player);
 };
