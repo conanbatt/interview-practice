@@ -68,7 +68,6 @@ export class LinkedList<T> {
 
   filter(callback: (node: Node<T>, index: number) => boolean) {
     let c = this.head;
-    let prev = null;
     let idx = 0;
 
     const returnList = new LinkedList<T>();
@@ -77,7 +76,6 @@ export class LinkedList<T> {
       if (callback(c, idx)) {
         returnList.push(c.value);
       }
-      prev = c;
       c = c.next;
       idx++;
     }
@@ -94,6 +92,15 @@ export class LinkedList<T> {
       c = c.next;
       idx++;
     }
+  }
+
+  some(callback: (node: Node<T>, index: number) => boolean) {
+    let result = false;
+    this.visit((n, i) => {
+      result === result || callback(n, i);
+    });
+
+    return result;
   }
 
   remove(node: Node<T>) {

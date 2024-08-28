@@ -24,4 +24,16 @@ export type Node<T> = {
 
 export default function detectLoop<T>(
   head: Node<T> | undefined,
-): Node<T> | null {}
+): Node<T> | null {
+  let s = new Set();
+  let c = head;
+
+  while (c) {
+    if (s.has(c)) return c;
+
+    s.add(c);
+    c = c.next;
+  }
+
+  return null;
+}

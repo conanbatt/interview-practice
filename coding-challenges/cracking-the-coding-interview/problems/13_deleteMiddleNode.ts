@@ -24,7 +24,7 @@ export default function deleteMiddleNode<T>(
   const list = new LinkedList(head);
   if (position < 1 || position === list.len() - 1) return undefined;
 
-  list.filter((_, idx) => position !== idx);
+  const n = list.filter((_, idx) => position !== idx);
 
-  return list.head;
+  return n.head;
 }
