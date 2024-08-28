@@ -1,0 +1,25 @@
+{
+  "name": "cracking-the-coding-interview",
+  "version": "1.0.0",
+  "description": "Crackin the coding interview problems",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [
+    "cracking",
+    "the",
+    "coding",
+    "interview"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.5"
+  }
+}

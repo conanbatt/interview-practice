@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "outDir": "dist",
+    "allowJs": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "types": ["vitest/globals"],
+    "baseUrl": "problems"
+  },
+  "include": ["problems/**/*.ts"],
+  "exclude": ["node_modules"]
+}
