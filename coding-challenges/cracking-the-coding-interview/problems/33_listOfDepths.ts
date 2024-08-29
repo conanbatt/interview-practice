@@ -5,16 +5,17 @@
 // you'll have D linked lists).
 
 export type TreeNode<T> = {
-    value: T;
-    left?: TreeNode<T>;
-    right?: TreeNode<T>;
+  value: T;
+  left?: TreeNode<T>;
+  right?: TreeNode<T>;
 };
 
 export type ListNode<T> = {
-    value: T;
-    next?: ListNode<T>;
+  value: T;
+  next?: ListNode<T>;
 };
 
-export default function listOfDepths<T>(root: TreeNode<T> | null): ListNode<ListNode<number>>[] {
  
-}
+}export default function listOfDepths<T>(
+  root: TreeNode<T> | null,
+): ListNode<T>[] {
