@@ -12,13 +12,13 @@
 
 ## Code Design
 
-Coding design challenges prompt the candidate to navigate ambiguity and general implementational knowledge. Solutions can be evaluated in usefulness, coding fluency and communication. 
+Coding design challenges prompt the candidate to navigate ambiguity and general implementational knowledge. Solutions can be evaluated in usefulness, coding fluency and communication.
 
 1. Design and Implement a command line's argument parser. The parser should allow named and unnamed parameters and parameter validation.
 
 2. Resolve [FindParent](https://silverdev.notion.site/Challenge-FindParent-59672103482c4675be9ba6b532241785?pvs=4)
-   
-3. Design and Implement a Rate Limiter Middleware. The rate limiter receives a Req object and can return if the response should be rate-limited or not. Consider concepts like client retries, tolerance, and caching when designing this component. 
+
+3. Design and Implement a Rate Limiter Middleware. The rate limiter receives a Req object and can return if the response should be rate-limited or not. Consider concepts like client retries, tolerance, and caching when designing this component.
 
 Hint:
 ```
@@ -31,7 +31,7 @@ function rateLimiterMiddleware(req, res) {
 
 4. Primer number checker. Create a function that detects if a number is a primer number. It should be better than O(n). How would you optimize this function if you called this sequentially from 1..n?
 
-5. Implement Promises. Start with then/catch/finally. Then implement Promise.all(). 
+5. Implement Promises. Start with then/catch/finally. Then implement Promise.all().
 
 ## Chess Check
 
@@ -41,11 +41,11 @@ You may see the rules of each piece in chess [here](https://www.chess.com/terms/
 
 **Bonus**: detect if there is a CheckMate
 
-Tips: The key to solving this challenge elegantly is picking the right model and implementation strategy. 
+Tips: The key to solving this challenge elegantly is picking the right model and implementation strategy.
 
 ## Sudoku Generator
 
-Create a function that creates a valid and playable Sudoku board. 
+Create a function that creates a valid and playable Sudoku board.
 
 You may see the rules of Sudoku [here](https://sudoku.com/how-to-play/sudoku-rules-for-complete-beginners/)
 
@@ -58,6 +58,7 @@ Connect4 is a game where two players take turns placing a token on columns that 
 
 [Visualization](https://i.ebayimg.com/images/g/DzMAAOSwSjxj6m0e/s-l1600.jpg)
 
-1. Model a board where players take turns to play tokens.
+Create a class that represents the connect 4 game with an interface that allows interacting with the model.
+The model should include winner detection.
 
-2. Detect when a player wins after playing.
+Tip: We do not need to handle user input - only calling the objects and printing to the termina/console is fine.
