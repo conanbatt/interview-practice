@@ -328,6 +328,8 @@ export function UnnecessaryEffectTriggering() {
       const leader = await fetchLeader().then((l) => fetchDetails(l));
       setLeader(leader);
     };
+
+    getLeader();
   }, []);
 
   return (
