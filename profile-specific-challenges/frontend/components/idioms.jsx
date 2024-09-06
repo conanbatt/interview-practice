@@ -7,7 +7,7 @@
   Some references used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export function FunctionsAsComponents({ buttonText = "Start Now" }) {
   return <button>{buttonText}</button>;
@@ -59,13 +59,16 @@ export function UseEffect({ fetchURL, label }) {
   // do something with this.
   return (
     <div>
+      {isLoading ? <p>Loading...</p> : null}
+      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : null}
+      {error ? <p>{JSON.stringify(error, null, 2)}</p> : null}
       <button>{label}</button>
     </div>
   );
 }
 
 export function UseEffectDerivedCalculation() {
-  const [clickedTimes, setClickedTimes] = useState();
+  const [clickedTimes, setClickedTimes] = useState(0);
 
   const handleClick = () => setClickedTimes(clickedTimes + 1);
 
@@ -81,7 +84,7 @@ export function UseEffectDerivedCalculation() {
 }
 
 export function UseEffectLifeCycle() {
-  const [loaded, setLoaded] = useState();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => setLoaded(true), 1000);
@@ -93,7 +96,7 @@ export function UseEffectLifeCycle() {
 
   return (
     <div>
-      <span>{loaded ? "Loading..." : "Loaded"}</span>
+      <span>{!loaded ? "Loading..." : "Loaded"}</span>
     </div>
   );
 }
@@ -131,15 +134,16 @@ async function API() {
 
 // Similar to the useFetch hook, the loading var needs to be in react state to trigger re-render
 export function UntraceableState() {
-  const [result, setResult] = useState();
-  let loading = false;
+  const [{ result, loading }, setResult] = useState({
+    loading: false,
+    result: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
-      loading = true;
-      const result = await API();
-      loading = false;
-      setResult(result);
+      setResult({ loading: true, result });
+      const res = await API();
+      setResult({ loading: false, result: res });
     };
 
     fetchData();
@@ -159,11 +163,9 @@ export function UntraceableState() {
 // ];
 // const calendarDays = new Array(30).map((_, i) =>  i + 1)
 const d = new Date();
-const calendarDays = new Date(
-  d.getUTCFullYear(),
-  d.getUTCMonth() + 1,
-  0,
-).getUTCDate(); // get current month days
+const calendarDays = new Array(
+  new Date(d.getUTCFullYear(), d.getUTCMonth() + 1, 0).getUTCDate(),
+).map((_, i) => i + 1); // get current month days
 export function CrudeDeclarations() {
   return (
     <ol>
@@ -175,10 +177,10 @@ export function CrudeDeclarations() {
 }
 
 const MIN_AGE = 18;
-export function MagicNumbers(age) {
+export function MagicNumbers({ age }) {
   return (
     <ol>
-      {age < MIN_AGE ? <div>Spicy</div> : <div>You are not old enough</div>}
+      {age >= MIN_AGE ? <div>Spicy</div> : <div>You are not old enough</div>}
     </ol>
   );
 }
@@ -294,7 +296,8 @@ export function DangerousIdentifier() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const person = data.get("person");
-    setPeople((ppl) => [...ppl, ...person]);
+    console.log(person);
+    setPeople((ppl) => [...ppl, { name: person }]);
   };
 
   return (
@@ -345,7 +348,7 @@ async function trackClick(ids) {
 }
 
 // Hint: same error pattern as above
-export function IncorrectDependencies(records) {
+export function IncorrectDependencies({ records }) {
   const handleClick = () => {
     trackClick(records);
   };
@@ -360,7 +363,7 @@ export function IncorrectDependencies(records) {
   );
 }
 
-export function UnnecessaryFunctionRedefinitions(emails) {
+export function UnnecessaryFunctionRedefinitions({ emails }) {
   return (
     <div>
       {emails.map((email) => (
@@ -375,6 +378,7 @@ export function UnnecessaryFunctionRedefinitions(emails) {
 async function fetchRecords() {
   return [{ id: 1, type: "record" }];
 }
+
 async function fetchAlternateRecords() {
   return [{ id: 1, type: "alt-record" }];
 }
@@ -402,15 +406,8 @@ export function SerialLoading() {
   );
 }
 
-async function fetchRecords() {
-  return [{ id: 1, type: "record" }];
-}
-async function fetchAlternateRecords() {
-  return [{ id: 1, type: "alt-record" }];
-}
-
 // Hint: part of the rendering structure is re-rendered frequently unnecessarily
-export function UnoptimizableRenderingStructure(altRecords) {
+export function UnoptimizableRenderingStructure({ altRecords }) {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
