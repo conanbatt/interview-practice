@@ -1,10 +1,5 @@
 .DS_STORE
 
 .next
-<<<<<<< HEAD
-
-*/node_modules
-=======
 **/node_modules
 coding-challenges/yarn.lock
->>>>>>> 22e3172210dd591c008e45f24f2567f728f311b3
