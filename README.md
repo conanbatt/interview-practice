@@ -14,9 +14,9 @@ The following materials apply for almost any engineering role.
 
 ## Profile-specific Prepping
 
-- [Backend](https://github.com/conanbatt/interview-practice/tree/main/profile-specific/backend)
-- [Frontend](https://github.com/conanbatt/interview-practice/tree/main/profile-specific/frontend)
-- [Data Engineering](https://github.com/conanbatt/interview-practice/tree/main/profile-specific/data-engineering)
+- [Backend](https://github.com/conanbatt/interview-practice/tree/main/profile-specific-challenges/backend)
+- [Frontend](https://github.com/conanbatt/interview-practice/tree/main/profile-specific-challenges/frontend)
+- [Data Engineering](https://github.com/conanbatt/interview-practice/tree/main/profile-specific-challenges/data-engineering)
 
 ## Advanced & Skill based Prepping
 
