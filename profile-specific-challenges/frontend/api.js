@@ -12,4 +12,10 @@ export const API = {
     return new Promise((res) => res({ ...leader, country: "Argentina" }));
   },
   trackRecordsClick: async (ids) => ids,
+  fetchRecords: async () => {
+    return [{ id: 1, type: "record" }];
+  },
+  fetchAlternateRecords: async () => {
+    return [{ id: 1, type: "alt-record" }];
+  },
 };
