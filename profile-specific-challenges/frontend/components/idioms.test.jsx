@@ -19,6 +19,7 @@ import {
   IncorrectDependencies,
   UnnecessaryFunctionRedefinitions,
   SerialLoading,
+  UnoptimizableRenderingStructure,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -479,5 +480,38 @@ describe("SerialLoading", () => {
       expect(spy).toHaveBeenCalledOnce();
     });
     expect(screen.getAllByRole("listitem").length).toBe(2);
+  });
+});
+
+describe("UnoptimizableRenderingStructure", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("fetches records every 5 seconds and clears interval on unmount", async () => {
+    const recordsSpy = vi.spyOn(API, "fetchRecords");
+    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
+    const { unmount } = render(
+      <UnoptimizableRenderingStructure altRecords={[]} />
+    );
+
+    expect(recordsSpy).toHaveBeenCalledTimes(1);
+
+    await act(() => {
+      vi.advanceTimersToNextTimer();
+    });
+    expect(recordsSpy).toHaveBeenCalledTimes(2);
+
+    await act(() => {
+      vi.advanceTimersToNextTimer();
+    });
+    expect(recordsSpy).toHaveBeenCalledTimes(3);
+
+    unmount();
+    expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
   });
 });
