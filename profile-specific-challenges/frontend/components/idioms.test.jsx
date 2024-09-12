@@ -11,6 +11,7 @@ import {
   CrudeDeclarations,
   MagicNumbers,
   UnidiomaticHTMLStructure,
+  CrudeStateManagement,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -308,5 +309,25 @@ describe("UnidiomaticHTMLStructure", () => {
     const inputValue = "New Input Content";
     fireEvent.change(input, { target: { value: inputValue } });
     expect(input.value).toBe(inputValue);
+  });
+});
+
+describe("CrudeStateManagement", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test("uses a single useState call for form state", () => {
+    render(<CrudeStateManagement />);
+    expect(React.useState).toHaveBeenCalledTimes(1);
+  });
+
+  test("uses idiomatic HTML", () => {
+    render(<CrudeStateManagement />);
+    let inputs = screen.getAllByRole("textbox");
+
+    for (let input of inputs) {
+      expect(input.labels.length).toBe(1);
+    }
   });
 });
