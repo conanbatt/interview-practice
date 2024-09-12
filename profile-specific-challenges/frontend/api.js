@@ -16,6 +16,6 @@ export const API = {
     return [{ id: 1, type: "record" }];
   },
   fetchAlternateRecords: async () => {
-    return [{ id: 1, type: "alt-record" }];
+    return [{ id: 2, type: "alt-record" }];
   },
 };

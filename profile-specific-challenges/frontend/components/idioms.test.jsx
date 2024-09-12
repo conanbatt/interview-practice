@@ -18,6 +18,7 @@ import {
   UnnecessaryEffectTriggering,
   IncorrectDependencies,
   UnnecessaryFunctionRedefinitions,
+  SerialLoading,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -466,5 +467,17 @@ describe("UnnecessaryFunctionRedefinitions", () => {
         )
       ).toBeInTheDocument();
     }
+  });
+});
+
+describe("SerialLoading", () => {
+  test("fetches records concurrently", async () => {
+    const spy = vi.spyOn(Promise, "all");
+    render(<SerialLoading />);
+
+    await act(() => {
+      expect(spy).toHaveBeenCalledOnce();
+    });
+    expect(screen.getAllByRole("listitem").length).toBe(2);
   });
 });
