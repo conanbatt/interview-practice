@@ -12,6 +12,8 @@ import {
   MagicNumbers,
   UnidiomaticHTMLStructure,
   CrudeStateManagement,
+  SubstandardDataStructure,
+  UnidiomaticHTMLHierarchy,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -329,5 +331,37 @@ describe("CrudeStateManagement", () => {
     for (let input of inputs) {
       expect(input.labels.length).toBe(1);
     }
+  });
+});
+
+describe("UnidiomaticHTMLHierarchy", () => {
+  test("uses idiomatic HTML", () => {
+    render(<UnidiomaticHTMLHierarchy />);
+    expect(screen.getByRole("list")).toBeInTheDocument();
+    expect(screen.getAllByRole("listitem").length).toBe(6);
+  });
+});
+
+describe("SubstandardDataStructure", () => {
+  test("renders as many errors as thrown", async () => {
+    render(<SubstandardDataStructure />);
+    const btnA = screen.getByText("Throw Error A");
+    const btnB = screen.getByText("Throw Error B");
+
+    expect(btnA).toBeInTheDocument();
+    expect(btnB).toBeInTheDocument();
+
+    fireEvent.click(btnA);
+    expect(screen.getAllByRole("listitem").length).toBe(1);
+    fireEvent.click(btnB);
+    expect(screen.getAllByRole("listitem").length).toBe(2);
+    fireEvent.click(btnB);
+    expect(screen.getAllByRole("listitem").length).toBe(3);
+
+    expect(screen.getAllByText("Error A").length).toBe(1);
+    expect(screen.getAllByText("Error B").length).toBe(2);
+
+    fireEvent.click(screen.getByText("Clear Errors"));
+    expect(screen.queryAllByRole("listitem").length).toBe(0);
   });
 });
