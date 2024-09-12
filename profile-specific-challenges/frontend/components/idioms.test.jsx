@@ -1,5 +1,11 @@
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  act,
+  waitFor,
+} from "@testing-library/react";
 import {
   FunctionsAsComponents,
   UseEffectDerivedCalculation,
@@ -15,6 +21,7 @@ import {
   SubstandardDataStructure,
   UnidiomaticHTMLHierarchy,
   DangerousIdentifier,
+  UnnecessaryEffectTriggering,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -393,5 +400,38 @@ describe("DangerousIdentifier", () => {
     expect(screen.getAllByRole("listitem").length).toBe(3);
 
     expect(consoleSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("UnnecessaryEffectTriggering", () => {
+  let leaderSpy;
+  let detailsSpy;
+  beforeEach(() => {
+    vi.clearAllMocks();
+    let l = { name: "Messi" };
+    leaderSpy = vi.spyOn(API, "fetchLeader");
+    leaderSpy.mockResolvedValueOnce(l);
+    detailsSpy = vi.spyOn(API, "fetchDetails");
+    detailsSpy.mockResolvedValueOnce({
+      ...l,
+      country: "Argentina",
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("uses a single use effect to fetch all the data", async () => {
+    render(<UnnecessaryEffectTriggering />);
+
+    expect(React.useEffect).toHaveBeenCalledOnce();
+    await act(async () => {
+      expect(leaderSpy).toHaveBeenCalledOnce();
+    });
+    expect(detailsSpy).toHaveBeenCalledOnce();
+
+    expect(screen.getByText("Leader: Messi")).toBeInTheDocument();
+    expect(screen.getByText("From: Argentina")).toBeInTheDocument();
   });
 });
