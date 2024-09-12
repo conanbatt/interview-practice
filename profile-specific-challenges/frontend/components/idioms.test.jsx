@@ -9,6 +9,7 @@ import {
   AvoidingUseState,
   UnrenderableState,
   CrudeDeclarations,
+  MagicNumbers,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -272,5 +273,18 @@ describe("CrudeDeclarations", () => {
 
     // month with least days is Feb with 28
     expect(screen.getAllByRole("listitem").length).toBeGreaterThan(27);
+  });
+});
+
+// also hard to test
+describe("MagicNumbers", () => {
+  test("renders the correct message", () => {
+    const { rerender } = render(<MagicNumbers age={20} />);
+
+    expect(screen.getByText("Spicy")).toBeInTheDocument();
+
+    rerender(<MagicNumbers age={10} />);
+
+    expect(screen.getByText("You are not old enough")).toBeInTheDocument();
   });
 });
