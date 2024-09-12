@@ -391,6 +391,8 @@ export function UnoptimizableRenderingStructure(altRecords) {
   );
 }
 
+// RenderHooks
+
 function useRenderHook(number) {
   return <div>{number}</div>;
 }
@@ -405,4 +407,19 @@ export function RenderHookComponent() {
       {number}
     </div>
   );
+}
+
+// Prop Drilling
+
+function Child3({ counter } = { counter: number }) {
+  <div>{counter}</div>;
+}
+function Child2({ counter } = { counter: number }) {
+  <Child3 counter={counter} />;
+}
+function Child({ counter } = { counter: number }) {
+  <Child2 counter={counter} />;
+}
+function ExcessivePropDrilling() {
+  return <Child counter={5} />;
 }
