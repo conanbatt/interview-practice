@@ -20,6 +20,7 @@ import {
   UnnecessaryFunctionRedefinitions,
   SerialLoading,
   UnoptimizableRenderingStructure,
+  ExcessivePropDrilling,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -513,5 +514,22 @@ describe("UnoptimizableRenderingStructure", () => {
 
     unmount();
     expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("ExcessivePropDrilling", () => {
+  test("it adds one at a time, divides and multiplies by 5", () => {
+    render(<ExcessivePropDrilling />);
+
+    expect(screen.getByText("Count: 0")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Increment"));
+    expect(screen.getByText("Count: 1")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Multiply by 5"));
+    expect(screen.getByText("Count: 5")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Divide by 5"));
+    expect(screen.getByText("Count: 1")).toBeInTheDocument();
   });
 });
