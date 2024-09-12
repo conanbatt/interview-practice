@@ -14,6 +14,7 @@ import {
   CrudeStateManagement,
   SubstandardDataStructure,
   UnidiomaticHTMLHierarchy,
+  DangerousIdentifier,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -363,5 +364,34 @@ describe("SubstandardDataStructure", () => {
 
     fireEvent.click(screen.getByText("Clear Errors"));
     expect(screen.queryAllByRole("listitem").length).toBe(0);
+  });
+});
+
+describe("DangerousIdentifier", () => {
+  test("adds people when submitting form and uses unique id for keys", () => {
+    const consoleSpy = vi.spyOn(console, "error");
+    render(<DangerousIdentifier />);
+
+    const addCta = screen.getByText("Add Person");
+    const input = screen.getByRole("textbox");
+
+    input.value = "Silver";
+    fireEvent.click(addCta);
+
+    expect(screen.getAllByRole("listitem").length).toBe(1);
+    expect(screen.getByText("Silver")).toBeInTheDocument();
+
+    input.value = "Dev";
+    fireEvent.click(addCta);
+
+    expect(screen.getAllByRole("listitem").length).toBe(2);
+    expect(screen.getByText("Dev")).toBeInTheDocument();
+
+    input.value = "Dev";
+    fireEvent.click(addCta);
+
+    expect(screen.getAllByRole("listitem").length).toBe(3);
+
+    expect(consoleSpy).not.toHaveBeenCalled();
   });
 });
