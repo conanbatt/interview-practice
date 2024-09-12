@@ -17,6 +17,7 @@ import {
   DangerousIdentifier,
   UnnecessaryEffectTriggering,
   IncorrectDependencies,
+  UnnecessaryFunctionRedefinitions,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -443,5 +444,27 @@ describe("IncorrectDependencies", () => {
 
     expect(spy).toHaveBeenCalledOnce();
     expect(spy).toHaveBeenCalledWith(records);
+  });
+});
+
+describe("UnnecessaryFunctionRedefinitions", () => {
+  test("validates emails from props", () => {
+    const emails = [
+      { email: "gabriel@silver.dev", isValid: true },
+      { email: "notanemail", isValid: false },
+    ];
+    render(
+      <UnnecessaryFunctionRedefinitions
+        emails={emails.map(({ email }) => email)}
+      />
+    );
+
+    for (let email of emails) {
+      expect(
+        screen.getByText(
+          `${email.email} is ${email.isValid ? "Valid" : "Invalid"}`
+        )
+      ).toBeInTheDocument();
+    }
   });
 });
