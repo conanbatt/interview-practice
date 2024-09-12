@@ -7,8 +7,10 @@ import {
   UseStateDerivedCalculation,
   DirtyUnmount,
   AvoidingUseState,
+  UnrenderableState,
 } from "./idioms";
 import * as React from "react";
+import { API } from "../api";
 
 vi.mock("react", async () => {
   const actual = await vi.importActual("react");
@@ -218,5 +220,46 @@ describe("AvoidingUseState", () => {
     render(<AvoidingUseState />);
 
     expect(screen.getByText("Mounted")).toBeInTheDocument();
+  });
+});
+
+describe("UnrenderableState", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("It updates loading and data from state", async () => {
+    render(<UnrenderableState />);
+
+    expect(screen.getByText("Loading: Pending")).toBeInTheDocument();
+
+    await act(async () => {
+      vi.advanceTimersToNextTimer();
+    });
+
+    expect(screen.getByText("Loading: Done")).toBeInTheDocument();
+    expect(
+      screen.getByText("Result: Fetched Successfully")
+    ).toBeInTheDocument();
+  });
+
+  test("It catches errors from the API", async () => {
+    vi.spyOn(API, "unrenderableState").mockRejectedValueOnce(
+      "Failed Successfully"
+    );
+    render(<UnrenderableState />);
+
+    expect(screen.getByText("Loading: Pending")).toBeInTheDocument();
+
+    await act(async () => {
+      vi.advanceTimersToNextTimer();
+    });
+
+    expect(screen.getByText("Loading: Done")).toBeInTheDocument();
+    expect(screen.getByText("Result: Failed Successfully")).toBeInTheDocument();
   });
 });
