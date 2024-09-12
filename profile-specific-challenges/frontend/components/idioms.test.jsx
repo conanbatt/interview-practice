@@ -8,6 +8,7 @@ import {
   DirtyUnmount,
   AvoidingUseState,
   UnrenderableState,
+  CrudeDeclarations,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -147,7 +148,7 @@ describe("UseStateDerivedCalculation", () => {
     vi.restoreAllMocks();
   });
 
-  test("It renders with 0 as default count state", () => {
+  test("renders with 0 as default count state", () => {
     render(<UseStateDerivedCalculation />);
 
     expect(screen.getByText("Sum: 0")).toBeInTheDocument();
@@ -216,7 +217,7 @@ describe("DirtyUnmount", () => {
 });
 
 describe("AvoidingUseState", () => {
-  test("It renders the mounted state in text", () => {
+  test("renders the mounted state in text", () => {
     render(<AvoidingUseState />);
 
     expect(screen.getByText("Mounted")).toBeInTheDocument();
@@ -232,7 +233,7 @@ describe("UnrenderableState", () => {
     vi.restoreAllMocks();
   });
 
-  test("It updates loading and data from state", async () => {
+  test("updates loading and data from state", async () => {
     render(<UnrenderableState />);
 
     expect(screen.getByText("Loading: Pending")).toBeInTheDocument();
@@ -247,7 +248,7 @@ describe("UnrenderableState", () => {
     ).toBeInTheDocument();
   });
 
-  test("It catches errors from the API", async () => {
+  test("catches errors from the API", async () => {
     vi.spyOn(API, "unrenderableState").mockRejectedValueOnce(
       "Failed Successfully"
     );
@@ -261,5 +262,15 @@ describe("UnrenderableState", () => {
 
     expect(screen.getByText("Loading: Done")).toBeInTheDocument();
     expect(screen.getByText("Result: Failed Successfully")).toBeInTheDocument();
+  });
+});
+
+// how to test that calendar days are not defined within component?
+describe("CrudeDeclarations", () => {
+  test("uses semantic html", () => {
+    render(<CrudeDeclarations />);
+
+    // month with least days is Feb with 28
+    expect(screen.getAllByRole("listitem").length).toBeGreaterThan(27);
   });
 });
