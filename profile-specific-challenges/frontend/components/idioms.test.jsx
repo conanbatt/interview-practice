@@ -10,6 +10,7 @@ import {
   UnrenderableState,
   CrudeDeclarations,
   MagicNumbers,
+  UnidiomaticHTMLStructure,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -286,5 +287,26 @@ describe("MagicNumbers", () => {
     rerender(<MagicNumbers age={10} />);
 
     expect(screen.getByText("You are not old enough")).toBeInTheDocument();
+  });
+});
+
+describe("UnidiomaticHTMLStructure", () => {
+  test("it has an idiomatic html structure", () => {
+    render(<UnidiomaticHTMLStructure />);
+
+    const input = screen.getByRole("textbox");
+
+    expect(input.parentElement.tagName).toBe("FORM");
+  });
+
+  test("input element updates state correctly", () => {
+    render(<UnidiomaticHTMLStructure />);
+
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+
+    const inputValue = "New Input Content";
+    fireEvent.change(input, { target: { value: inputValue } });
+    expect(input.value).toBe(inputValue);
   });
 });
