@@ -4,6 +4,7 @@ import {
   FunctionsAsComponents,
   UseEffectDerivedCalculation,
   UseEffectThrashing,
+  UseStateDerivedCalculation,
 } from "./idioms";
 import * as React from "react";
 
@@ -112,6 +113,51 @@ describe("UseEffectDerivedCalculation", () => {
 
   test("remainder is updated correctly when button is clicked", () => {
     render(<UseEffectDerivedCalculation />);
+
+    const button = screen.getByText("Add Click Count");
+
+    fireEvent.click(button);
+    expect(screen.getByText("Sum: 1")).toBeInTheDocument();
+    expect(screen.getByText("Remainder: 1")).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(screen.getByText("Sum: 2")).toBeInTheDocument();
+    expect(screen.getByText("Remainder: 2")).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(screen.getByText("Sum: 3")).toBeInTheDocument();
+    expect(screen.getByText("Remainder: 3")).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(screen.getByText("Sum: 4")).toBeInTheDocument();
+    expect(screen.getByText("Remainder: 4")).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(screen.getByText("Sum: 5")).toBeInTheDocument();
+    expect(screen.getByText("Remainder: 0")).toBeInTheDocument();
+  });
+});
+
+describe("UseStateDerivedCalculation", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test("It renders with 0 as default count state", () => {
+    render(<UseStateDerivedCalculation />);
+
+    expect(screen.getByText("Sum: 0")).toBeInTheDocument();
+    expect(screen.getByText("Remainder: 0")).toBeInTheDocument();
+  });
+
+  test("uses only one useState and no useEffect", () => {
+    render(<UseStateDerivedCalculation />);
+
+    expect(React.useState).toHaveBeenCalledTimes(1);
+  });
+
+  test("remainder is updated correctly when button is clicked", () => {
+    render(<UseStateDerivedCalculation />);
 
     const button = screen.getByText("Add Click Count");
 
