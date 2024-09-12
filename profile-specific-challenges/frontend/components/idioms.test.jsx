@@ -1,10 +1,11 @@
-import { expect, test, describe, beforeEach, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import {
   FunctionsAsComponents,
   UseEffectDerivedCalculation,
   UseEffectThrashing,
   UseStateDerivedCalculation,
+  DirtyUnmount,
 } from "./idioms";
 import * as React from "react";
 
@@ -93,8 +94,8 @@ describe("UseEffectThrashing", () => {
 });
 
 describe("UseEffectDerivedCalculation", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   test("It renders with 0 as default count state", () => {
@@ -139,8 +140,8 @@ describe("UseEffectDerivedCalculation", () => {
 });
 
 describe("UseStateDerivedCalculation", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   test("It renders with 0 as default count state", () => {
@@ -180,5 +181,33 @@ describe("UseStateDerivedCalculation", () => {
     fireEvent.click(button);
     expect(screen.getByText("Sum: 5")).toBeInTheDocument();
     expect(screen.getByText("Remainder: 0")).toBeInTheDocument();
+  });
+});
+
+describe("DirtyUnmount", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("updates the text every second and clears interval on unmount", () => {
+    const { unmount } = render(<DirtyUnmount />);
+    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
+
+    act(() => {
+      vi.advanceTimersToNextTimer();
+    });
+    expect(screen.getByText("Clock in seconds: 1")).toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+    expect(screen.getByText("Clock in seconds: 4")).toBeInTheDocument();
+
+    unmount();
+
+    expect(clearIntervalSpy).toHaveBeenCalled();
   });
 });
