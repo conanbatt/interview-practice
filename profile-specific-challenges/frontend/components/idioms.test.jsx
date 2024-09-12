@@ -6,6 +6,7 @@ import {
   UseEffectThrashing,
   UseStateDerivedCalculation,
   DirtyUnmount,
+  AvoidingUseState,
 } from "./idioms";
 import * as React from "react";
 
@@ -209,5 +210,13 @@ describe("DirtyUnmount", () => {
     unmount();
 
     expect(clearIntervalSpy).toHaveBeenCalled();
+  });
+});
+
+describe("AvoidingUseState", () => {
+  test("It renders the mounted state in text", () => {
+    render(<AvoidingUseState />);
+
+    expect(screen.getByText("Mounted")).toBeInTheDocument();
   });
 });
