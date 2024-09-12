@@ -1,11 +1,5 @@
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import {
   FunctionsAsComponents,
   UseEffectDerivedCalculation,
@@ -22,6 +16,7 @@ import {
   UnidiomaticHTMLHierarchy,
   DangerousIdentifier,
   UnnecessaryEffectTriggering,
+  IncorrectDependencies,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -31,6 +26,7 @@ vi.mock("react", async () => {
 
   return {
     ...actual,
+    useCallback: vi.fn((...args) => actual.useCallback(...args)),
     useState: vi.fn((v) => actual.useState(v)),
     useEffect: vi.fn((fn, deps) => actual.useEffect(fn, deps)),
   };
@@ -433,5 +429,19 @@ describe("UnnecessaryEffectTriggering", () => {
 
     expect(screen.getByText("Leader: Messi")).toBeInTheDocument();
     expect(screen.getByText("From: Argentina")).toBeInTheDocument();
+  });
+});
+
+describe("IncorrectDependencies", () => {
+  test("calls the track records click function", () => {
+    const spy = vi.spyOn(API, "trackRecordsClick");
+    const records = [{ id: 1, name: "Name" }];
+    render(<IncorrectDependencies records={records} />);
+
+    expect(React.useCallback).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByText("Click me!"));
+
+    expect(spy).toHaveBeenCalledOnce();
+    expect(spy).toHaveBeenCalledWith(records);
   });
 });

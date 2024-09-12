@@ -11,4 +11,5 @@ export const API = {
   fetchDetails: async (leader) => {
     return new Promise((res) => res({ ...leader, country: "Argentina" }));
   },
+  trackRecordsClick: async (ids) => ids,
 };
