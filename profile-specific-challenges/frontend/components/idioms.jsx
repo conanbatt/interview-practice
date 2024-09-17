@@ -4,10 +4,11 @@
 
   Submit a fork or a PR to gabriel@silver.dev for feedback and corrections.
 
-  Some references used:
+  Some referenes used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
-import { useEffect } from "react";
+import { API } from "../api";
+import { useEffect, useState } from "react";
 
 export function FunctionsAsComponents({ buttonText = "Start Now" }) {
   const showButton = () => {
@@ -59,8 +60,8 @@ export function UseEffectDerivedCalculation() {
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>{sum}</span>
-      <span>{remainder}</span>
+      <span>Sum: {sum}</span>
+      <span>Remainder: {remainder}</span>
     </div>
   );
 }
@@ -77,8 +78,8 @@ export function UseStateDerivedCalculation() {
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>{sum}</span>
-      <span>{remainder}</span>
+      <span>Sum: {sum}</span>
+      <span>Remainder: {remainder}</span>
     </div>
   );
 }
@@ -105,10 +106,6 @@ export function AvoidingUseState() {
   return <div>{ref.current}</div>;
 }
 
-async function API() {
-  return true;
-}
-
 export function UnrenderableState() {
   const [result, setResult] = useState();
   let loading = false;
@@ -116,7 +113,7 @@ export function UnrenderableState() {
   useEffect(() => {
     const fetchData = async () => {
       loading = true;
-      const result = await API();
+      const result = await API.unrenderableState();
       loading = false;
       setResult(result);
     };
@@ -146,9 +143,9 @@ export function CrudeDeclarations() {
   );
 }
 
-export function MagicNumbers(age) {
+export function MagicNumbers({ age }) {
   return (
-    <ol>{age < 18 ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
+    <ol>{age > 18 ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
   );
 }
 
@@ -250,20 +247,13 @@ export function DangerousIdentifier() {
   );
 }
 
-async function fetchLeader() {
-  return { name: "Messi" };
-}
-async function fetchDetails(leader) {
-  return { ...leader, country: "Argentina" };
-}
-
 // Hint: this only requires a single line change!
 export function UnnecessaryEffectTriggering() {
   const [leader, setLeader] = useState({});
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const leader = await fetchLeader();
+      const leader = await API.fetchLeader();
       setLeader(leader);
     }, 1000);
     return () => clearInterval(interval);
@@ -271,7 +261,7 @@ export function UnnecessaryEffectTriggering() {
 
   useEffect(() => {
     async function enhanceRecord() {
-      const enriched = await fetchDetails(leader);
+      const enriched = await API.fetchDetails(leader);
       setLeader(enriched);
     }
     enhanceRecord();
@@ -285,14 +275,10 @@ export function UnnecessaryEffectTriggering() {
   );
 }
 
-async function trackClick(ids) {
-  return ids;
-}
-
 // Hint: same error pattern as above
-export function IncorrectDependencies(records) {
+export function IncorrectDependencies({ records }) {
   const handleClick = useCallback(() => {
-    trackClick(records);
+    API.trackRecordsClick(records);
   }, [records]);
 
   return (
@@ -305,7 +291,7 @@ export function IncorrectDependencies(records) {
   );
 }
 
-export function UnnecessaryFunctionRedefinitions(emails) {
+export function UnnecessaryFunctionRedefinitions({ emails }) {
   const validateEmail = (email) => email.includes("@");
 
   return (
@@ -319,21 +305,14 @@ export function UnnecessaryFunctionRedefinitions(emails) {
   );
 }
 
-async function fetchRecords() {
-  return [{ id: 1, type: "record" }];
-}
-async function fetchAlternateRecords() {
-  return [{ id: 1, type: "alt-record" }];
-}
-
 export function SerialLoading() {
   const [records, setRecords] = useState([]);
   const [altRecords, setAltRecords] = useState([]);
 
   useEffect(() => {
     async function loadRecords() {
-      const recs = await fetchRecords();
-      const altRecs = await fetchAlternateRecords();
+      const recs = await API.fetchRecords();
+      const altRecs = await API.fetchAlternateRecords();
       setRecords(recs);
       setAltRecords(altRecs);
     }
@@ -352,21 +331,14 @@ export function SerialLoading() {
   );
 }
 
-async function fetchRecords() {
-  return [{ id: 1, type: "record" }];
-}
-async function fetchAlternateRecords() {
-  return [{ id: 1, type: "alt-record" }];
-}
-
 // Hint: part of the rendering structure is re-rendered frequently unnecessarily
-export function UnoptimizableRenderingStructure(altRecords) {
+export function UnoptimizableRenderingStructure({ altRecords }) {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
     async function loadRecords() {
       const interval = setInterval(async () => {
-        const recs = await fetchRecords();
+        const recs = await API.fetchRecords();
         setRecords(recs);
       }, 5000);
 
@@ -410,16 +382,49 @@ export function RenderHookComponent() {
 }
 
 // Prop Drilling
+export function ExcessivePropDrilling() {
+  const counter = useState(0);
+  const [count, setCount] = counter;
 
-function Child3({ counter } = { counter: number }) {
-  <div>{counter}</div>;
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount((o) => o + 1)}>Increment</button>
+
+      <Multiplications counter={counter} />
+      <Divisions counter={counter} />
+    </div>
+  );
 }
-function Child2({ counter } = { counter: number }) {
-  <Child3 counter={counter} />;
+
+function MultBy5({ setCount }) {
+  return (
+    <button onClick={() => setCount((old) => old * 5)}>Multiply by 5</button>
+  );
 }
-function Child({ counter } = { counter: number }) {
-  <Child2 counter={counter} />;
+
+function Multiplications({ counter }) {
+  const [count, setCount] = counter;
+  return (
+    <div>
+      <p>Multiply count: {count}</p>
+      <MultBy5 setCount={setCount} />
+    </div>
+  );
 }
-function ExcessivePropDrilling() {
-  return <Child counter={5} />;
+
+function DivideBy5({ setCount }) {
+  return (
+    <button onClick={() => setCount((old) => old / 5)}>Divide by 5</button>
+  );
+}
+
+function Divisions({ counter }) {
+  const [count, setCount] = counter;
+  return (
+    <div>
+      <p>Divide count: {count}</p>
+      <DivideBy5 setCount={setCount} />
+    </div>
+  );
 }
