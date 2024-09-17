@@ -7,15 +7,14 @@
   Some references used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
-import { useEffect, useState, useRef } from "react";
-import { API } from "../api";
+import { useEffect } from "react";
 
 export function FunctionsAsComponents({ buttonText = "Start Now" }) {
-  return (
-    <div>
-      <button>{buttonText}</button>
-    </div>
-  );
+  const showButton = () => {
+    <button>{buttonText}</button>;
+  };
+
+  return <div>{showButton()}</div>;
 }
 
 export function objectShallowCopying() {
@@ -32,92 +31,54 @@ export function arrayShallowCopying() {
 }
 
 export function UseEffectThrashing({ fetchURL, label }) {
-  const [{ data, error, loading }, setQuery] = useState({
-    data: undefined,
-    error: undefined,
-    loading: false,
-  });
-
-  // assuming we want to fetch on mount, the button is misleading
-  // but let's do something with the data.
   useEffect(() => {
-    const controller = new AbortController();
     const fetchData = async () => {
-      setQuery((old) => ({ ...old, loading: true }));
-      await fetch(fetchURL, { signal: controller.signal })
-        .then(async (blob) => {
-          if (blob.ok) {
-            const data = await blob.json();
-            setQuery((old) => ({ ...old, loading: false, data }));
-          } else {
-            throw new Error(await blob.text());
-          }
-        })
-        .catch((error) => {
-          setQuery((old) => ({
-            ...old,
-            loading: false,
-            error:
-              error instanceof Error
-                ? error.message
-                : "There was an error fetching the data.",
-          }));
-        });
+      await fetch(fetchURL);
     };
 
-    if (fetchURL && typeof fetchURL === "string") {
-      fetchData();
-    }
-
-    return () => {
-      controller.abort();
-    };
+    fetchData();
   }, [fetchURL]);
 
   return (
     <div>
       <button>{label}</button>
-
-      {loading ? <p>Data is being fetched...</p> : null}
-      {error ? <p>{error}</p> : null}
-      {data ? (
-        <div>
-          <p>Data:</p>
-          <pre>{JSON.stringify(data, null, 2)}</pre>{" "}
-        </div>
-      ) : null}
     </div>
   );
 }
 
 export function UseEffectDerivedCalculation() {
-  const [clickedTimes, setClickedTimes] = useState(0);
+  const [remainder, setReminder] = useState();
+  const [clickedTimes, setClickedTimes] = useState();
+
+  useEffect(() => {
+    setReminder(clickedTimes % 5);
+  }, [clickedTimes]);
 
   const handleClick = () => setClickedTimes(clickedTimes + 1);
-  const remainder = clickedTimes % 5;
 
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>Sum: {clickedTimes}</span>
-      <span>Remainder: {remainder}</span>
+      <span>{sum}</span>
+      <span>{remainder}</span>
     </div>
   );
 }
 
 export function UseStateDerivedCalculation() {
-  const [clickedTimes, setClickedTimes] = useState(0);
-  const remainder = clickedTimes % 5;
+  const [remainder, setReminder] = useState();
+  const [clickedTimes, setClickedTimes] = useState();
 
   const handleClick = () => {
     setClickedTimes(clickedTimes + 1);
+    setReminder(clickedTimes % 5);
   };
 
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>Sum: {clickedTimes}</span>
-      <span>Remainder: {remainder}</span>
+      <span>{sum}</span>
+      <span>{remainder}</span>
     </div>
   );
 }
@@ -126,40 +87,38 @@ export function DirtyUnmount() {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    setInterval(() => {
       setTime((t) => t + 1);
     }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
   return <div>Clock in seconds: {time}</div>;
 }
 
 export function AvoidingUseState() {
-  const [state, setState] = useState("Unmounted");
+  const ref = useRef("Unmounted");
 
   useEffect(() => {
-    setState("Mounted");
+    ref.current = "Mounted";
   }, []);
 
-  return <div>{state}</div>;
+  return <div>{ref.current}</div>;
+}
+
+async function API() {
+  return true;
 }
 
 export function UnrenderableState() {
-  const [result, setResult] = useState({ loading: false, data: undefined });
+  const [result, setResult] = useState();
+  let loading = false;
 
   useEffect(() => {
     const fetchData = async () => {
-      setResult((old) => ({ ...old, loading: true }));
-      try {
-        const data = await API.unrenderableState();
-        setResult({ loading: false, data });
-      } catch (err) {
-        setResult({ loading: false, data: err });
-      }
+      loading = true;
+      const result = await API();
+      loading = false;
+      setResult(result);
     };
 
     fetchData();
@@ -167,122 +126,71 @@ export function UnrenderableState() {
 
   return (
     <div>
-      <span>Loading: {result.loading ? "Pending" : "Done"}</span>
-      <span>Result: {result.data}</span>
+      <span>Loading: {loading}</span>
+      Result:{result}
     </div>
   );
 }
 
-// const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
-// even better
-const today = new Date();
-const y = today.getUTCFullYear();
-const m = today.getUTCMonth() + 1;
-const calendarDays = Array.from(
-  { length: new Date(y, m, 0).getDate() },
-  (_, i) => i + 1
-);
 export function CrudeDeclarations() {
+  const calendarDays = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30,
+  ];
   return (
     <ol>
       {calendarDays.map((val) => (
-        <li key={val}>{val}</li>
+        <span key={val}>{val}</span>
       ))}
     </ol>
   );
 }
 
-const MIN_AGE = 18;
-export function MagicNumbers({ age }) {
+export function MagicNumbers(age) {
   return (
-    <ol>
-      {age > MIN_AGE ? <div>Spicy</div> : <div>You are not old enough</div>}
-    </ol>
+    <ol>{age < 18 ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
   );
 }
 
 export function UnidiomaticHTMLStructure() {
   const [name, setName] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const handleSubmit = (e) => {};
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        value={name}
-        name="name"
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-      />
+    <div>
+      <input value={name} name="name" type="text" onChange={setName} />
       <button type="submit" onClick={handleSubmit}>
         Submit
       </button>
-    </form>
+    </div>
   );
 }
 
 export function CrudeStateManagement() {
-  const [form, setForm] = useState({
-    name: "",
-    age: undefined,
-    location: "",
-    email: "",
-    password: "",
-  });
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [location, setLocation] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {};
 
-  const { name, age, location, email, password } = form;
-
-  function handleFormChange(e) {
-    setForm((old) => ({
-      ...old,
-      [e.target.name]: e.target.value,
-    }));
-  }
-
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name:</label>
-      <input
-        value={name}
-        name="name"
-        id="name"
-        type="text"
-        onChange={handleFormChange}
-      />
-      <label htmlFor="age">Age:</label>
-      <input
-        value={age}
-        name="age"
-        id="age"
-        type="number"
-        onChange={handleFormChange}
-      />
-      <label htmlFor="location">Location:</label>
+      <input value={name} name="name" type="text" onChange={setName} />
+      <input value={age} name="age" type="number" onChange={setAge} />
       <input
         value={location}
         name="location"
-        id="location"
         type="text"
-        onChange={handleFormChange}
+        onChange={setLocation}
       />
-      <label htmlFor="email">Email:</label>
-      <input
-        value={email}
-        name="email"
-        id="email"
-        type="email"
-        onChange={handleFormChange}
-      />
-      <label htmlFor="password">Password:</label>
+      <input value={email} name="email" type="email" onChange={setEmail} />
       <input
         value={password}
         name="password"
-        id="password"
         type="password"
-        onChange={handleFormChange}
+        onChange={setPassword}
       />
       <button type="submit">Submit</button>
     </form>
@@ -294,36 +202,26 @@ export function UnidiomaticHTMLHierarchy() {
   const asks = [1, 2, 3];
 
   return (
-    <ul>
+    <li>
       {bids.map((bid, i) => (
-        <li key={i}>{bid}</li>
+        <span key={i}>{bid}</span>
       ))}
       {asks.map((ask, j) => (
-        <li key={j + "asks"}>{ask}</li>
+        <span key={j + "asks"}>{ask}</span>
       ))}
-    </ul>
+    </li>
   );
 }
 
 export function SubstandardDataStructure() {
-  const [errors, setErrors] = useState([]);
-
-  function setError(error) {
-    setErrors((old) => [...old, error]);
-  }
+  const [error, setError] = useState("");
 
   return (
     <div>
       <button onClick={() => setError("Error A")}>Throw Error A</button>
       <button onClick={() => setError("Error B")}>Throw Error B</button>
-      <button onClick={() => setErrors([])}>Clear Errors</button>
-      {errors.length > 0 ? (
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={error + idx}>{error}</li>
-          ))}
-        </ul>
-      ) : null}
+      <button onClick={() => setError("")}>Clear Errors</button>
+      <div>{error}</div>
     </div>
   );
 }
@@ -333,59 +231,83 @@ export function DangerousIdentifier() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const person = data.get("name");
-    setPeople((ppl) => [...ppl, { id: people.length, name: person }]);
+    const person = new FormData(e.target);
+    setPeople((ppl) => [...ppl, ...person]);
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" />
+        <input type="text" />
         <button>Add Person</button>
       </form>
       <ul>
         {people.map((person) => (
-          <li key={person.id}>{person.name}</li>
+          <span key={person.name}>{person.name}</span>
         ))}
       </ul>
     </div>
   );
 }
 
+async function fetchLeader() {
+  return { name: "Messi" };
+}
+async function fetchDetails(leader) {
+  return { ...leader, country: "Argentina" };
+}
+
+// Hint: this only requires a single line change!
 export function UnnecessaryEffectTriggering() {
   const [leader, setLeader] = useState({});
 
   useEffect(() => {
-    async function getData() {
-      const leader = await API.fetchLeader().then((l) => API.fetchDetails(l));
+    const interval = setInterval(async () => {
+      const leader = await fetchLeader();
       setLeader(leader);
-    }
-
-    getData();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    async function enhanceRecord() {
+      const enriched = await fetchDetails(leader);
+      setLeader(enriched);
+    }
+    enhanceRecord();
+  }, [leader]);
 
   return (
     <div>
-      <div>Leader: {leader.name}</div>
-      {leader.country && <div>From: {leader.country}</div>}
+      <div>Leader:{leader.name}</div>
+      {leader.country && <div>{`From: ${leader.country}`}</div>}
     </div>
   );
 }
 
-export function IncorrectDependencies({ records }) {
+async function trackClick(ids) {
+  return ids;
+}
+
+// Hint: same error pattern as above
+export function IncorrectDependencies(records) {
+  const handleClick = useCallback(() => {
+    trackClick(records);
+  }, [records]);
+
   return (
     <div>
       {records.map((record) => (
-        <div key={record.id}>{record.name}</div>
+        <div id={record.id}>{record.name}</div>
       ))}
-      <button onClick={() => API.trackRecordsClick(records)}>Click me!</button>
+      <button onClick={handleClick}>Click me!</button>
     </div>
   );
 }
 
-const validateEmail = (email) => email.includes("@");
-export function UnnecessaryFunctionRedefinitions({ emails }) {
+export function UnnecessaryFunctionRedefinitions(emails) {
+  const validateEmail = (email) => email.includes("@");
+
   return (
     <div>
       {emails.map((email) => (
@@ -397,17 +319,21 @@ export function UnnecessaryFunctionRedefinitions({ emails }) {
   );
 }
 
+async function fetchRecords() {
+  return [{ id: 1, type: "record" }];
+}
+async function fetchAlternateRecords() {
+  return [{ id: 1, type: "alt-record" }];
+}
+
 export function SerialLoading() {
   const [records, setRecords] = useState([]);
   const [altRecords, setAltRecords] = useState([]);
 
   useEffect(() => {
     async function loadRecords() {
-      const [recs, altRecs] = await Promise.all([
-        API.fetchRecords(),
-        API.fetchAlternateRecords(),
-      ]);
-
+      const recs = await fetchRecords();
+      const altRecs = await fetchAlternateRecords();
       setRecords(recs);
       setAltRecords(altRecs);
     }
@@ -415,31 +341,38 @@ export function SerialLoading() {
   }, []);
 
   return (
-    <ul>
+    <div>
       {records.map((rec) => (
-        <li key={rec.id}>{rec.name}</li>
+        <div key={rec.id}></div>
       ))}
       {altRecords.map((rec) => (
-        <li key={rec.id}>{rec.name}</li>
+        <div key={rec.id}></div>
       ))}
-    </ul>
+    </div>
   );
 }
 
+async function fetchRecords() {
+  return [{ id: 1, type: "record" }];
+}
+async function fetchAlternateRecords() {
+  return [{ id: 1, type: "alt-record" }];
+}
+
 // Hint: part of the rendering structure is re-rendered frequently unnecessarily
-export function UnoptimizableRenderingStructure({ altRecords }) {
+export function UnoptimizableRenderingStructure(altRecords) {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
     async function loadRecords() {
-      console.log("GETCHING RECORDS");
-      const recs = await API.fetchRecords();
-      setRecords(recs);
-    }
-    const interval = setInterval(loadRecords, 5000);
+      const interval = setInterval(async () => {
+        const recs = await fetchRecords();
+        setRecords(recs);
+      }, 5000);
 
+      return () => clearInterval(interval);
+    }
     loadRecords();
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -459,60 +392,34 @@ export function UnoptimizableRenderingStructure({ altRecords }) {
 }
 
 // RenderHooks
+
+function useRenderHook(number) {
+  return <div>{number}</div>;
+}
+
 export function RenderHookComponent() {
   const [counter, setCounter] = useState();
+  const number = useRenderHook(counter);
 
   return (
     <div>
       <button onClick={() => setCounter((n) => n + 1)}>Click up</button>
-      <div>{counter}</div>
+      {number}
     </div>
   );
 }
 
 // Prop Drilling
-export function ExcessivePropDrilling() {
-  const counter = useState(0);
-  const [count, setCount] = counter;
 
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount((o) => o + 1)}>Increment</button>
-
-      <Multiplications>
-        <p>Multiply count: {count}</p>
-        <Operation>
-          <button onClick={() => setCount((old) => old * 5)}>
-            Multiply by 5
-          </button>
-        </Operation>
-      </Multiplications>
-      <Divisions>
-        <p>Divide count: {count}</p>
-        <Operation>
-          <button onClick={() => setCount((old) => old / 5)}>
-            Divide by 5
-          </button>
-        </Operation>
-      </Divisions>
-    </div>
-  );
+function Child3({ counter } = { counter: number }) {
+  <div>{counter}</div>;
 }
-
-function Operation({ children }) {
-  return (
-    <>
-      <p>Some custom styles and logic for this component</p>
-      {children}
-    </>
-  );
+function Child2({ counter } = { counter: number }) {
+  <Child3 counter={counter} />;
 }
-
-function Multiplications({ children }) {
-  return <div>{children}</div>;
+function Child({ counter } = { counter: number }) {
+  <Child2 counter={counter} />;
 }
-
-function Divisions({ children }) {
-  return <div>{children}</div>;
+function ExcessivePropDrilling() {
+  return <Child counter={5} />;
 }
