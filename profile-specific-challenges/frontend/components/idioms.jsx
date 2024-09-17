@@ -4,7 +4,7 @@
 
   Submit a fork or a PR to gabriel@silver.dev for feedback and corrections.
 
-  Some referenes used:
+  Some references used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
 import { API } from "../api";
