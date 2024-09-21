@@ -12,6 +12,6 @@
     "types": ["vitest/globals"],
     "baseUrl": "problems"
   },
-  "include": ["problems/**/*.ts"],
+  "include": ["cracking-the-coding-interview/problems/**/*.ts"],
   "exclude": ["node_modules"]
 }
