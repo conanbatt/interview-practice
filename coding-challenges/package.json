@@ -4,7 +4,8 @@
   "description": "Crackin the coding interview problems",
   "main": "index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "test-coding": "vitest ./coding/__tests__/*"
   },
   "keywords": [
     "cracking",
