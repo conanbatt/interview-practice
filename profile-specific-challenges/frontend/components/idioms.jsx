@@ -9,13 +9,16 @@
 */
 import { useCallback, useContext, useEffect } from "react";
 
-// This was missing a return but that showButton could be abstracted out.
-export function FunctionsAsComponents({ buttonText = "Start Now" }) {
-  const showButton = () => {
-    return <button>{buttonText}</button>;
-  };
+const Button = ({ buttonText }) => {
+  return <button>{buttonText}</button>;
+};
 
-  return <div>{showButton()}</div>;
+export function FunctionsAsComponents({ buttonText = "Start Now" }) {
+  return (
+    <div>
+      <Button buttonText={buttonText} />
+    </div>
+  );
 }
 
 export function objectShallowCopying() {
@@ -35,22 +38,16 @@ export function arrayShallowCopying() {
 // is mostly likely to be caused by parent behavior/changes.
 // Maybe using a ref to compare values instead
 export function UseEffectThrashing({ fetchURL, label }) {
-  const prevValue = useRef(fetchURL);
   useEffect(() => {
-    // If previous value is same as fetchURL, then do nothing.
-    if (prevValue.current === fetchURL) return;
+    const controller = new AbortController();
+    const fetchData = async () => {
+      await fetch(fetchURL, { signal: controller.signal });
+    };
 
-    const debounce = setTimeout(() => {
-      const fetchData = async () => {
-        await fetch(fetchURL);
-        prevValue.current = fetchURL;
-      };
-
-      fetchData();
-    }, 500);
+    fetchData();
 
     return () => {
-      clearTimeout(debounce);
+      controller.abort();
     };
   }, [fetchURL]);
 
@@ -62,16 +59,7 @@ export function UseEffectThrashing({ fetchURL, label }) {
 }
 
 export function UseEffectDerivedCalculation() {
-  const [remainder, setReminder] = useState();
   const [clickedTimes, setClickedTimes] = useState(0);
-  const previousClickedTimes = useRef(clickedTimes);
-
-  useEffect(() => {
-    if (previousClickedTimes !== clickedTimes) {
-      setReminder(clickedTimes % 5);
-      previousClickedTimes.current = clickedTimes;
-    }
-  }, [clickedTimes]);
 
   const handleClick = () => setClickedTimes(clickedTimes + 1);
 
@@ -79,29 +67,23 @@ export function UseEffectDerivedCalculation() {
     <div>
       <button onClick={handleClick}>Add Click Count</button>
       <span>{clickedTimes}</span>
-      <span>{remainder}</span>
+      <span>{clickedTimes % 5}</span>
     </div>
   );
 }
 
 export function UseStateDerivedCalculation() {
-  const [remainder, setReminder] = useState(0);
   const [clickedTimes, setClickedTimes] = useState(0);
-  const previousClickedTimes = useRef(clickedTimes);
 
   const handleClick = () => {
-    if (previousClickedTimes !== clickedTimes) {
-      setClickedTimes(clickedTimes + 1);
-      setReminder((clickedTimes + 1) % 5);
-      previousClickedTimes.current = clickedTimes;
-    }
+    setClickedTimes(clickedTimes + 1);
   };
 
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
       <span>{clickedTimes}</span>
-      <span>{remainder}</span>
+      <span>{clickedTimes % 5}</span>
     </div>
   );
 }
@@ -255,14 +237,14 @@ export function UnidiomaticHTMLHierarchy() {
   const asks = [1, 2, 3];
 
   return (
-    <div>
+    <ul>
       {bids.map((bid, i) => (
-        <span key={i}>{bid}</span>
+        <li key={i}>{bid}</li>
       ))}
       {asks.map((ask, j) => (
-        <span key={j + "asks"}>{ask}</span>
+        <li key={j + "asks"}>{ask}</li>
       ))}
-    </div>
+    </ul>
   );
 }
 
