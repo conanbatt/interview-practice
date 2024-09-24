@@ -7,7 +7,7 @@
   Some references used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 
 // This was missing a return but that showButton could be abstracted out.
 export function FunctionsAsComponents({ buttonText = "Start Now" }) {
@@ -20,14 +20,14 @@ export function FunctionsAsComponents({ buttonText = "Start Now" }) {
 
 export function objectShallowCopying() {
   const object = { a: { c: 1 }, b: 2 };
-  const copy = JSON.parse(JSON.stringify(object));
+  const copy = structuredClone(object);
   copy.a.c = 2;
   return { ...object };
 }
 
 export function arrayShallowCopying() {
   const array = [{ a: 1 }, { a: 2 }, { a: 3 }];
-  const copy = JSON.parse(JSON.stringify(array));
+  const copy = structuredClone(array);
   return copy;
 }
 
@@ -40,12 +40,18 @@ export function UseEffectThrashing({ fetchURL, label }) {
     // If previous value is same as fetchURL, then do nothing.
     if (prevValue.current === fetchURL) return;
 
-    const fetchData = async () => {
-      await fetch(fetchURL);
-      prevValue.current = fetchURL;
-    };
+    const debounce = setTimeout(() => {
+      const fetchData = async () => {
+        await fetch(fetchURL);
+        prevValue.current = fetchURL;
+      };
 
-    fetchData();
+      fetchData();
+    }, 500);
+
+    return () => {
+      clearTimeout(debounce);
+    };
   }, [fetchURL]);
 
   return (
@@ -58,9 +64,13 @@ export function UseEffectThrashing({ fetchURL, label }) {
 export function UseEffectDerivedCalculation() {
   const [remainder, setReminder] = useState();
   const [clickedTimes, setClickedTimes] = useState(0);
+  const previousClickedTimes = useRef(clickedTimes);
 
   useEffect(() => {
-    setReminder(clickedTimes % 5);
+    if (previousClickedTimes !== clickedTimes) {
+      setReminder(clickedTimes % 5);
+      previousClickedTimes.current = clickedTimes;
+    }
   }, [clickedTimes]);
 
   const handleClick = () => setClickedTimes(clickedTimes + 1);
@@ -77,11 +87,14 @@ export function UseEffectDerivedCalculation() {
 export function UseStateDerivedCalculation() {
   const [remainder, setReminder] = useState(0);
   const [clickedTimes, setClickedTimes] = useState(0);
+  const previousClickedTimes = useRef(clickedTimes);
 
   const handleClick = () => {
-    // State updates don't occur inmmediately
-    setClickedTimes(clickedTimes + 1);
-    setReminder((clickedTimes + 1) % 5);
+    if (previousClickedTimes !== clickedTimes) {
+      setClickedTimes(clickedTimes + 1);
+      setReminder((clickedTimes + 1) % 5);
+      previousClickedTimes.current = clickedTimes;
+    }
   };
 
   return (
@@ -149,10 +162,10 @@ export function UnrenderableState() {
   );
 }
 
-const calendarDays = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27, 28, 29, 30,
-];
+// I think this is what you meant by elegant declaration (or something similar)
+const calendarDays = Array(30)
+  .fill(0)
+  .map((_, index) => i + 1);
 
 // I'm assuming the issue is the cause of re-declarations of the calendar days array.
 export function CrudeDeclarations() {
@@ -165,40 +178,18 @@ export function CrudeDeclarations() {
   );
 }
 
-// hmmm
+const MIN_AGE = 18;
 export function MagicNumbers(age) {
   return (
-    <ol>{age >= 18 ? <li>Spicy</li> : <li>You are not old enough</li>}</ol>
+    <ol>{age >= MIN_AGE ? <li>Spicy</li> : <li>You are not old enough</li>}</ol>
   );
 }
 
 export function UnidiomaticHTMLStructure() {
   const [name, setName] = useState("");
-  const handleSubmit = (e) => {};
-
-  return (
-    <div>
-      <input
-        value={name}
-        name="name"
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
-    </div>
-  );
-}
-
-export function CrudeStateManagement() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [location, setLocation] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -208,29 +199,51 @@ export function CrudeStateManagement() {
         type="text"
         onChange={(e) => setName(e.target.value)}
       />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export function CrudeStateManagement() {
+  const [formState, setFormState] = useState({});
+
+  const handleChange = (e) => {
+    setFormState({ ...formState, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {};
+
+  return (
+    <form onSubmit={handleSubmit}>
       <input
-        value={age}
+        value={formState.name}
+        name="name"
+        type="text"
+        onChange={handleChange}
+      />
+      <input
+        value={formState.age}
         name="age"
         type="number"
-        onChange={(e) => setAge(e.target.value)}
+        onChange={handleChange}
       />
       <input
-        value={location}
+        value={formState.location}
         name="location"
         type="text"
-        onChange={(e) => setLocation(e.target.value)}
+        onChange={handleChange}
       />
       <input
-        value={email}
+        value={formState.email}
         name="email"
         type="email"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
       />
       <input
-        value={password}
+        value={formState.password}
         name="password"
         type="password"
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
       />
       <button type="submit">Submit</button>
     </form>
@@ -358,9 +371,9 @@ export function IncorrectDependencies(records) {
   );
 }
 
-export function UnnecessaryFunctionRedefinitions(emails) {
-  const validateEmail = useCallback((email) => email.includes("@"), []); // adding a callback avoid redefinitions
+const validateEmail = (email) => email.includes("@");
 
+export function UnnecessaryFunctionRedefinitions(emails) {
   return (
     <div>
       {emails.map((email) => (
@@ -477,22 +490,23 @@ export function RenderHookComponent() {
 
 // There are many alternative ways to solve this,
 // but for this case using ContextAPI is enough
-const CounterContext = createContext(5);
+const CounterContext = createContext();
 
 function Child3() {
-  <div>{counter}</div>;
+  const counter = useContext(CounterContext);
+  return <div>{counter}</div>;
 }
 function Child2() {
-  <Child3 />;
+  return <Child3 />;
 }
 function Child() {
-  <Child2 />;
+  return <Child2 />;
 }
 // There are many alternative ways to solve this,
 // but for this case using ContextAPI is enough
 function ExcessivePropDrilling() {
   return (
-    <CounterContext.Provider>
+    <CounterContext.Provider value={5}>
       <Child />
     </CounterContext.Provider>
   );
