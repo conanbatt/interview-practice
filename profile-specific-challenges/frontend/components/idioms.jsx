@@ -155,10 +155,11 @@ export function MagicNumbers(age) {
 export function UnidiomaticHTMLStructure() {
   const [name, setName] = useState("");
   const handleSubmit = (e) => {};
+  const handleChange = (e) => setName(e.target.value);
 
   return (
     <div>
-      <input value={name} name="name" type="text" onChange={setName} />
+      <input value={name} name="name" type="text" onChange={handleChange} />
       <button type="submit" onClick={handleSubmit}>
         Submit
       </button>

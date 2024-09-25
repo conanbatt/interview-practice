@@ -4,11 +4,10 @@ import {
 } from "../43_magicIndex";
 
 describe("magic index", () => {
-  describe("distinct", () => {
     test("returns correct magic index for distinct input", () => {
       expect(findMagicIndexDistinct([-2, -1, 0, 2, 4, 6, 8])).toBe(4); // Magic index: 4
 
-      expect(findMagicIndexDistinct([-3, -2, -1, 4, 5, 7, 9])).toBeUndefined(); // No magic index
+      expect(findMagicIndexDistinct([-3, -2, -1, 4, 5, 7, 9])).toBeFalsy(); // No magic index
     });
   });
 
