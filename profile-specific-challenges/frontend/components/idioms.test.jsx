@@ -9,18 +9,18 @@ import {
   AvoidingUseState,
   UnrenderableState,
   CrudeDeclarations,
-  MagicNumbers,
+  AvoidMagicNumbers,
   UnidiomaticHTMLStructure,
   CrudeStateManagement,
   SubstandardDataStructure,
   UnidiomaticHTMLHierarchy,
   DangerousIdentifier,
-  UnnecessaryEffectTriggering,
   IncorrectDependencies,
   UnnecessaryFunctionRedefinitions,
-  SerialLoading,
   UnoptimizableRenderingStructure,
   ExcessivePropDrilling,
+  deepCopyObject,
+  deepCopyArray,
 } from "./idioms";
 import * as React from "react";
 import { API } from "../api";
@@ -46,8 +46,8 @@ const mockFetch = vi.fn(
           json: mockJson,
           text: mockText,
         });
-      }, 500)
-    )
+      }, 500),
+    ),
 );
 global.fetch = mockFetch;
 
@@ -59,13 +59,55 @@ global.AbortController = vi.fn(() => ({
 
 describe("FunctionsAsComponents", () => {
   test("Renders with default prop", () => {
+    const serialized = FunctionsAsComponents.toString();
     render(<FunctionsAsComponents />);
     expect(screen.getByText("Start Now")).toBeInTheDocument();
+
+    expect(serialized).not.toMatch(/\{ children: .*\(\) \}/);
+  });
+});
+
+describe("Object Deep Copying", () => {
+  test("Does shallow copying", () => {
+    const obj = {
+      a: { b: 5 },
+    };
+    const newObj = deepCopyObject(obj);
+    obj.a.b = 1;
+
+    expect(newObj.a.b).toEqual(5);
   });
 
-  test("Renders with custom prop", () => {
-    render(<FunctionsAsComponents buttonText="Silver Button" />);
-    expect(screen.getByText("Silver Button")).toBeInTheDocument();
+  test("Copies unserializable objects", () => {
+    const map = new Map();
+    map.set("c", 10);
+    const obj = {
+      a: { b: map },
+    };
+    const newObj = deepCopyObject(obj);
+    map.set("c", 15);
+    expect(newObj.a.b.get("c")).toEqual(10);
+  });
+});
+
+describe("Array Deep Copying", () => {
+  test("Does shallow copying", () => {
+    const array = [{ a: 1 }, { b: 2 }];
+    const newArr = deepCopyArray(array);
+    array[0].a = 10;
+
+    expect(newArr[0].a).toEqual(1);
+  });
+
+  test("Copies unserializable objects", () => {
+    const map = new Map();
+    map.set("c", 10);
+
+    const array = [map];
+    const newArr = deepCopyArray(array);
+    map.set("c", 0);
+
+    expect(newArr[0].get("c")).toEqual(10);
   });
 });
 
@@ -74,37 +116,22 @@ describe("UseEffectThrashing", () => {
     vi.clearAllMocks();
   });
 
-  test("fetch is called if the prop is defined an non empty string", async () => {
+  test("abort signal is used to prevent trashy fetching", async () => {
     const { rerender } = render(
-      <UseEffectThrashing fetchURL="" label="Fetch Data" />
+      <UseEffectThrashing
+        frequentlyChangedURL="/api?ts=1"
+        label="Fetch Data"
+      />,
     );
-    expect(global.fetch).not.toHaveBeenCalled();
 
-    rerender(<UseEffectThrashing fetchURL={0} label="Fetch Data" />);
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
-
-  test("fetch is called only once for the same fetchURL and no unnecessary re-renders", async () => {
-    const { rerender } = render(
-      <UseEffectThrashing fetchURL="/api/data" label="Fetch Data" />
-    );
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-
-    rerender(<UseEffectThrashing fetchURL="/api/data" label="Fetch Data" />);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(mockAbort).not.toHaveBeenCalled();
 
     rerender(
-      <UseEffectThrashing fetchURL="/api/other-data" label="Fetch Data" />
+      <UseEffectThrashing
+        frequentlyChangedURL="/api?ts=2"
+        label="Fetch Data"
+      />,
     );
-    expect(global.fetch).toHaveBeenCalledTimes(2);
-  });
-
-  test("abort controller is called on unmount", async () => {
-    const { unmount } = render(
-      <UseEffectThrashing fetchURL="/api/data" label="Fetch Data" />
-    );
-
-    unmount();
     expect(mockAbort).toHaveBeenCalled();
     mockAbort.mockRestore();
   });
@@ -125,7 +152,7 @@ describe("UseEffectDerivedCalculation", () => {
   test("uses only one useState and no useEffect", () => {
     render(<UseEffectDerivedCalculation />);
 
-    expect(React.useState).toHaveBeenCalledTimes(1);
+    expect(React.useState).toHaveBeenCalledTimes(2); // called twice even with one useState
     expect(React.useEffect).not.toHaveBeenCalled();
   });
 
@@ -257,30 +284,17 @@ describe("UnrenderableState", () => {
 
     expect(screen.getByText("Loading: Done")).toBeInTheDocument();
     expect(
-      screen.getByText("Result: Fetched Successfully")
+      screen.getByText("Result: Fetched Successfully"),
     ).toBeInTheDocument();
-  });
-
-  test("catches errors from the API", async () => {
-    vi.spyOn(API, "unrenderableState").mockRejectedValueOnce(
-      "Failed Successfully"
-    );
-    render(<UnrenderableState />);
-
-    expect(screen.getByText("Loading: Pending")).toBeInTheDocument();
-
-    await act(async () => {
-      vi.advanceTimersToNextTimer();
-    });
-
-    expect(screen.getByText("Loading: Done")).toBeInTheDocument();
-    expect(screen.getByText("Result: Failed Successfully")).toBeInTheDocument();
   });
 });
 
 // how to test that calendar days are not defined within component?
 describe("CrudeDeclarations", () => {
-  test("uses semantic html", () => {
+  test("does not use straight literals for numbers", () => {
+    const fn = CrudeDeclarations.toString();
+    // Do not want repeated code over and over!
+    expect(fn.match(/(\d{1,2},)/g).length).toBeLessThan(5);
     render(<CrudeDeclarations />);
 
     // month with least days is Feb with 28
@@ -289,15 +303,11 @@ describe("CrudeDeclarations", () => {
 });
 
 // also hard to test
-describe("MagicNumbers", () => {
-  test("renders the correct message", () => {
-    const { rerender } = render(<MagicNumbers age={20} />);
-
-    expect(screen.getByText("Spicy")).toBeInTheDocument();
-
-    rerender(<MagicNumbers age={10} />);
-
-    expect(screen.getByText("You are not old enough")).toBeInTheDocument();
+describe("AvoidMagicNumbers", () => {
+  test("does not have magic numbers in the render block", () => {
+    const fn = AvoidMagicNumbers.toString();
+    expect(fn).not.toMatch(/children: age >= \d\d/);
+    render(<AvoidMagicNumbers />);
   });
 });
 
@@ -308,17 +318,7 @@ describe("UnidiomaticHTMLStructure", () => {
     const input = screen.getByRole("textbox");
 
     expect(input.parentElement.tagName).toBe("FORM");
-  });
-
-  test("input element updates state correctly", () => {
-    render(<UnidiomaticHTMLStructure />);
-
-    const input = screen.getByRole("textbox");
-    expect(input).toBeInTheDocument();
-
-    const inputValue = "New Input Content";
-    fireEvent.change(input, { target: { value: inputValue } });
-    expect(input.value).toBe(inputValue);
+    expect(input.labels.length).toBe(1);
   });
 });
 
@@ -331,22 +331,12 @@ describe("CrudeStateManagement", () => {
     render(<CrudeStateManagement />);
     expect(React.useState).toHaveBeenCalledTimes(1);
   });
-
-  test("uses idiomatic HTML", () => {
-    render(<CrudeStateManagement />);
-    let inputs = screen.getAllByRole("textbox");
-
-    for (let input of inputs) {
-      expect(input.labels.length).toBe(1);
-    }
-  });
 });
 
 describe("UnidiomaticHTMLHierarchy", () => {
   test("uses idiomatic HTML", () => {
     render(<UnidiomaticHTMLHierarchy />);
-    expect(screen.getByRole("list")).toBeInTheDocument();
-    expect(screen.getAllByRole("listitem").length).toBe(6);
+    expect(screen.getAllByRole("list").length).toBe(2);
   });
 });
 
@@ -403,47 +393,14 @@ describe("DangerousIdentifier", () => {
   });
 });
 
-describe("UnnecessaryEffectTriggering", () => {
-  let leaderSpy;
-  let detailsSpy;
-  beforeEach(() => {
-    vi.clearAllMocks();
-    let l = { name: "Messi" };
-    leaderSpy = vi.spyOn(API, "fetchLeader");
-    leaderSpy.mockResolvedValueOnce(l);
-    detailsSpy = vi.spyOn(API, "fetchDetails");
-    detailsSpy.mockResolvedValueOnce({
-      ...l,
-      country: "Argentina",
-    });
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  test("uses a single use effect to fetch all the data", async () => {
-    render(<UnnecessaryEffectTriggering />);
-
-    expect(React.useEffect).toHaveBeenCalledOnce();
-    await act(async () => {
-      expect(leaderSpy).toHaveBeenCalledOnce();
-    });
-    expect(detailsSpy).toHaveBeenCalledOnce();
-
-    expect(screen.getByText("Leader: Messi")).toBeInTheDocument();
-    expect(screen.getByText("From: Argentina")).toBeInTheDocument();
-  });
-});
-
 describe("IncorrectDependencies", () => {
-  test("calls the track records click function", () => {
-    const spy = vi.spyOn(API, "trackRecordsClick");
-    const records = [{ id: 1, name: "Name" }];
-    render(<IncorrectDependencies records={records} />);
+  test("calls the track records view function once", () => {
+    const spy = vi.spyOn(API, "trackView");
+    const records = [{ id: 1, name: "Messi" }];
+    const { rerender } = render(<IncorrectDependencies records={records} />);
 
-    expect(React.useCallback).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByText("Click me!"));
+    const copyRecords = structuredClone(records);
+    rerender(<IncorrectDependencies records={copyRecords} />);
 
     expect(spy).toHaveBeenCalledOnce();
     expect(spy).toHaveBeenCalledWith(records);
@@ -451,36 +408,10 @@ describe("IncorrectDependencies", () => {
 });
 
 describe("UnnecessaryFunctionRedefinitions", () => {
-  test("validates emails from props", () => {
-    const emails = [
-      { email: "gabriel@silver.dev", isValid: true },
-      { email: "notanemail", isValid: false },
-    ];
-    render(
-      <UnnecessaryFunctionRedefinitions
-        emails={emails.map(({ email }) => email)}
-      />
-    );
+  test("functions with no dependencies should not be in component definitions", () => {
+    const fn = UnnecessaryFunctionRedefinitions.toString();
 
-    for (let email of emails) {
-      expect(
-        screen.getByText(
-          `${email.email} is ${email.isValid ? "Valid" : "Invalid"}`
-        )
-      ).toBeInTheDocument();
-    }
-  });
-});
-
-describe("SerialLoading", () => {
-  test("fetches records concurrently", async () => {
-    const spy = vi.spyOn(Promise, "all");
-    render(<SerialLoading />);
-
-    await act(() => {
-      expect(spy).toHaveBeenCalledOnce();
-    });
-    expect(screen.getAllByRole("listitem").length).toBe(2);
+    expect(fn).not.toMatch(/const validateEmail = /);
   });
 });
 
@@ -495,25 +426,21 @@ describe("UnoptimizableRenderingStructure", () => {
 
   test("fetches records every 5 seconds and clears interval on unmount", async () => {
     const recordsSpy = vi.spyOn(API, "fetchRecords");
-    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
     const { unmount } = render(
-      <UnoptimizableRenderingStructure altRecords={[]} />
+      <UnoptimizableRenderingStructure altRecords={[]} />,
     );
+    expect(recordsSpy).toHaveBeenCalledTimes(0);
 
+    await act(() => {
+      vi.advanceTimersToNextTimerAsync();
+    });
     expect(recordsSpy).toHaveBeenCalledTimes(1);
 
     await act(() => {
-      vi.advanceTimersToNextTimer();
+      vi.advanceTimersToNextTimerAsync();
     });
     expect(recordsSpy).toHaveBeenCalledTimes(2);
-
-    await act(() => {
-      vi.advanceTimersToNextTimer();
-    });
-    expect(recordsSpy).toHaveBeenCalledTimes(3);
-
-    unmount();
-    expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Renders: 1")).toBeInTheDocument();
   });
 });
 

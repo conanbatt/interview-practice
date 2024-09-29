@@ -7,7 +7,8 @@
   Some references used:
   https://claritydev.net/blog/the-most-common-mistakes-when-using-react
 */
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { API } from "../api";
 
 export function FunctionsAsComponents({ buttonText = "Start Now" }) {
   const showButton = () => {
@@ -17,33 +18,24 @@ export function FunctionsAsComponents({ buttonText = "Start Now" }) {
   return <div>{showButton()}</div>;
 }
 
-export function objectShallowCopying() {
-  const object = { a: { c: 1 }, b: 2 };
-  const copy = { ...object };
-  copy.a.c = 2;
-  return { ...object };
+export function deepCopyObject(obj) {
+  return { ...obj };
 }
 
-export function arrayShallowCopying() {
-  const array = [{ a: 1 }, { a: 2 }, { a: 3 }];
-  const copy = [...array];
-  return copy;
+export function deepCopyArray(array) {
+  return [...array];
 }
 
-export function UseEffectThrashing({ fetchURL, label }) {
+export function UseEffectThrashing({ frequentlyChangedURL }) {
   useEffect(() => {
     const fetchData = async () => {
       await fetch(fetchURL);
     };
 
     fetchData();
-  }, [fetchURL]);
+  }, [frequentlyChangedURL]);
 
-  return (
-    <div>
-      <button>{label}</button>
-    </div>
-  );
+  return <div></div>;
 }
 
 export function UseEffectDerivedCalculation() {
@@ -59,7 +51,7 @@ export function UseEffectDerivedCalculation() {
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>{sum}</span>
+      <span>{clickedTimes}</span>
       <span>{remainder}</span>
     </div>
   );
@@ -77,7 +69,7 @@ export function UseStateDerivedCalculation() {
   return (
     <div>
       <button onClick={handleClick}>Add Click Count</button>
-      <span>{sum}</span>
+      <span>{clickedTimes}</span>
       <span>{remainder}</span>
     </div>
   );
@@ -105,10 +97,6 @@ export function AvoidingUseState() {
   return <div>{ref.current}</div>;
 }
 
-async function API() {
-  return true;
-}
-
 export function UnrenderableState() {
   const [result, setResult] = useState();
   let loading = false;
@@ -116,7 +104,7 @@ export function UnrenderableState() {
   useEffect(() => {
     const fetchData = async () => {
       loading = true;
-      const result = await API();
+      const result = await API.unrenderableState();
       loading = false;
       setResult(result);
     };
@@ -140,15 +128,15 @@ export function CrudeDeclarations() {
   return (
     <ol>
       {calendarDays.map((val) => (
-        <span key={val}>{val}</span>
+        <li key={val}>{val}</li>
       ))}
     </ol>
   );
 }
 
-export function MagicNumbers(age) {
+export function AvoidMagicNumbers(age) {
   return (
-    <ol>{age < 18 ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
+    <ol>{age >= 18 ? <div>Spicy</div> : <div>You are not old enough</div>}</ol>
   );
 }
 
@@ -205,10 +193,10 @@ export function UnidiomaticHTMLHierarchy() {
   return (
     <li>
       {bids.map((bid, i) => (
-        <span key={i}>{bid}</span>
+        <li key={i}>{bid}</li>
       ))}
       {asks.map((ask, j) => (
-        <span key={j + "asks"}>{ask}</span>
+        <li key={j + "asks"}>{ask}</li>
       ))}
     </li>
   );
@@ -251,57 +239,19 @@ export function DangerousIdentifier() {
   );
 }
 
-async function fetchLeader() {
-  return { name: "Messi" };
-}
-async function fetchDetails(leader) {
-  return { ...leader, country: "Argentina" };
-}
-
-// Hint: this only requires a single line change!
-export function UnnecessaryEffectTriggering() {
-  const [leader, setLeader] = useState({});
-
+//
+export function IncorrectDependencies({ records }) {
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const leader = await fetchLeader();
-      setLeader(leader);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    async function enhanceRecord() {
-      const enriched = await fetchDetails(leader);
-      setLeader(enriched);
-    }
-    enhanceRecord();
-  }, [leader]);
-
-  return (
-    <div>
-      <div>Leader:{leader.name}</div>
-      {leader.country && <div>{`From: ${leader.country}`}</div>}
-    </div>
-  );
-}
-
-async function trackClick(ids) {
-  return ids;
-}
-
-// Hint: same error pattern as above
-export function IncorrectDependencies(records) {
-  const handleClick = useCallback(() => {
-    trackClick(records);
+    API.trackView(records);
   }, [records]);
 
   return (
     <div>
       {records.map((record) => (
-        <div id={record.id}>{record.name}</div>
+        <div key={record.id} id={record.id}>
+          {record.name}
+        </div>
       ))}
-      <button onClick={handleClick}>Click me!</button>
     </div>
   );
 }
@@ -327,48 +277,16 @@ async function fetchAlternateRecords() {
   return [{ id: 1, type: "alt-record" }];
 }
 
-export function SerialLoading() {
-  const [records, setRecords] = useState([]);
-  const [altRecords, setAltRecords] = useState([]);
-
-  useEffect(() => {
-    async function loadRecords() {
-      const recs = await fetchRecords();
-      const altRecs = await fetchAlternateRecords();
-      setRecords(recs);
-      setAltRecords(altRecs);
-    }
-    loadRecords();
-  }, []);
-
-  return (
-    <div>
-      {records.map((rec) => (
-        <div key={rec.id}></div>
-      ))}
-      {altRecords.map((rec) => (
-        <div key={rec.id}></div>
-      ))}
-    </div>
-  );
-}
-
-async function fetchRecords() {
-  return [{ id: 1, type: "record" }];
-}
-async function fetchAlternateRecords() {
-  return [{ id: 1, type: "alt-record" }];
-}
-
 // Hint: part of the rendering structure is re-rendered frequently unnecessarily
-export function UnoptimizableRenderingStructure(altRecords) {
-  const [records, setRecords] = useState([]);
+export function UnoptimizableRenderingStructure({ altRecords }) {
+  const [liveRecords, setLiveRecords] = useState([]);
+  const renders = useRef(1);
 
   useEffect(() => {
     async function loadRecords() {
       const interval = setInterval(async () => {
-        const recs = await fetchRecords();
-        setRecords(recs);
+        const recs = await API.fetchRecords();
+        setLiveRecords(recs);
       }, 5000);
 
       return () => clearInterval(interval);
@@ -379,10 +297,11 @@ export function UnoptimizableRenderingStructure(altRecords) {
   return (
     <div>
       <ul>
-        {records.map((rec) => (
+        {liveRecords.map((rec) => (
           <li key={rec.id}>{rec.id}</li>
         ))}
       </ul>
+      Renders: {renders.current++}
       <ul>
         {altRecords.map((rec) => (
           <li key={rec.id}>{rec.id}</li>
@@ -392,7 +311,7 @@ export function UnoptimizableRenderingStructure(altRecords) {
   );
 }
 
-// RenderHooks
+// Render Hooks
 
 function useRenderHook(number) {
   return <div>{number}</div>;
@@ -410,7 +329,7 @@ export function RenderHookComponent() {
   );
 }
 
-// Prop Drilling
+// Avoid Prop Drilling
 
 function Child3({ counter } = { counter: number }) {
   <div>{counter}</div>;
