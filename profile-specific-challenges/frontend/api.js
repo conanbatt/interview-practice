@@ -11,7 +11,7 @@ export const API = {
   fetchDetails: async (leader) => {
     return new Promise((res) => res({ ...leader, country: "Argentina" }));
   },
-  trackRecordsClick: async (ids) => ids,
+  trackView: async (records) => records.map((r) => r.id),
   fetchRecords: async () => {
     return [{ id: 1, type: "record" }];
   },
