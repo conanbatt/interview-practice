@@ -270,13 +270,6 @@ export function UnnecessaryFunctionRedefinitions(emails) {
   );
 }
 
-async function fetchRecords() {
-  return [{ id: 1, type: "record" }];
-}
-async function fetchAlternateRecords() {
-  return [{ id: 1, type: "alt-record" }];
-}
-
 // Hint: part of the rendering structure is re-rendered frequently unnecessarily
 export function UnoptimizableRenderingStructure({ altRecords }) {
   const [liveRecords, setLiveRecords] = useState([]);
@@ -342,4 +335,15 @@ function Child({ counter } = { counter: number }) {
 }
 function ExcessivePropDrilling() {
   return <Child counter={5} />;
+}
+
+function untestableRegex(email) {
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  return emailRegex.test(email);
+}
+
+function unstableUniqueIdGenerator() {
+  return Math.floor(Math.random() * 10000);
 }
