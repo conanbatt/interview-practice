@@ -108,6 +108,15 @@ describe("ORM Core", () => {
       expect(users).toEqual([a, b]);
     });
 
+    it("should support query batching", () => {
+      const a = User.create({ name: "a", address: "1" });
+      const b = User.create({ name: "b", address: "1" });
+      User.create({ name: "c", address: "2" });
+      const users = User.where({ address: "1" }).where({ name: "a" });
+      // expect "DB operations count" to be one
+      expect(users).toEqual([a]);
+    });
+
     it("should be able to find by attributes", () => {
       const a = User.create({ name: "a", address: "1" });
       let loaded = User.find_by_name("a");
@@ -118,6 +127,9 @@ describe("ORM Core", () => {
 
     it("should support load all records", () => {
       const a = User.create({ name: "a", address: "1" });
+      const b = User.create({ name: "b", address: "1" });
+
+      expect(User.all).toEqual([a, b]);
     });
   });
 
