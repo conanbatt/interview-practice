@@ -344,6 +344,7 @@ function untestableRegex(email) {
   return emailRegex.test(email);
 }
 
+// How does it compare to crypto.randomUUID()?
 function unstableUniqueIdGenerator() {
   return Math.floor(Math.random() * 10000);
 }
