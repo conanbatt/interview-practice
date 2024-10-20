@@ -12,9 +12,9 @@ Implement Connect 4 with the class below.
 export const PLAYER_ONE = 1;
 export const PLAYER_TWO = 2;
 
-class Connect4 {
+export class Connect4 {
   constructor() {}
-  playToken(col) {}
+  play(col) {}
   getValue(row, col) {}
   winner() {}
   print() {}

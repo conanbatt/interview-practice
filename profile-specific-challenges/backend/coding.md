@@ -29,10 +29,6 @@ function rateLimiterMiddleware(req, res) {
 }
 ```
 
-4. Primer number checker. Create a function that detects if a number is a primer number. It should be better than O(n). How would you optimize this function if you called this sequentially from 1..n?
-
-5. Implement Promises. Start with then/catch/finally. Then implement Promise.all().
-
 ## Chess Check
 
 Model a chess board and a function that can check if a King is on Check. In chess, a King is in check if any rival piece, according to its own movement mechanics, may capture the king in the next move.
@@ -50,15 +46,3 @@ Create a function that creates a valid and playable Sudoku board.
 You may see the rules of Sudoku [here](https://sudoku.com/how-to-play/sudoku-rules-for-complete-beginners/)
 
 **Bonus**: add a difficulty parameter to the generator. The difficulty criteria are ambiguous, so you can choose your definition for this task.
-
-
-## Connect4
-
-Connect4 is a game where two players take turns placing a token on columns that drop to the bottom. When a player forms 4 of his tokens in a line - horizontally, vertically,or diagonally - the player wins.
-
-[Visualization](https://i.ebayimg.com/images/g/DzMAAOSwSjxj6m0e/s-l1600.jpg)
-
-Create a class that represents the connect 4 game with an interface that allows interacting with the model.
-The model should include winner detection.
-
-Tip: We do not need to handle user input - only calling the objects and printing to the termina/console is fine.
