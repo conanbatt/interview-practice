@@ -1,3 +1,8 @@
+:root {
+    --blue: #3e79ad;
+    --gray: #908b87;
+  }
+
 *,
 html,
 body {
@@ -20,12 +25,12 @@ body {
 }
 
 .file-inner .file-inner_title {
-    color:#3e79ad;
+    color: var(--blue);
     margin-left: 10px;
 }
 
 .file-inner .file-inner_size {
-    color:#908b87;
+    color: var(--gray);
     margin-left: 10px;
 }
 
