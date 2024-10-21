@@ -1,3 +1,4 @@
+import { useRef } from "react";
 
 // useDebounce 
 export const useDebounce = (callback, time, dependencie) => {
@@ -16,9 +17,15 @@ export const useDebounce = (callback, time, dependencie) => {
 
 // useInterval 
 export const useInterval = (callback, isRunning) => {
+  const callbackRef = useRef();
+
+  useEffect(() => 
+    callbackRef.current = callback, 
+    [callback]);
+
   useEffect(() => {
     if(isRunning) {
-      const interval = setInterval(() => callback, isRunning);
+      const interval = setInterval(() => callbackRef.current(), isRunning);
       return () => clearInterval(interval);
     }
   }, [isRunning]);
