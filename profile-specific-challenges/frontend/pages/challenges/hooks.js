@@ -2,9 +2,10 @@
 // Debounce 
 export const useDebounce = (callback, time, dependencie) => {
   let timeDelay;
-  
+
   useEffect(() => {
     timeDelay = setTimeout(callback, time);
+    return () => cancel();
   }, dependencie);
 
   const cancel = () => clearTimeout(timeDelay);
