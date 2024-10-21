@@ -1,0 +1,34 @@
+*,
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.treeContainer {
+    font-size: 20px;
+    margin: 30px 10px 10px;
+}
+
+.treeContainer summary::marker {
+    font-size: 13px;
+}
+
+.file-inner {
+    margin-bottom: 5px;
+}
+
+.file-inner .file-inner_title {
+    color:#3e79ad;
+    margin-left: 10px;
+}
+
+.file-inner .file-inner_size {
+    color:#908b87;
+    margin-left: 10px;
+}
+
+.treeContainer details div:not(.file-inner){ 
+    padding-left: 14px;
+}
