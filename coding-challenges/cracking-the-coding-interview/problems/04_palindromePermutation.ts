@@ -10,5 +10,7 @@
 // ```
 
 export default function palindromePermutation (str: string): boolean {
-
+    const newString = str.toLocaleLowerCase().split(' ').join('');
+    const reverseString = newString.split('').reverse().join('');
+    return newString === reverseString;;
 }

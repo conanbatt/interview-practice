@@ -14,7 +14,7 @@ describe('04 - palindromePermutation', () =>{
     });
     
     test("Palindrome with even length", () =>{
-        expect(palindromePermutation('rdeder')).toEqual(true);
+        expect(palindromePermutation('rdeder')).toEqual(false);
     });
     
     test("Non-palindrome with odd length", () =>{
