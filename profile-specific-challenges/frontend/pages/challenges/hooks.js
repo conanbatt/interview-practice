@@ -1,5 +1,5 @@
 
-// Debounce 
+// useDebounce 
 export const useDebounce = (callback, time, dependencie) => {
   let timeDelay;
 
@@ -14,6 +14,16 @@ export const useDebounce = (callback, time, dependencie) => {
 }
 
 
+// useInterval 
+export const useInterval = (callback, isRunning) => {
+  useEffect(() => {
+    if(isRunning) {
+      const interval = setInterval(() => callback, isRunning);
+      return () => clearInterval(interval);
+    }
+  }, [isRunning]);
+}
+ 
 
 export default function Hooks() {
   return(
