@@ -1,3 +1,19 @@
+
+// Debounce 
+export const useDebounce = (callback, time, dependencie) => {
+  let timeDelay;
+  
+  useEffect(() => {
+    timeDelay = setTimeout(callback, time);
+  }, dependencie);
+
+  const cancel = () => clearTimeout(timeDelay);
+
+  return [null, cancel];
+}
+
+
+
 export default function Hooks() {
   return(
     <>
