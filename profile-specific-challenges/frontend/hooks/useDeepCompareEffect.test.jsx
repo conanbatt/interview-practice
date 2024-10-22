@@ -5,14 +5,60 @@ import { useDeepCompareEffect } from "./useDeepCompareEffect";
 
 describe("useDeepCompareEffect", () => {
   it("Runs effects on different deps", () => {
-    const render = renderHook(() =>
-      useDeepCompareEffect(() => console.log("called"), 1),
+    const fn = vi.fn();
+    const literalDep = 1;
+    const { rerender } = renderHook(() =>
+      useDeepCompareEffect(fn, [literalDep]),
     );
+
+    expect(fn).toHaveBeenCalledTimes(1);
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(1);
+
+    literalDep = 2;
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(2);
   });
 
-  it("Does not run affects on object references", () => {});
+  it("Runs effects on objects that had changes", () => {
+    const fn = vi.fn();
+    const objectDep = { value: 1 };
+    const { rerender } = renderHook(() =>
+      useDeepCompareEffect(fn, [objectDep]),
+    );
 
-  it("Does not run affects on equal arrays and objects", () => {});
+    expect(fn).toHaveBeenCalledTimes(1);
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(1);
 
-  it("does not run effects on equal Sets & Maps", () => {});
+    objectDep = { value: 2 };
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(2);
+
+    objectDep = { value: 2 };
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not run effects on equal Sets & Maps", () => {
+    const fn = vi.fn();
+    const set = new Set();
+    set.add(1);
+
+    const { rerender } = renderHook(() => useDeepCompareEffect(fn, [set]));
+
+    expect(fn).toHaveBeenCalledTimes(1);
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(1);
+
+    const newSet = new Set();
+    newSet.add(1);
+    set = newSet;
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(1);
+
+    newSet.add(2);
+    rerender();
+    expect(fn).toHaveBeenCalledTimes(2);
+  });
 });
