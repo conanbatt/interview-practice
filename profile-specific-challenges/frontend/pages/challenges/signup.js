@@ -76,7 +76,7 @@ function validateForm(...func) {
 export default function SignupForm() {
   const [passwordType, setPasswordType] = useState('password');
   const [passwordIcon, setPasswordIcon] = useState('🔒');
-  const [apiResponse, setApiResonse] = useState({});
+  const [apiResponse, setApiResponse] = useState({});
 
   const [errorEmail, setErrorEmail] = useState([]);
   const [errorPassowrd, setErrorPassword] = useState([]);
@@ -96,10 +96,14 @@ export default function SignupForm() {
   // Handle Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     const {email, password} = data;
     
+    // Reset Api Response
+    setApiResponse([]);
+
     // Evaluate Form Inputs.
     const response = validateForm(
       emailAt(email),
@@ -112,7 +116,7 @@ export default function SignupForm() {
     setErrorPassword(response['password']);
 
     // If inputs are corrects, make a request to the api.
-    (response['email'].length === 0 && response['password'].length === 0) && API(data).then(setApiResonse);
+    (response['email'].length === 0 && response['password'].length === 0) && API(data).then(setApiResponse);
   }
 
 
