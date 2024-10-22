@@ -43,7 +43,7 @@ function emailAt (email){
 // Evaluate if the Domain exist.
 function emailDomain(email){
   const evaluateEmail = email.split('@');
-  const response = (!evaluateEmail[1] || (!evaluateEmail[1].includes('.'))) && LOGIN_ERROR.EMAIL_DOMAIN;
+  const response = (!evaluateEmail[1] || (evaluateEmail[1].split('.').pop() === '')) && LOGIN_ERROR.EMAIL_DOMAIN;
   return {'email': response};
 }
 
