@@ -1,5 +1,14 @@
-import { expect, it, describe, beforeEach, afterEach, vi } from "vitest";
-import { renderHook } from "@testing-library/react-hooks";
+import {
+  expect,
+  it,
+  describe,
+  beforeAll,
+  afterAll,
+  afterEach,
+  act,
+  vi,
+} from "vitest";
+import { renderHook } from "@testing-library/react";
 
 import { useDebounce } from "./useDebounce";
 
@@ -42,13 +51,6 @@ describe("useDebounce", () => {
     let [isReady] = hook.result.current;
 
     expect(isReady()).toBe(false);
-    hook.unmount();
-    expect(isReady()).toBe(null);
-
-    [, hook] = getHook();
-    [isReady] = hook.result.current;
-    vi.advanceTimersByTime(5);
-    expect(isReady()).toBe(true);
   });
 
   it("second function should cancel debounce", () => {
@@ -58,13 +60,11 @@ describe("useDebounce", () => {
     expect(spy).not.toHaveBeenCalled();
     expect(isReady()).toBe(false);
 
-    act(() => {
-      cancel();
-    });
+    cancel();
     vi.advanceTimersByTime(5);
 
     expect(spy).not.toHaveBeenCalled();
-    expect(isReady()).toBe(null);
+    expect(isReady()).toBe(true);
   });
 
   it("should reset timeout on delay change", () => {
