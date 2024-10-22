@@ -1,6 +1,8 @@
 :root {
+    --white: #ffffff;
     --blue: #3e79ad;
     --gray: #908b87;
+    --red: #ff0000;
   }
 
 *,
@@ -8,7 +10,21 @@ html,
 body {
     margin: 0;
     padding: 0;
+    font-family: system-ui;
     box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+}
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    align-items: center;
+    justify-content: center;
 }
 
 .treeContainer {
@@ -36,4 +52,97 @@ body {
 
 .treeContainer details div:not(.file-inner){ 
     padding-left: 14px;
+}
+
+.login-form {
+    width: 380px;
+    height: auto;
+    border: 1px solid #ebebe7;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 10px 5px 5px #eef0f1;
+}
+
+.login-form_title {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.login-form label{
+    font-size: 18px;
+    font-weight: bold;
+}
+.login-form input{
+    width: 100%;
+    height: 40px;
+    padding: 10px 50px 10px 10px;
+    border: 1px solid #ebebe7;
+    margin: 12px 0;
+    outline: none;
+}
+
+.login-form > button{
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    color: var(--white);
+    border: transparent;
+    cursor: pointer;
+    background-color: var(--blue);
+    border-radius: 5px;
+}
+
+.login-form_password {
+    position: relative;
+}
+
+.login-form_password > input {
+    margin: 0;
+}
+
+.login-form_password > button {
+    position: absolute;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    font-size: 25px;
+    background-color: #f8f8f7;
+    outline: none;
+    border: transparent;
+}
+
+.login-form_input {
+    margin: 30px 0;
+}
+
+.login-form_error {
+    color: #d74352;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #fcdbe0;
+    border: 1px solid #f9afb9;
+    margin: 8px 0;
+    border-radius: 5px;
+    
+}
+
+.login-form .signup-message {
+    padding: 10px;
+    font-size: 22px;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 200;
+    color: var(--white);
+}
+
+.login-form .signup-success {
+    color: var(--white);
+    background-color: rgb(24, 191, 91);
+}
+
+.login-form .signup-alert {
+    padding: 20px;
+    background-color: rgb(247, 170, 17);
 }
