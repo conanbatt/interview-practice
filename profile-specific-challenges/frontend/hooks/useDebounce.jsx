@@ -3,8 +3,5 @@ export function useDebounce(fn, delay, deps) {
   function isReady() {}
   function cancel() {}
 
-  return {
-    isReady,
-    cancel,
-  };
+  return [isReady, cancel];
 }
