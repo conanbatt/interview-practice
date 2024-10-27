@@ -6,5 +6,6 @@
 type Matrix = number[][]
 
 export default function rotateMatrix (matrix: Matrix) {
-
+    const transform = matrix.map((col, indexCol) => col.map((_, indexRow) => matrix[indexRow][indexCol]));
+    return transform.map((row) => row.reverse());
 }
