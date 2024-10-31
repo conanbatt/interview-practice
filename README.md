@@ -1,5 +1,3 @@
-# Readme Silver Repo (English)
-
 # **Interview Ready**
 
 Este repo está manejado por [Silver.dev](https://silver.dev/) y contiene desafíos varios para diferentes roles y posiciones en startups.
