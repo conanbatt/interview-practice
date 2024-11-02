@@ -1,3 +1,37 @@
+import { useRef } from "react";
+
+// useDebounce 
+export const useDebounce = (callback, time, dependencie) => {
+  let timeDelay;
+
+  useEffect(() => {
+    timeDelay = setTimeout(callback, time);
+    return () => cancel();
+  }, dependencie);
+
+  const cancel = () => clearTimeout(timeDelay);
+
+  return [null, cancel];
+}
+
+
+// useInterval 
+export const useInterval = (callback, isRunning) => {
+  const callbackRef = useRef();
+
+  useEffect(() => 
+    callbackRef.current = callback, 
+    [callback]);
+
+  useEffect(() => {
+    if(isRunning) {
+      const interval = setInterval(() => callbackRef.current(), isRunning);
+      return () => clearInterval(interval);
+    }
+  }, [isRunning]);
+}
+ 
+
 export default function Hooks() {
   return(
     <>
