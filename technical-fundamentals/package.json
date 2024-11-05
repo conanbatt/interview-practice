@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest ./**/problems/__tests__/*",
-    "test-coding": "vitest ./coding/__tests__/*"
+    "test-coding": "vitest ./coding/__tests__/*",
+    "strings": "vitest ./**/problems/__tests__/strings/*",
+    "lists": "vitest ./**/problems/__tests__/lists/*",
+    "stacks": "vitest ./**/problems/__tests__/stacks/*",
+    "trees": "vitest ./**/problems/__tests__/trees/*",
+    "recursion": "vitest ./**/problems/__tests__/recursion/*"
   },
   "keywords": [
     "cracking",
