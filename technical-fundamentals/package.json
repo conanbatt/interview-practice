@@ -6,11 +6,11 @@
   "scripts": {
     "test": "vitest ./**/problems/__tests__/*",
     "test-coding": "vitest ./coding/__tests__/*",
-    "strings": "vitest ./**/problems/__tests__/strings/*",
-    "lists": "vitest ./**/problems/__tests__/lists/*",
-    "stacks": "vitest ./**/problems/__tests__/stacks/*",
-    "trees": "vitest ./**/problems/__tests__/trees/*",
-    "recursion": "vitest ./**/problems/__tests__/recursion/*"
+    "strings": "vitest ./**/problems/__tests__/strings/* --reporter=default --reporter=./silverReporter.ts",
+    "lists": "vitest ./**/problems/__tests__/lists/* --reporter=default --reporter=./silverReporter.ts",
+    "stacks": "vitest ./**/problems/__tests__/stacks/* --reporter=default --reporter=./silverReporter.ts",
+    "trees": "vitest ./**/problems/__tests__/trees/* --reporter=default --reporter=./silverReporter.ts",
+    "recursion": "vitest ./**/problems/__tests__/recursion/* --reporter=default --reporter=./silverReporter.ts"
   },
   "keywords": [
     "cracking",
@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@tsconfig/node20": "^20.1.4",
+    "chalk": "^5.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
