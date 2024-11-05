@@ -16,7 +16,6 @@ export default class SilverReporter {
       console.log(
         "\x1b[31m\x1b[1m❌ Some tests failed. To pass on Interview Ready, you need the password after all tests passed!\x1b[0m",
       );
-      console.log(hs(results));
     }
   }
 }
