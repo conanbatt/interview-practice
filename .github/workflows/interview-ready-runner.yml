@@ -21,7 +21,7 @@ jobs:
           node-version: "20"
 
       - name: Go to folder
-        uses: cd technical-fundamentals
+        run: cd technical-fundamentals
 
       - name: Install dependencies
         run: npm install
