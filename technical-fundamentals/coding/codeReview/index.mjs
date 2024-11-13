@@ -1,60 +1,3 @@
-// OOP
-
-function LeetcodeAPI() {
-  return { passed: true };
-}
-
-// Naming, Privacy, separation of concerns, Invalid states, composition
-
-class Candidate {
-  interviews;
-  passedInterview;
-  name;
-
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-class BaseInterview {
-  expectation;
-  candidate;
-  submission;
-
-  constructor(candidate) {
-    this.candidate = candidate;
-  }
-
-  processSubmission(submission) {
-    this.submission = submission;
-    if (submission === expectation) {
-      this.candidate.passedInterview = true;
-    }
-  }
-}
-
-class LiveCodingInterview extends BaseInterview {
-  leetcodeId;
-  constructor(candidate, leetcodeId) {
-    super(candidate);
-    this.leetcodeId = leetcodeId;
-  }
-
-  processSubmission(submission) {
-    this.submission = submission;
-    const { passed } = this.leetCodeSubmit();
-    if (passed) {
-      this.candidate.passedInterview = true;
-    }
-  }
-
-  leetCodeSubmit() {
-    return LeetcodeAPI(this.submission);
-  }
-}
-
-// END OF OOP
-
 // non-declarative naming
 function mapArray(array) {
   return array.map((el) => !!el);
@@ -68,7 +11,7 @@ function evaluateChallenge(challenge, result, candidate, difficulty) {
   return `${candidate}'s submission is incorrect`;
 }
 
-// Oversplitting functions
+// Oversplitting functions - "The rule of 3"
 
 function splitWords(str) {
   return str.split(" ");
@@ -94,6 +37,18 @@ function countViews(key) {
 }
 
 // Variables & Control Flow
+/**
+- Declarative Variable Naming
+- Avoid Magic Numbers
+- Avoid comments - code as documentation
+- Avoid while loops
+- Avoid large Conditional clauses
+- Variable scoping
+- Do not modify inputs
+- Cyclomatic Complexity
+    - Early returns
+    - Replace nesting with variables or top level fn calls
+*/
 
 function parsePeople(people) {
   const groupA = []; // minors
@@ -111,8 +66,7 @@ function parsePeople(people) {
       }
     } else if (person.age) {
       groupA.push(person);
-    }
-    if (!person.age) {
+    } else {
       delete people[i]; // remove invalid records
     }
     i++;
@@ -231,7 +185,7 @@ function validateUser(user) {
 
 const MAX_RETRIES = 3;
 
-async function updateUser(user, retries) {
+async function updateUserBad(user, retries) {
   try {
     await API.updateUser(user);
   } catch (e) {
@@ -240,7 +194,7 @@ async function updateUser(user, retries) {
     }
 
     if (isFetchError(e)) {
-      return updateUser(user, retries + 1);
+      return updateUserBad(user, retries + 1);
     }
     throw e;
   }
@@ -248,7 +202,7 @@ async function updateUser(user, retries) {
   return user;
 }
 
-async function updateUser(user, retries) {
+async function updateUserGood(user, retries) {
   try {
     await API.updateUser(user);
   } catch (e) {
@@ -259,7 +213,7 @@ async function updateUser(user, retries) {
     }
 
     if (isFetchError(e)) {
-      return updateUser(user, retries + 1);
+      return updateUserGood(user, retries + 1);
     }
     console.warn(
       "Updating user ${user.id} has faield. Trying again after ${retries} retries.",
