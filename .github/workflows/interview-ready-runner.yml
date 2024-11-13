@@ -20,11 +20,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Go to folder
-        run: cd technical-fundamentals && ls
-
       - name: Install dependencies
-        run: npm install
+        run: cd technical-fundamentals && npm install
 
       - name: Run npm command
-        run: npm run strings
+        run: cd technical-fundamentals && npm run strings
