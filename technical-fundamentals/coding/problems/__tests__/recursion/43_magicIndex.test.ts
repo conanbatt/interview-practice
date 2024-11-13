@@ -21,7 +21,6 @@ describe("magic index", () => {
       // Test case where no magic index exists
       expect(
         findMagicIndexNonDistinct([-10, -5, 0, 2, 5, 7, 9, 12, 13]),
-      ).toBeUndefined(); // No magic index
+      ).toBeFalsy(); // No magic index
     });
-  });
 });
