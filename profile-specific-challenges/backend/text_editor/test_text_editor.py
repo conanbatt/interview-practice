@@ -38,7 +38,7 @@ class TextEditorBrute:
     def store_state(self):
         self.snapshots.append((self.left.copy(), self.right.copy()))
     
-    def all_text(self):
+    def allText(self):
         return ''.join(self.left) + ''.join(reversed(self.right))
     
     def rollback(self):
@@ -51,12 +51,8 @@ def runner(function_calls):
     for fname, fargs in function_calls:
         getattr(brute,fname)(*fargs)
         getattr(tested_instance,fname)(*fargs)
-        brute_state = brute.all_text()
-        tested_state = tested_instance.all_text()
-        print(fname, brute_state, tested_state, len(brute.snapshots))
-        print(brute.snapshots)
-        print(tested_instance.left.state)
-        print(tested_instance.right.state)
+        brute_state = brute.allText()
+        tested_state = tested_instance.allText()
         assert brute_state == tested_state, print(f"Expected: {brute_state}\nResult:{tested_state}")       
 
 
