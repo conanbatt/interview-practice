@@ -17,12 +17,12 @@ We recommend reading the Abridged Problems version that includes some of the the
     ```
 
 ### Running Tests
-You can run tests for specific problems by providing the problem name to Jest. 
+You can run tests for specific problems by providing the problem name to Vitest. 
 
 For example:
 
 ```bash
-npx jest -- minimalTree
+npx vitest -t minimalTree
 ```
 
 ## Contributing
