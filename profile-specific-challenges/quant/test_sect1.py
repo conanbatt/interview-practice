@@ -1,4 +1,6 @@
 import unittest
+import math,time
+
 from sect1 import bs, iv
 
 class BlackScholesTests(unittest.TestCase):
