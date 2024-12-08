@@ -49,7 +49,7 @@ describe("validateBST", () => {
   });
 
   test("returns true for an empty tree", () => {
-    const emptyTree: TreeNode<number> | null = null;
+    const emptyTree: TreeNode<number> | undefined = undefined;
     expect(validateBST(emptyTree)).toBe(true);
   });
 
