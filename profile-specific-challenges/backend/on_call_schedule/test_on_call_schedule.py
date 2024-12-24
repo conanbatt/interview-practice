@@ -1,6 +1,8 @@
+import pytest
+
 from on_call_schedule import Solution
 
-def test_basic():
+def test1():
     solution = Solution()
     assert [(10, 30, ["Anna"]), 
             (30, 80, ["Anna", "Juan"]), 
@@ -9,7 +11,7 @@ def test_basic():
                 "Juan": (30, 80)
             })
 
-def test_multiple_shifts():
+def test2():
     solution = Solution()
     assert [(50, 60, ["Ben"]),
             (60, 70, ["Ben", "Carla"]),
@@ -20,14 +22,14 @@ def test_multiple_shifts():
                 "David": (150, 300)
             })
 
-def test_same_shift():
+def test3():
     solution = Solution()
     assert [(0, 50, ["Alice", "Bob"])] == solution.createOnCallSchedule({
                 "Alice": (0, 50),
                 "Bob": (0, 50)
             })
 
-def test_no_overlap():
+def test4():
     solution = Solution()
     assert [(10, 20, ["Alice"]),
             (30, 40, ["Bob"]),
@@ -37,7 +39,7 @@ def test_no_overlap():
                 "Charlie": (50, 60)
             })
 
-def test_complex_overlap():
+def test5():
     solution = Solution()
     assert [(0, 10, ["Alice"]),
             (10, 20, ["Alice", "Bob"]),
@@ -49,7 +51,7 @@ def test_complex_overlap():
                 "Charlie": (20, 50)
             })
 
-def test_single_person():
+def test6():
     solution = Solution()
     assert [(100, 200, ["Alice"])] == solution.createOnCallSchedule({
                 "Alice": (100, 200)
