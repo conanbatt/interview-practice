@@ -20,4 +20,39 @@ export type Node<T> = {
 export default function deleteMiddleNode<T>(
   head: Node<T>,
   position: number,
-): Node<T> | undefined {}
+): Node<T> | undefined {
+
+  if(position < 0) return head;
+
+  const lList = new LinkedList<T>(head);
+  lList.visit((node, index) => {
+    if(index === position - 1 && node.next && node.next.next){
+      node.next = node.next.next;
+      return lList.head;
+    }
+    return null;
+  });
+  return head;
+}
+
+export function deleteMiddleNode2<T>(
+  head: Node<T>,
+  position: number,
+): Node<T> | undefined {
+
+  let p: Node<T> | undefined = head;
+  let index = 0;
+  if(position < 0) return head;
+
+  while(p){
+    if(index === position-1 && p.next && p.next.next) {
+      p.next = p.next.next;
+      return head;
+    }
+    index++;
+    p = p.next;
+  }
+
+  return head;
+
+}

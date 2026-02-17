@@ -11,4 +11,29 @@
 
 export default function palindromePermutation (str: string): boolean {
 
+    //worst case time complexity = O(2n) -> O(n)
+
+    let charMap: Map<string, number> = new Map();
+    for (let i = 0; i < str.length; i++) {
+        if(str[i] === ' ') continue;
+        const currChar = str[i].toLowerCase();
+        if(charMap.has(currChar)){
+            charMap.set(currChar, charMap.get(currChar) + 1);
+        } else {
+            charMap.set(currChar, 1);
+        }
+    }
+
+    let oddValues: number = 0;
+
+    for(const [_, number] of charMap){
+        if(number % 2 !== 0 && oddValues > 0) {
+            return false;
+        } else if(number % 2 !== 0){
+            oddValues++;
+        }
+    }
+
+    return true;
+
 }

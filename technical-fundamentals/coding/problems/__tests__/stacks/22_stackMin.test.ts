@@ -63,4 +63,32 @@ describe('StackMin', () => {
         expect(stack.pop()).toBe(3);
         expect(stack.min()).toBeUndefined();
     });
+
+    //this test cover a special case where more than one min can be there. Fix should be adding repeated min values
+    test('push and pop elements from stack and repeated value', () => {
+        const stack = new StackMin<number>();
+
+        stack.push(5);
+        stack.push(2);
+        stack.push(8);
+        stack.push(2);
+        stack.push(1);
+
+        expect(stack.min()).toBe(1); // Minimum element is 1
+
+        expect(stack.pop()).toBe(1);
+        expect(stack.min()).toBe(2); // Minimum element is 2
+
+        expect(stack.pop()).toBe(2);
+        expect(stack.min()).toBe(2); // Minimum element is still 2
+
+        expect(stack.pop()).toBe(8);
+        expect(stack.min()).toBe(2); // Minimum element is still 2
+
+        expect(stack.pop()).toBe(2);
+        expect(stack.min()).toBe(5); // Minimum element is 5
+
+        expect(stack.pop()).toBe(5);
+        expect(stack.min()).toBeUndefined(); // Stack is empty
+    });
 });
