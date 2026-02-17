@@ -28,4 +28,8 @@ describe('02 - checkPermutation', () =>{
     test('Returns false for long strings with different characters', () =>{
         expect(checkPermutations('a'.repeat(1000),'b'.repeat(1000))).toEqual(false);
     });
+
+    test('Returns false for non-permutations with subgroup in the second one -it prevents uncomplete solutions-', () =>{
+        expect(checkPermutations('abc','bc')).toEqual(false);
+    });
 })

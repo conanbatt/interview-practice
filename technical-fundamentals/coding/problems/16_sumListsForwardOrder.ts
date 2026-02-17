@@ -16,4 +16,25 @@ export type Node<T> = {
 export default function sumListsForwardOrder(
   list1: Node<number> | undefined,
   list2: Node<number> | undefined,
-): Node<number> | undefined {}
+): Node<number> | undefined {
+  let result: number = getNumber(list1) + getNumber(list2);
+  if(result === 0) return undefined;
+  let resList: Node<number> = {value: {} as number}
+  const resHead = resList;
+  const str = String(result);
+  for(let i = 0; i < str.length; i++){
+    resList.next = {value: Number(str[i])}
+    resList = resList.next;
+  }
+  return resHead.next;
+}
+
+function getNumber(list : Node<number> | undefined): number{
+  if(!list) return 0;
+  const lList = new LinkedList(list);
+  let str = "";
+  lList.visit((n: Node<number>) => {
+    str += n.value;
+  });
+  return Number(str);
+}

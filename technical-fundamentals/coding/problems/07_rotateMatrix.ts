@@ -7,4 +7,16 @@ type Matrix = number[][]
 
 export default function rotateMatrix (matrix: Matrix) {
 
+    for(let i = 0; i < matrix.length; i++){
+        for(let j = i; j < matrix.length; j++){
+            const aux = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = aux;
+        }
+    }
+
+    for(let i = 0; i < matrix.length; i++){
+        matrix[i].reverse();
+    }
+
 }
