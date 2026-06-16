@@ -3,3 +3,4 @@
 .next
 **/node_modules
 coding-challenges/yarn.lock
+**/__pycache__
